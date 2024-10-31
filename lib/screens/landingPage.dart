@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:leafolyze/core/home.dart';
+import 'package:leafolyze/screens/splash.dart';
 
 class Landingpage extends StatefulWidget {
   const Landingpage({super.key});
@@ -56,7 +58,10 @@ class _LandingpageState extends State<Landingpage> {
                   SizedBox(height: 24),
                   ElevatedButton(
                     onPressed: () {
-                      // Add "Get Started" button action here
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Home()),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF4A7A72),
