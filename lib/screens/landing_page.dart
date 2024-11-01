@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:leafolyze/core/home.dart';
-import 'package:leafolyze/screens/splash.dart';
 
 class Landingpage extends StatefulWidget {
   const Landingpage({super.key});
@@ -13,7 +12,7 @@ class _LandingpageState extends State<Landingpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF4A7A72),
+      backgroundColor: const Color(0xFF4A7A72),
       body: SafeArea(
         child: Column(
           children: [
@@ -27,8 +26,8 @@ class _LandingpageState extends State<Landingpage> {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(32),
@@ -38,7 +37,7 @@ class _LandingpageState extends State<Landingpage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
+                  const Text(
                     'Jaga Tanamanmu!',
                     style: TextStyle(
                       fontSize: 24,
@@ -46,7 +45,7 @@ class _LandingpageState extends State<Landingpage> {
                       color: Colors.black,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     'Scan tanamanmu untuk melihat informasi kesehatan tanaman',
                     textAlign: TextAlign.center,
@@ -55,7 +54,7 @@ class _LandingpageState extends State<Landingpage> {
                       color: Colors.grey[600],
                     ),
                   ),
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -64,14 +63,14 @@ class _LandingpageState extends State<Landingpage> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF4A7A72),
+                      backgroundColor: const Color(0xFF4A7A72),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 16),
-                      minimumSize: Size(double.infinity, 48),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      minimumSize: const Size(double.infinity, 48),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Get Started',
                       style: TextStyle(
                         fontSize: 16,
@@ -79,7 +78,7 @@ class _LandingpageState extends State<Landingpage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -94,7 +93,7 @@ class _LandingpageState extends State<Landingpage> {
                         onTap: () {
                           // Add "Sign in" action here
                         },
-                        child: Text(
+                        child: const Text(
                           'Sign in',
                           style: TextStyle(
                             fontSize: 14,
