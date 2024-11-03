@@ -31,41 +31,46 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _screens[_currentScreenIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentScreenIndex,
-        onTap: _onTabSelected,
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.teal, // Warna untuk ikon yang dipilih
-        unselectedItemColor: Colors.grey, // Warna untuk ikon yang tidak dipilih
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favorites',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.camera_alt),
-            label: 'Scan',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: 'History',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.teal, // Warna untuk tombol tengah
-        child: const Icon(Icons.camera_alt),
-        onPressed: () => _onTabSelected(2),
-      ),
+      bottomNavigationBar: _currentScreenIndex == 2
+          ? null
+          : BottomNavigationBar(
+              currentIndex: _currentScreenIndex,
+              onTap: _onTabSelected,
+              backgroundColor: Colors.white,
+              selectedItemColor: Colors.teal, // Warna untuk ikon yang dipilih
+              unselectedItemColor:
+                  Colors.grey, // Warna untuk ikon yang tidak dipilih
+              type: BottomNavigationBarType.fixed,
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.favorite),
+                  label: 'Favorites',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.camera_alt),
+                  label: 'Scan',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.history),
+                  label: 'History',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: 'Profile',
+                ),
+              ],
+            ),
+      floatingActionButton: _currentScreenIndex == 2
+          ? null
+          : FloatingActionButton(
+              backgroundColor: Colors.teal, // Warna untuk tombol tengah
+              child: const Icon(Icons.camera_alt),
+              onPressed: () => _onTabSelected(2),
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }

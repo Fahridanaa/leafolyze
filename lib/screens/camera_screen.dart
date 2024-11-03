@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({super.key});
@@ -16,7 +17,18 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   void initState() {
     super.initState();
-    _initializeCamera();
+    _requestCameraPermission();
+  }
+
+  Future<void> _requestCameraPermission() async {
+    var status = await Permission.camera.status;
+    if (status.isDenied) {
+      if (await Permission.camera.request().isGranted) {
+        _initializeCamera();
+      }
+    } else if (status.isGranted) {
+      _initializeCamera();
+    }
   }
 
   Future<void> _initializeCamera() async {
@@ -30,6 +42,27 @@ class _CameraScreenState extends State<CameraScreen> {
     }
   }
 
+  Future<void> _takePicture() async {
+    if (!_controller!.value.isInitialized) {
+      return;
+    }
+    if (_controller!.value.isTakingPicture) {
+      return;
+    }
+
+    try {
+      final XFile picture = await _controller!.takePicture();
+      _processImage(picture);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void _processImage(XFile image) {
+    // Tambahkan logika untuk memproses gambar dengan model ML di sini
+    print('Processing image: ${image.path}');
+  }
+
   @override
   void dispose() {
     _controller?.dispose();
@@ -41,7 +74,21 @@ class _CameraScreenState extends State<CameraScreen> {
     return Scaffold(
       appBar: AppBar(title: Text('Camera')),
       body: _isCameraInitialized
-          ? CameraPreview(_controller!)
+          ? Stack(
+              children: [
+                CameraPreview(_controller!),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: FloatingActionButton(
+                      onPressed: _takePicture,
+                      child: Icon(Icons.camera),
+                    ),
+                  ),
+                ),
+              ],
+            )
           : Center(child: CircularProgressIndicator()),
     );
   }
