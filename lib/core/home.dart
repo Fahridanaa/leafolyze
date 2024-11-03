@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leafolyze/screens/camera_screen.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key, this.index});
@@ -13,7 +14,7 @@ class _HomeState extends State<Home> {
   final List<Widget> _screens = const [
     Center(child: Text("Home Page")),
     Center(child: Text("Favorites Page")),
-    Center(child: Text("Scan Page")),
+    CameraScreen(),
     Center(child: Text("History Page")),
     Center(child: Text("Profile Page")),
   ];
