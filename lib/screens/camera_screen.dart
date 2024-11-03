@@ -15,6 +15,7 @@ class _CameraScreenState extends State<CameraScreen> {
   List<CameraDescription>? cameras;
   bool _isCameraInitialized = false;
   int _selectedCameraIndex = 0;
+  bool _isFlashOn = false;
 
   @override
   void initState() {
@@ -81,6 +82,15 @@ class _CameraScreenState extends State<CameraScreen> {
     print('Processing image: ${image.path}');
   }
 
+  Future<void> _toggleFlash() async {
+    if (_controller != null) {
+      _isFlashOn = !_isFlashOn;
+      await _controller!
+          .setFlashMode(_isFlashOn ? FlashMode.torch : FlashMode.off);
+      setState(() {});
+    }
+  }
+
   @override
   void dispose() {
     _controller?.dispose();
@@ -110,10 +120,9 @@ class _CameraScreenState extends State<CameraScreen> {
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                   IconButton(
-                    icon: Icon(Icons.flash_off, color: Colors.black),
-                    onPressed: () {
-                      // Add functionality for flash
-                    },
+                    icon: Icon(_isFlashOn ? Icons.flash_on : Icons.flash_off,
+                        color: Colors.black),
+                    onPressed: _toggleFlash,
                   ),
                 ],
               ),
