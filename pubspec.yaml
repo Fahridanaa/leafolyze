@@ -38,6 +38,9 @@ dependencies:
   google_fonts: ^6.2.1
   another_flutter_splash_screen: ^1.2.1
   camera: ^0.11.0+2
+  permission_handler: ^11.3.1
+  path_provider: ^2.1.5
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
