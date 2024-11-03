@@ -68,7 +68,11 @@ class _HomeState extends State<Home> {
           ? null
           : FloatingActionButton(
               backgroundColor: Colors.teal, // Warna untuk tombol tengah
-              child: const Icon(Icons.camera_alt),
+              shape: const CircleBorder(),
+              child: const Icon(
+                Icons.camera_alt,
+                color: Colors.white,
+              ),
               onPressed: () => _onTabSelected(2),
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
