@@ -76,8 +76,19 @@ class _HomeState extends State<Home> {
   }
 
   void _onTabSelected(int index) {
-    setState(() {
-      _currentScreenIndex = index;
-    });
+    if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const CameraScreen()),
+      ).then((_) {
+        setState(() {
+          _currentScreenIndex = 0;
+        });
+      });
+    } else {
+      setState(() {
+        _currentScreenIndex = index;
+      });
+    }
   }
 }
