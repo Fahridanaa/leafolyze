@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({super.key});
@@ -13,6 +14,7 @@ class _CameraScreenState extends State<CameraScreen> {
   CameraController? _controller;
   List<CameraDescription>? cameras;
   bool _isCameraInitialized = false;
+  int _selectedCameraIndex = 0;
 
   @override
   void initState() {
@@ -34,11 +36,27 @@ class _CameraScreenState extends State<CameraScreen> {
   Future<void> _initializeCamera() async {
     cameras = await availableCameras();
     if (cameras != null && cameras!.isNotEmpty) {
-      _controller = CameraController(cameras![0], ResolutionPreset.high);
+      _controller = CameraController(
+          cameras![_selectedCameraIndex], ResolutionPreset.high);
       await _controller!.initialize();
       setState(() {
         _isCameraInitialized = true;
       });
+    }
+  }
+
+  Future<void> _flipCamera() async {
+    if (cameras != null && cameras!.length > 1) {
+      _selectedCameraIndex = (_selectedCameraIndex + 1) % cameras!.length;
+      await _initializeCamera();
+    }
+  }
+
+  Future<void> _pickImageFromGallery() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      _processImage(image);
     }
   }
 
@@ -72,24 +90,80 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Camera')),
-      body: _isCameraInitialized
-          ? Stack(
-              children: [
-                CameraPreview(_controller!),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: FloatingActionButton(
-                      onPressed: _takePicture,
-                      child: Icon(Icons.camera),
+      body: Stack(
+        children: [
+          !_isCameraInitialized
+              ? Center(child: CircularProgressIndicator())
+              : CameraPreview(_controller!),
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              color: Colors.white,
+              padding: EdgeInsets.fromLTRB(16, 48, 16, 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.arrow_back, color: Colors.black),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.flash_off, color: Colors.black),
+                    onPressed: () {
+                      // Add functionality for flash
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Center(
+            child: Container(
+              width: 350,
+              height: 350,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white, width: 2),
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 40.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.photo_library,
+                        color: Colors.black, size: 32),
+                    onPressed: _pickImageFromGallery,
+                  ),
+                  GestureDetector(
+                    onTap: _takePicture,
+                    child: Container(
+                      width: 70,
+                      height: 70,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(Icons.camera, color: Colors.black, size: 40),
                     ),
                   ),
-                ),
-              ],
-            )
-          : Center(child: CircularProgressIndicator()),
+                  IconButton(
+                    icon: Icon(Icons.flip_camera_android,
+                        color: Colors.black, size: 32),
+                    onPressed: _flipCamera,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
