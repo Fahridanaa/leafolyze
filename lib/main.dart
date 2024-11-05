@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leafolyze/screens/loginPage.dart';
 import 'package:leafolyze/screens/splash.dart';
 
 void main() {
@@ -9,9 +10,9 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Splash(),
+      home: LoginPage(),
     );
   }
 }

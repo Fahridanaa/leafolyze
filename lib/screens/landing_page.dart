@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:leafolyze/core/home.dart';
-import 'package:leafolyze/screens/splash.dart';
 
 class Landingpage extends StatefulWidget {
   const Landingpage({super.key});
