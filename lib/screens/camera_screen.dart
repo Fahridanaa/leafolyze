@@ -103,7 +103,7 @@ class _CameraScreenState extends State<CameraScreen> {
       body: Stack(
         children: [
           !_isCameraInitialized
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(child: CircularProgressIndicator())
               : CameraPreview(_controller!),
           Positioned(
             top: 0,
@@ -111,12 +111,13 @@ class _CameraScreenState extends State<CameraScreen> {
             right: 0,
             child: Container(
               color: Colors.white,
-              padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
+
+              padding: EdgeInsets.fromLTRB(16, 48, 16, 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.black),
+                    icon: Icon(Icons.arrow_back, color: Colors.black),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                   IconButton(
@@ -146,7 +147,7 @@ class _CameraScreenState extends State<CameraScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.photo_library,
+                    icon: Icon(Icons.photo_library,
                         color: Colors.black, size: 32),
                     onPressed: _pickImageFromGallery,
                   ),
@@ -155,15 +156,15 @@ class _CameraScreenState extends State<CameraScreen> {
                     child: Container(
                       width: 70,
                       height: 70,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.camera, color: Colors.black, size: 40),
+                      child: Icon(Icons.camera, color: Colors.black, size: 40),
                     ),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.flip_camera_android,
+                    icon: Icon(Icons.flip_camera_android,
                         color: Colors.black, size: 32),
                     onPressed: _flipCamera,
                   ),
