@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:leafolyze/screens/camera_screen.dart';
+import 'package:leafolyze/screens/profileScreen.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key, this.index});
@@ -11,21 +12,20 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final List<Widget> _screens = const [
+  final List<Widget> _screens = [
     Center(child: Text("Home Page")),
     Center(child: Text("Favorites Page")),
     CameraScreen(),
     Center(child: Text("History Page")),
-    Center(child: Text("Profile Page")),
+    ProfileScreen(
+      name: 'Muhammad Ridlo Febrio',
+      email: '2241720098@gmail.com',
+      profileImageUrl:
+          'https://awsimages.detik.net.id/community/media/visual/2018/03/03/39f24229-6f26-4a17-aa92-44c3bd3dae9e_43.jpeg?w=600&q=90',
+    )
   ];
 
-  late int _currentScreenIndex;
-
-  @override
-  void initState() {
-    super.initState();
-    _currentScreenIndex = widget.index ?? 0;
-  }
+  late int _currentScreenIndex = widget.index ?? 0;
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +37,8 @@ class _HomeState extends State<Home> {
               currentIndex: _currentScreenIndex,
               onTap: _onTabSelected,
               backgroundColor: Colors.white,
-              selectedItemColor: Colors.teal, // Warna untuk ikon yang dipilih
-              unselectedItemColor:
-                  Colors.grey, // Warna untuk ikon yang tidak dipilih
+              selectedItemColor: Colors.teal,
+              unselectedItemColor: Colors.grey,
               type: BottomNavigationBarType.fixed,
               items: const [
                 BottomNavigationBarItem(
@@ -67,7 +66,7 @@ class _HomeState extends State<Home> {
       floatingActionButton: _currentScreenIndex == 2
           ? null
           : FloatingActionButton(
-              backgroundColor: Colors.teal, // Warna untuk tombol tengah
+              backgroundColor: Colors.teal,
               shape: const CircleBorder(),
               child: const Icon(
                 Icons.camera_alt,
