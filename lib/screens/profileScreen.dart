@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:leafolyze/constants/color.dart';
 
 class ProfileScreen extends StatelessWidget {
   final String name;
@@ -16,7 +17,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF426A69),
+      backgroundColor: AppColors.GreenLogodanButton,
       body: Column(
         children: [
           SizedBox(height: 50),
@@ -158,7 +159,7 @@ class ProfileScreen extends StatelessWidget {
           style: TextButton.styleFrom(
             backgroundColor: Colors.white,
             shape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.red),
+              side: BorderSide(color: AppColors.logoRed),
               borderRadius: BorderRadius.circular(10),
             ),
           ),
@@ -167,7 +168,7 @@ class ProfileScreen extends StatelessWidget {
           },
           child: Text(
             "Keluar",
-            style: TextStyle(color: Colors.red, fontSize: 16),
+            style: TextStyle(color: AppColors.logoRed, fontSize: 16),
           ),
         ),
       ),
