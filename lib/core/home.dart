@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leafolyze/constants/color.dart';
 import 'package:leafolyze/screens/camera_screen.dart';
 import 'package:leafolyze/screens/home_screen.dart';
 import 'package:leafolyze/screens/profileScreen.dart';
@@ -38,7 +39,7 @@ class _HomeState extends State<Home> {
               currentIndex: _currentScreenIndex,
               onTap: _onTabSelected,
               backgroundColor: Colors.white,
-              selectedItemColor: Colors.teal,
+              selectedItemColor: AppColors.primaryColor,
               unselectedItemColor: Colors.grey,
               type: BottomNavigationBarType.fixed,
               items: const [
@@ -47,8 +48,8 @@ class _HomeState extends State<Home> {
                   label: 'Home',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite),
-                  label: 'Favorites',
+                  icon: Icon(Icons.local_mall),
+                  label: 'Market',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.camera_alt),
@@ -67,7 +68,7 @@ class _HomeState extends State<Home> {
       floatingActionButton: _currentScreenIndex == 2
           ? null
           : FloatingActionButton(
-              backgroundColor: Colors.teal,
+              backgroundColor: AppColors.GreenLogodanButton,
               shape: const CircleBorder(),
               child: const Icon(
                 Icons.camera_alt,
