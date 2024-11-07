@@ -89,7 +89,7 @@ class AuthFormWidget extends StatelessWidget {
           const SizedBox(height: 16),
         ] else
           const SizedBox(height: 32),
-        RoundedButton(text: buttonText),
+        RoundedButton(text: buttonText, onPressed: () {}),
       ],
     );
   }
