@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class DividerWithText extends StatelessWidget {
   final String text;
-  const DividerWithText({required this.text});
+  const DividerWithText({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -22,21 +22,34 @@ class DividerWithText extends StatelessWidget {
   }
 }
 
-class SignUpPrompt extends StatelessWidget {
+class AuthPromptText extends StatelessWidget {
+  final String promptText;
+  final String actionText;
+  final VoidCallback onTap;
+
+  const AuthPromptText({
+    super.key,
+    required this.promptText,
+    required this.actionText,
+    required this.onTap,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Don’t have an account? "),
+        Text(
+          promptText,
+          style: const TextStyle(color: Color(0xFF4F4F4F)),
+        ),
+        const SizedBox(width: 4),
         GestureDetector(
-          onTap: () {
-         
-          },
-          child: const Text(
-            'Sign up',
-            style: TextStyle(
-              color: Colors.blue,
+          onTap: onTap,
+          child: Text(
+            actionText,
+            style: const TextStyle(
+              color: Colors.black,
               fontWeight: FontWeight.bold,
             ),
           ),
