@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leafolyze/core/home.dart';
 import 'package:leafolyze/screens/register_screen.dart';
 import 'package:leafolyze/screens/login_screen.dart';
 
@@ -13,7 +14,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: RegisterScreen(),
+      home: Home(),
     );
   }
 }
