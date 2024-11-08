@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:leafolyze/core/home.dart';
+import 'package:leafolyze/screens/landing_page.dart';
 import 'package:leafolyze/screens/productListScreen.dart';
+import 'package:leafolyze/screens/splash_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -19,7 +21,7 @@ class MainApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: ProductListScreen(),
+      home: Splash(),
     );
   }
 }

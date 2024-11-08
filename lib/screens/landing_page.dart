@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leafolyze/constants/color.dart';
 import 'package:leafolyze/core/home.dart';
 
 class Landingpage extends StatefulWidget {
@@ -12,15 +13,15 @@ class _LandingpageState extends State<Landingpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF4A7A72),
+      backgroundColor: AppColors.primaryColor,
       body: SafeArea(
         child: Column(
           children: [
             Expanded(
               child: Center(
                 child: Image.asset(
-                  'lib/assets/images/image-removebg-preview (1) 1.png',
-                  height: 600,
+                  'lib/assets/images/orang.png',
+                  height: 500,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -63,7 +64,7 @@ class _LandingpageState extends State<Landingpage> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF4A7A72),
+                      backgroundColor: AppColors.primaryColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -74,7 +75,7 @@ class _LandingpageState extends State<Landingpage> {
                       'Get Started',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.white,
+                        color: Colors.black,
                       ),
                     ),
                   ),
@@ -97,7 +98,7 @@ class _LandingpageState extends State<Landingpage> {
                           'Sign in',
                           style: TextStyle(
                             fontSize: 14,
-                            color: Color(0xFF4A7A72),
+                            color: AppColors.primaryColor,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
