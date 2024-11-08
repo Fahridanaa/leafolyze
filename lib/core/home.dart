@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:leafolyze/constants/color.dart';
 import 'package:leafolyze/screens/camera_screen.dart';
+import 'package:leafolyze/screens/home_screen.dart';
 import 'package:leafolyze/screens/profileScreen.dart';
 
 class Home extends StatefulWidget {
@@ -14,10 +15,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final List<Widget> _screens = [
-    Center(child: Text("Home Page")),
-    Center(child: Text("Favorites Page")),
-    CameraScreen(),
-    Center(child: Text("History Page")),
+    const HomeScreen(),
+    const Center(child: Text("Favorites Page")),
+    const CameraScreen(),
+    const Center(child: Text("History Page")),
     ProfileScreen(
       name: 'Muhammad Ridlo Febrio',
       email: '2241720098@gmail.com',

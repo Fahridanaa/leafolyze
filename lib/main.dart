@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:leafolyze/core/home.dart';
-import 'package:leafolyze/screens/register_screen.dart';
-import 'package:leafolyze/screens/login_screen.dart';
+import 'package:leafolyze/screens/productListScreen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -14,7 +14,12 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Home(),
+      theme: ThemeData(
+        textTheme: GoogleFonts.plusJakartaSansTextTheme(
+          Theme.of(context).textTheme,
+        ),
+      ),
+      home: ProductListScreen(),
     );
   }
 }
