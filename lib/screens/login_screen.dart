@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:leafolyze/widgets/auth_form_widget.dart';
+import 'package:leafolyze/widgets/auth_form.dart';
 import 'package:leafolyze/widgets/driver_text_widget.dart';
 import 'package:leafolyze/widgets/logo_section_widget.dart';
 
@@ -42,7 +42,7 @@ class LoginScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 18),
-                AuthFormWidget(
+                AuthForm(
                   title: 'Welcome Back',
                   subtitle: 'Sign in to continue',
                   buttonText: 'Log In',

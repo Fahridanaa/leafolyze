@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:leafolyze/widgets/auth_form_widget.dart';
+import 'package:leafolyze/widgets/auth_form.dart';
 import 'package:leafolyze/widgets/driver_text_widget.dart';
 import 'package:leafolyze/widgets/logo_section_widget.dart';
 
@@ -40,7 +40,7 @@ class RegisterScreen extends StatelessWidget {
                 Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    AuthFormWidget(
+                    AuthForm(
                       title: 'Join Us',
                       subtitle: 'Grow with us',
                       buttonText: 'Register',

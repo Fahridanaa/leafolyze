@@ -16,14 +16,14 @@ class InputField {
   });
 }
 
-class AuthFormWidget extends StatelessWidget {
+class AuthForm extends StatelessWidget {
   final String title;
   final String subtitle;
   final String buttonText;
   final List<InputField> inputFields;
   final bool showForgotPassword;
 
-  const AuthFormWidget({
+  const AuthForm({
     super.key,
     required this.title,
     required this.subtitle,

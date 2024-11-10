@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class ArtikelCard extends StatelessWidget {
+class ArticleItemCard extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String description;
 
-  const ArtikelCard({
-    Key? key,
+  const ArticleItemCard({
+    super.key,
     required this.imageUrl,
     required this.title,
     required this.description,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

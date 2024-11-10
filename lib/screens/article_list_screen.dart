@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:leafolyze/widgets/artikel_item_card.dart';
+import 'package:leafolyze/widgets/article_item_card.dart';
 
 class ArtikelListScreen extends StatelessWidget {
-  const ArtikelListScreen({Key? key}) : super(key: key);
+  const ArtikelListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class ArtikelListScreen extends StatelessWidget {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
-                return ArtikelCard(
+                return ArticleItemCard(
                   imageUrl:
                       'https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p2/222/2024/05/28/IMG-20240528-WA0105-1208872859.jpg',
                   title: 'Bacterial Spot',

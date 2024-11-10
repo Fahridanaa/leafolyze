@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:leafolyze/utils/constants.dart';
 
-class SaveDialog extends StatelessWidget {
+class SaveDialogWidget extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();
+
+  SaveDialogWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

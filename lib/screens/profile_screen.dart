@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:leafolyze/utils/constants.dart';
 
@@ -7,7 +6,8 @@ class ProfileScreen extends StatelessWidget {
   final String email;
   final String profileImageUrl;
 
-  ProfileScreen({
+  const ProfileScreen({
+    super.key,
     required this.name,
     required this.email,
     required this.profileImageUrl,

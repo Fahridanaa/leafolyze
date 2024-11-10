@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:leafolyze/utils/constants.dart';
 import 'package:leafolyze/core/home.dart';
 
-class Landingpage extends StatefulWidget {
-  const Landingpage({super.key});
+class LandingScreen extends StatefulWidget {
+  const LandingScreen({super.key});
 
   @override
-  State<Landingpage> createState() => _LandingpageState();
+  State<LandingScreen> createState() => _LandingScreenState();
 }
 
-class _LandingpageState extends State<Landingpage> {
+class _LandingScreenState extends State<LandingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

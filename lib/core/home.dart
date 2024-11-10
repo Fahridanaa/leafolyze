@@ -3,7 +3,7 @@ import 'package:leafolyze/utils/constants.dart';
 import 'package:leafolyze/screens/camera_screen.dart';
 import 'package:leafolyze/screens/home_screen.dart';
 import 'package:leafolyze/screens/marketplace_screen.dart';
-import 'package:leafolyze/screens/profileScreen.dart';
+import 'package:leafolyze/screens/profile_screen.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key, this.index});
