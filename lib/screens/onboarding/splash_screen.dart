@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:another_flutter_splash_screen/another_flutter_splash_screen.dart';
 import 'package:go_router/go_router.dart';
-import 'package:leafolyze/screens/onboarding/landing_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});

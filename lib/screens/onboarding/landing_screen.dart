@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:leafolyze/utils/constants.dart';
-import 'package:leafolyze/core/home.dart';
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});
