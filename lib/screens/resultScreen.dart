@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:leafolyze/constants/color.dart';
+import 'package:leafolyze/utils/constants.dart';
 import 'package:leafolyze/views/saveDialog.dart';
 
 class ResultScreen extends StatelessWidget {
@@ -58,7 +58,6 @@ class ResultScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                 
                     Container(
                       padding: const EdgeInsets.all(16.0),
                       margin: const EdgeInsets.symmetric(vertical: 8.0),

@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:leafolyze/constants/color.dart';
-
+import 'package:leafolyze/utils/constants.dart';
 
 class ProfileScreen extends StatelessWidget {
   final String name;

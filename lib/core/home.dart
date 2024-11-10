@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:leafolyze/constants/color.dart';
+import 'package:leafolyze/utils/constants.dart';
 import 'package:leafolyze/screens/camera_screen.dart';
 import 'package:leafolyze/screens/home_screen.dart';
 import 'package:leafolyze/screens/marketplace_screen.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:leafolyze/constants/color.dart';
+import 'package:leafolyze/utils/constants.dart';
 
 class LogoSection extends StatelessWidget {
   const LogoSection({super.key});
