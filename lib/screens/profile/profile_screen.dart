@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:leafolyze/utils/constants.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -73,7 +74,11 @@ class ProfileScreen extends StatelessWidget {
                     title: "About",
                   ),
                   SizedBox(height: 20),
-                  _buildLogoutButton(),
+                  _buildLogoutButton(
+                    onPressed: () {
+                      context.go('/landing');
+                    },
+                  ),
                 ],
               ),
             ),
@@ -149,7 +154,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildLogoutButton() {
+  Widget _buildLogoutButton({required Function() onPressed}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: SizedBox(
@@ -162,9 +167,7 @@ class ProfileScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
           ),
-          onPressed: () {
-            // Add your logout logic here
-          },
+          onPressed: onPressed,
           child: Text(
             "Keluar",
             style: TextStyle(color: AppColors.logoRed, fontSize: 16),

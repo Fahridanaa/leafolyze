@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:leafolyze/screens/onboarding/splash_screen.dart';
+import 'package:leafolyze/config/router.dart';
 
 void main() {
   runApp(const MainApp());
@@ -11,14 +11,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
+      title: 'Leafolyze',
       theme: ThemeData(
         textTheme: GoogleFonts.plusJakartaSansTextTheme(
           Theme.of(context).textTheme,
         ),
       ),
-      home: SplashScreen(),
+      routerConfig: goRouter,
     );
   }
 }

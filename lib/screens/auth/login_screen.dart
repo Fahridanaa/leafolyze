@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:leafolyze/widgets/auth/auth_form.dart';
 import 'package:leafolyze/widgets/auth/driver_text_widget.dart';
 import 'package:leafolyze/widgets/auth/logo_section_widget.dart';
@@ -48,13 +49,16 @@ class LoginScreen extends StatelessWidget {
                   buttonText: 'Log In',
                   inputFields: loginInputFields,
                   showForgotPassword: true,
+                  onPressed: () {
+                    context.go('/home');
+                  },
                 ),
                 const SizedBox(height: 48),
                 AuthPromptText(
                   promptText: "Don't have an account?",
                   actionText: "Sign up",
                   onTap: () {
-                    // Navigate to register screen
+                    context.go('/register');
                   },
                 )
               ],

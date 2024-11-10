@@ -29,16 +29,19 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
       // 'image': 'lib/assets/images/product-1.jpg',
       'name': 'Fungisida Antracol',
       'price': 25000,
+      'id': '1',
     },
     {
       // 'image': 'lib/assets/images/product-2.jpg',
       'name': 'Pestisida Curacron',
       'price': 35000,
+      'id': '2',
     },
     {
       // 'image': 'lib/assets/images/product-3.jpg',
       'name': 'Fungisida Score',
       'price': 45000,
+      'id': '3',
     },
     // Add more products as needed
   ];
@@ -70,7 +73,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                 SizedBox(
                   height: 40,
                   child: ListView.builder(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    padding: EdgeInsets.symmetric(horizontal: 16),
                     scrollDirection: Axis.horizontal,
                     itemCount: filters.length,
                     itemBuilder: (context, index) {
@@ -140,6 +143,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                   itemBuilder: (context, index) {
                     final product = products[index];
                     return ProductCard(
+                      id: product['id'],
                       // imageUrl: product['image'],
                       name: product['name'],
                       price: product['price'],

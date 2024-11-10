@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:leafolyze/widgets/common/custom_search_bar.dart';
 import 'package:leafolyze/widgets/marketplace/detailed_product_card.dart';
 
@@ -99,7 +100,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
-                Navigator.of(context).pop();
+                context.go('/marketplace');
               },
             ),
           ),

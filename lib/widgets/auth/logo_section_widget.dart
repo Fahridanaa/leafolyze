@@ -10,7 +10,7 @@ class LogoSection extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset(
-          'lib/assets/images/logo.png',
+          'assets/images/logo.png',
           width: 50,
           height: 40,
         ),

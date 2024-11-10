@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:leafolyze/widgets/common/diagnosis_item.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,7 +22,11 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 24),
               _buildWateringReminder(),
               SizedBox(height: 24),
-              _buildArticleSection(),
+              _buildArticleSection(
+                onPressed: () {
+                  context.go('/home/article');
+                },
+              ),
               SizedBox(height: 24),
               _buildRecentDiagnosis(),
             ],
@@ -115,39 +120,35 @@ Widget _buildWateringReminder() {
   );
 }
 
-Widget _buildArticleSection() {
+Widget _buildArticleSection({required Function() onPressed}) {
   return Column(
     children: [
-      Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Explore Article',
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Explore Article',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          TextButton(
+            onPressed: onPressed,
+            child: Text(
+              'See all',
               style: TextStyle(
                 fontSize: 14,
-                fontWeight: FontWeight.w600,
+                color: Color(0xFF5A6D23),
+                fontWeight: FontWeight.w500,
               ),
             ),
-            TextButton(
-              onPressed: () {},
-              child: Text(
-                'See all',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Color(0xFF5A6D23),
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
       SizedBox(
         height: 120,
         child: ListView.builder(
-          padding: EdgeInsets.symmetric(horizontal: 16),
           scrollDirection: Axis.horizontal,
           itemCount: 5,
           itemBuilder: (context, index) {

@@ -22,6 +22,7 @@ class AuthForm extends StatelessWidget {
   final String buttonText;
   final List<InputField> inputFields;
   final bool showForgotPassword;
+  final Function() onPressed;
 
   const AuthForm({
     super.key,
@@ -30,6 +31,7 @@ class AuthForm extends StatelessWidget {
     required this.buttonText,
     required this.inputFields,
     this.showForgotPassword = false,
+    required this.onPressed,
   });
 
   @override
@@ -89,7 +91,7 @@ class AuthForm extends StatelessWidget {
           const SizedBox(height: 16),
         ] else
           const SizedBox(height: 32),
-        RoundedButton(text: buttonText, onPressed: () {}),
+        RoundedButton(text: buttonText, onPressed: onPressed),
       ],
     );
   }

@@ -1,100 +1,87 @@
 import 'package:flutter/material.dart';
-import 'package:leafolyze/screens/home/home_screen.dart';
-import 'package:leafolyze/screens/marketplace/marketplace_screen.dart';
-import 'package:leafolyze/screens/profile/profile_screen.dart';
+import 'package:go_router/go_router.dart';
 import 'package:leafolyze/utils/constants.dart';
-import 'package:leafolyze/screens/camera_screen.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key, this.index});
+class Home extends StatelessWidget {
+  final Widget child;
 
-  final int? index;
-
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    const MarketplaceScreen(),
-    const CameraScreen(),
-    const Center(child: Text("History Page")),
-    ProfileScreen(
-      name: 'Muhammad Ridlo Febrio',
-      email: '2241720098@gmail.com',
-      profileImageUrl:
-          'https://awsimages.detik.net.id/community/media/visual/2018/03/03/39f24229-6f26-4a17-aa92-44c3bd3dae9e_43.jpeg?w=600&q=90',
-    )
-  ];
-
-  late int _currentScreenIndex = widget.index ?? 0;
+  const Home({
+    super.key,
+    required this.child,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_currentScreenIndex],
-      bottomNavigationBar: _currentScreenIndex == 2
-          ? null
-          : BottomNavigationBar(
-              currentIndex: _currentScreenIndex,
-              onTap: _onTabSelected,
+      body: child,
+      bottomNavigationBar: !GoRouterState.of(context)
+              .uri
+              .path
+              .startsWith('/diagnose')
+          ? NavigationBar(
+              selectedIndex: _calculateSelectedIndex(context),
+              onDestinationSelected: (index) => _onItemTapped(index, context),
               backgroundColor: Colors.white,
-              selectedItemColor: AppColors.primaryColor,
-              unselectedItemColor: Colors.grey,
-              type: BottomNavigationBarType.fixed,
-              items: const [
-                BottomNavigationBarItem(
+              indicatorColor: AppColors.primaryColor,
+              destinations: const [
+                NavigationDestination(
                   icon: Icon(Icons.home),
                   label: 'Home',
                 ),
-                BottomNavigationBarItem(
+                NavigationDestination(
                   icon: Icon(Icons.local_mall),
                   label: 'Market',
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.camera_alt),
-                  label: 'Scan',
-                ),
-                BottomNavigationBarItem(
+                NavigationDestination(
                   icon: Icon(Icons.history),
                   label: 'History',
                 ),
-                BottomNavigationBarItem(
+                NavigationDestination(
                   icon: Icon(Icons.person),
                   label: 'Profile',
                 ),
               ],
-            ),
-      floatingActionButton: _currentScreenIndex == 2
-          ? null
-          : FloatingActionButton(
-              backgroundColor: AppColors.GreenLogodanButton,
-              shape: const CircleBorder(),
-              child: const Icon(
-                Icons.camera_alt,
-                color: Colors.white,
-              ),
-              onPressed: () => _onTabSelected(2),
-            ),
+            )
+          : null,
+      floatingActionButton:
+          !GoRouterState.of(context).uri.path.startsWith('/diagnose')
+              ? FloatingActionButton(
+                  backgroundColor: AppColors.GreenLogodanButton,
+                  shape: const CircleBorder(),
+                  child: const Icon(
+                    Icons.camera_alt,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => context.go('/diagnose'),
+                )
+              : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
-  void _onTabSelected(int index) {
-    if (index == 2) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const CameraScreen()),
-      ).then((_) {
-        setState(() {
-          _currentScreenIndex = 0;
-        });
-      });
-    } else {
-      setState(() {
-        _currentScreenIndex = index;
-      });
+  int _calculateSelectedIndex(BuildContext context) {
+    final String location = GoRouterState.of(context).uri.path;
+    if (location.startsWith('/home')) return 0;
+    if (location.startsWith('/marketplace')) return 1;
+    if (location.startsWith('/history')) return 2;
+    if (location.startsWith('/profile')) return 3;
+    return 0;
+  }
+
+  void _onItemTapped(int index, BuildContext context) {
+    switch (index) {
+      case 0:
+        context.go('/home');
+        break;
+      case 1:
+        context.go('/marketplace');
+        break;
+      case 2:
+        context.go('/history');
+        break;
+      case 3:
+        context.go('/profile');
+        break;
     }
   }
 }

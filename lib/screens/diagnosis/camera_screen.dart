@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -117,7 +118,7 @@ class _CameraScreenState extends State<CameraScreen> {
                 children: [
                   IconButton(
                     icon: Icon(Icons.arrow_back, color: Colors.black),
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () => context.go('/home'),
                   ),
                   IconButton(
                     icon: Icon(_isFlashOn ? Icons.flash_on : Icons.flash_off,

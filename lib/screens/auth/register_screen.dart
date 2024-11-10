@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:leafolyze/widgets/auth/auth_form.dart';
 import 'package:leafolyze/widgets/auth/driver_text_widget.dart';
 import 'package:leafolyze/widgets/auth/logo_section_widget.dart';
@@ -45,6 +46,9 @@ class RegisterScreen extends StatelessWidget {
                       subtitle: 'Grow with us',
                       buttonText: 'Register',
                       inputFields: registerInputFields,
+                      onPressed: () {
+                        context.go('/home');
+                      },
                     ),
                     Positioned(
                       right: 0,
@@ -62,7 +66,7 @@ class RegisterScreen extends StatelessWidget {
                   promptText: "Already have an account?",
                   actionText: "Sign in",
                   onTap: () {
-                    // Navigate to login screen
+                    context.go('/login');
                   },
                 )
               ],
