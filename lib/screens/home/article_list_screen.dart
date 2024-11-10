@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:leafolyze/widgets/article_item_card.dart';
+import 'package:leafolyze/widgets/home/article_item_card.dart';
 import 'package:leafolyze/widgets/common/custom_search_bar.dart';
 
 class ArticleListScreen extends StatelessWidget {

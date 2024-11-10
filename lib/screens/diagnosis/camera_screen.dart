@@ -7,7 +7,7 @@ class CameraScreen extends StatefulWidget {
   const CameraScreen({super.key});
 
   @override
-  _CameraScreenState createState() => _CameraScreenState();
+  State<CameraScreen> createState() => _CameraScreenState();
 }
 
 class _CameraScreenState extends State<CameraScreen> {
@@ -111,7 +111,6 @@ class _CameraScreenState extends State<CameraScreen> {
             right: 0,
             child: Container(
               color: Colors.white,
-
               padding: EdgeInsets.fromLTRB(16, 48, 16, 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

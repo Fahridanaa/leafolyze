@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:leafolyze/widgets/auth_form.dart';
-import 'package:leafolyze/widgets/driver_text_widget.dart';
-import 'package:leafolyze/widgets/logo_section_widget.dart';
+import 'package:leafolyze/widgets/auth/auth_form.dart';
+import 'package:leafolyze/widgets/auth/driver_text_widget.dart';
+import 'package:leafolyze/widgets/auth/logo_section_widget.dart';
 
 final List<InputField> loginInputFields = [
   const InputField(

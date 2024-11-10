@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:leafolyze/widgets/diagnosis_item_widget.dart';
+import 'package:leafolyze/widgets/common/diagnosis_item.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:leafolyze/widgets/common/custom_search_bar.dart';
-import 'package:leafolyze/widgets/detailed_product_card.dart';
+import 'package:leafolyze/widgets/marketplace/detailed_product_card.dart';
 
 class ProductListScreen extends StatefulWidget {
-  const ProductListScreen({Key? key}) : super(key: key);
+  const ProductListScreen({super.key});
 
   @override
   State<ProductListScreen> createState() => _ProductListScreenState();
