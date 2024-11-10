@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:leafolyze/widgets/article_item_card.dart';
+import 'package:leafolyze/widgets/common/custom_search_bar.dart';
 
-class ArtikelListScreen extends StatelessWidget {
-  const ArtikelListScreen({super.key});
+class ArticleListScreen extends StatelessWidget {
+  const ArticleListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,18 +29,10 @@ class ArtikelListScreen extends StatelessWidget {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search here...',
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide.none,
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey.shade200,
-                  contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                ),
+              child: CustomSearchBar(
+                // TODO: Implement search functionality
+                onChanged: (value) {},
+                onSubmitted: (value) {},
               ),
             ),
           ),

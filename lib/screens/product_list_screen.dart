@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leafolyze/widgets/common/custom_search_bar.dart';
 import 'package:leafolyze/widgets/detailed_product_card.dart';
 
 class ProductListScreen extends StatefulWidget {
@@ -105,15 +106,10 @@ class _ProductListScreenState extends State<ProductListScreen> {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search here...',
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                ),
+              child: CustomSearchBar(
+                // TODO: Implement search functionality
+                onChanged: (value) {},
+                onSubmitted: (value) {},
               ),
             ),
           ),
