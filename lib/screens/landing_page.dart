@@ -20,7 +20,7 @@ class _LandingpageState extends State<Landingpage> {
             Expanded(
               child: Center(
                 child: Image.asset(
-                  'lib/assets/images/orang.png',
+                  'assets/images/orang.png',
                   height: 500,
                   fit: BoxFit.cover,
                 ),

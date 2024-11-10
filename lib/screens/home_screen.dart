@@ -107,7 +107,7 @@ Widget _buildWateringReminder() {
         right: 0,
         bottom: -12,
         child: Image.asset(
-          'lib/assets/images/image-13.png',
+          'assets/images/image-13.png',
           fit: BoxFit.cover,
         ),
       ),
@@ -160,7 +160,7 @@ Widget _buildArticleSection() {
                     borderRadius: BorderRadius.circular(12),
                     image: DecorationImage(
                       image: AssetImage(
-                          'lib/assets/images/ren-ran-bBiuSdck8tU-unsplash.jpg'),
+                          'assets/images/ren-ran-bBiuSdck8tU-unsplash.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -223,17 +223,17 @@ Widget _buildRecentDiagnosis() {
   // Sample data
   final List<Map<String, String>> diagnosisItems = [
     {
-      'imagePath': 'lib/assets/images/ren-ran-bBiuSdck8tU-unsplash.jpg',
+      'imagePath': 'assets/images/ren-ran-bBiuSdck8tU-unsplash.jpg',
       'plantName': 'Tomato',
       'diseaseName': 'Bacterial Spot',
     },
     {
-      'imagePath': 'lib/assets/images/ren-ran-bBiuSdck8tU-unsplash.jpg',
+      'imagePath': 'assets/images/ren-ran-bBiuSdck8tU-unsplash.jpg',
       'plantName': 'Potato',
       'diseaseName': 'Early Blight',
     },
     {
-      'imagePath': 'lib/assets/images/ren-ran-bBiuSdck8tU-unsplash.jpg',
+      'imagePath': 'assets/images/ren-ran-bBiuSdck8tU-unsplash.jpg',
       'plantName': 'Corn',
       'diseaseName': 'Gray Leaf Spot',
     },

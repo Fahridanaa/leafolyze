@@ -18,7 +18,7 @@ class Splash extends StatelessWidget {
         ),
         childWidget: SizedBox(
           height: 200,
-          child: Image.asset("lib/assets/images/logo.png"),
+          child: Image.asset("assets/images/logo.png"),
         ),
         duration: const Duration(milliseconds: 4500),
         animationDuration: const Duration(milliseconds: 1500),

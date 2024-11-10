@@ -37,7 +37,7 @@ class LoginScreen extends StatelessWidget {
                   clipBehavior: Clip.none,
                   children: [
                     Image.asset(
-                      'lib/assets/images/group-243.png',
+                      'assets/images/group-243.png',
                     ),
                   ],
                 ),

@@ -50,7 +50,7 @@ class RegisterScreen extends StatelessWidget {
                       right: 0,
                       top: -181.5,
                       child: Image.asset(
-                        'lib/assets/images/undraw_enter_uhqk 1.png',
+                        'assets/images/undraw_enter_uhqk 1.png',
                         width: 224,
                         height: 248,
                       ),
