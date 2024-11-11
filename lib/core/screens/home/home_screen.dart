@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:leafolyze/widgets/common/diagnosis_item.dart';
+import 'package:leafolyze/core/widgets/common/diagnosis_item.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
