@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:leafolyze/utils/constants.dart';
-import 'package:leafolyze/widgets/common/custom_search_bar.dart';
-import 'package:leafolyze/widgets/marketplace/product_card.dart';
+import 'package:leafolyze/core/widgets/common/custom_search_bar.dart';
+import 'package:leafolyze/core/widgets/marketplace/product_card.dart';
 
 class MarketplaceScreen extends StatefulWidget {
   const MarketplaceScreen({super.key});

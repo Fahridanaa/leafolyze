@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:leafolyze/widgets/auth/auth_form.dart';
-import 'package:leafolyze/widgets/auth/driver_text_widget.dart';
-import 'package:leafolyze/widgets/auth/logo_section_widget.dart';
+import 'package:leafolyze/core/widgets/auth/auth_form.dart';
+import 'package:leafolyze/core/widgets/auth/driver_text_widget.dart';
+import 'package:leafolyze/core/widgets/auth/logo_section_widget.dart';
 
 final List<InputField> registerInputFields = [
   const InputField(

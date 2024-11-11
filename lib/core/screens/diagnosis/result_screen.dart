@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:leafolyze/utils/constants.dart';
-import 'package:leafolyze/widgets/diagnosis/save_dialog_widget.dart';
+import 'package:leafolyze/core/widgets/diagnosis/save_dialog_widget.dart';
 
 class ResultScreen extends StatelessWidget {
   final String title;
