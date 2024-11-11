@@ -20,8 +20,8 @@ class _LandingScreenState extends State<LandingScreen> {
             Expanded(
               child: Center(
                 child: Image.asset(
-                  'assets/images/orang.png',
-                  height: 500,
+                  'assets/images/petanitomat.png',
+                  height: 600,
                   fit: BoxFit.cover,
                 ),
               ),
