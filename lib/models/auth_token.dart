@@ -38,7 +38,28 @@ class AuthToken extends Equatable {
 
   bool get isExpired {
     final expirationDate = createdAt.add(Duration(seconds: expiresIn));
-    return DateTime.now().isAfter(expirationDate);
+    return DateTime.now()
+        .isAfter(expirationDate.subtract(Duration(seconds: 30)));
+  }
+
+  bool get needsRefresh {
+    final expirationDate = createdAt.add(Duration(seconds: expiresIn));
+    return DateTime.now()
+        .isAfter(expirationDate.subtract(Duration(minutes: 5)));
+  }
+
+  AuthToken copyWith({
+    String? accessToken,
+    String? tokenType,
+    int? expiresIn,
+    DateTime? createdAt,
+  }) {
+    return AuthToken(
+      accessToken: accessToken ?? this.accessToken,
+      tokenType: tokenType ?? this.tokenType,
+      expiresIn: expiresIn ?? this.expiresIn,
+      createdAt: createdAt ?? this.createdAt,
+    );
   }
 
   String get bearerToken => '$tokenType $accessToken';

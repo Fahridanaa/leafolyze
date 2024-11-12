@@ -9,6 +9,7 @@ class ApiConfig {
 
   static const String login = '/login';
   static const String me = '/me';
+  static const String refresh = '/refresh';
   static const String register = '/register';
   static const String logout = '/logout';
 }

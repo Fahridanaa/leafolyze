@@ -12,24 +12,27 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final storageService = await StorageService.init();
-  final apiService = ApiService();
+  final apiService = ApiService(storageService);
   final authRepository = AuthRepository(apiService, storageService);
 
-  runApp(MainApp(authRepository: authRepository));
+  runApp(
+      MainApp(authRepository: authRepository, storageService: storageService));
 }
 
 class MainApp extends StatelessWidget {
   final AuthRepository authRepository;
+  final StorageService storageService;
 
-  const MainApp({super.key, required this.authRepository});
+  const MainApp(
+      {super.key, required this.authRepository, required this.storageService});
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) =>
-              AuthBloc(authRepository)..add(AuthCheckRequested()),
+          create: (context) => AuthBloc(authRepository, storageService)
+            ..add(AuthCheckRequested()),
         ),
       ],
       child: MaterialApp.router(

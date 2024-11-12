@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:leafolyze/config/api_config.dart';
 import 'package:leafolyze/models/auth_token.dart';
 import 'package:leafolyze/models/user.dart';
@@ -9,6 +10,20 @@ class AuthRepository {
   final StorageService _storageService;
 
   AuthRepository(this._apiService, this._storageService);
+
+  Future<void> refreshTokenIfNeeded() async {
+    final token = await _storageService.getToken();
+    if (token != null && token.needsRefresh) {
+      try {
+        await _apiService.refreshToken(token);
+      } catch (e) {
+        print('Token refresh failed: $e');
+        if (e is DioException && e.response?.statusCode == 401) {
+          await logout();
+        }
+      }
+    }
+  }
 
   Future<User> login(String email, String password) async {
     try {
@@ -24,13 +39,11 @@ class AuthRepository {
       });
       await _storageService.saveToken(token);
 
-      // Get user profile with the token
       final userResponse = await _apiService.get(
         ApiConfig.me,
         token: token.bearerToken,
       );
 
-      // Save and return user
       final user = User.fromJson(userResponse);
       await _storageService.saveUser(user);
       return user;
@@ -57,10 +70,9 @@ class AuthRepository {
   // }
 
   Future<void> logout() async {
-    final token = _storageService.getToken();
+    final token = await _storageService.getToken();
     if (token != null && !token.isExpired) {
       try {
-        // Call logout endpoint
         await _apiService.post(
           ApiConfig.logout,
           {},
@@ -69,15 +81,12 @@ class AuthRepository {
       } catch (e) {
         print('Logout Error: $e');
       } finally {
-        // Always clear local storage, even if API call fails
         await _storageService.removeToken();
         await _storageService.removeUser();
       }
     }
   }
 
-  User? getCurrentUser() => _storageService.getUser();
-  bool get isAuthenticated => _storageService.isAuthenticated;
-
-  getCurrentToken() {}
+  Future<User?> getCurrentUser() async => await _storageService.getUser();
+  Future<bool> isAuthenticated() async => await _storageService.isAuthenticated;
 }
