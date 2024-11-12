@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:leafolyze/utils/constants.dart';
-import 'package:leafolyze/widgets/common/rounded_button.dart';
+import 'package:leafolyze/core/widgets/common/rounded_button.dart';
 
 class InputField {
   final String label;
