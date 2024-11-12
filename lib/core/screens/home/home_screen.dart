@@ -295,23 +295,13 @@ Widget _buildRecentDiagnosis() {
           separatorBuilder: (context, index) => SizedBox(height: 8),
           itemBuilder: (context, index) {
             final item = diagnosisItems[index];
-            return Container(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-              decoration: BoxDecoration(
-                color: Color(0xFFF8FAFC),
-                border: Border.all(
-                  color: Color(0xFFBFC2C8).withOpacity(0.4),
-                ),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: DiagnosisItem(
-                imagePath: item['imagePath']!,
-                plantName: item['plantName']!,
-                diseaseName: item['diseaseName']!,
-                onTap: () {
-                  // Handle tap for specific item
-                },
-              ),
+            return DiagnosisItem(
+              imagePath: item['imagePath']!,
+              plantName: item['plantName']!,
+              diseaseName: item['diseaseName']!,
+              onTap: () {
+                // Handle tap for specific item
+              },
             );
           },
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:leafolyze/core/screens/diagnosis/camera_screen.dart';
+import 'package:leafolyze/core/screens/history/history_screen.dart';
 import 'package:leafolyze/core/screens/home/article_list_screen.dart';
 import 'package:leafolyze/core/screens/home/home_screen.dart';
 import 'package:leafolyze/core/screens/marketplace/marketplace_screen.dart';
@@ -78,8 +79,7 @@ final goRouter = GoRouter(
         // History tab
         GoRoute(
           path: '/history',
-          builder: (context, state) =>
-              const Center(child: Text("History Page")),
+          builder: (context, state) => const HistoryScreen(),
         ),
         // Profile tab
         GoRoute(
