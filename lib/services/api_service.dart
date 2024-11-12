@@ -1,40 +1,48 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:leafolyze/config/api_config.dart';
 
 class ApiService {
-  final http.Client _client;
+  late final Dio _dio;
 
-  ApiService({http.Client? client}) : _client = client ?? http.Client();
+  ApiService() {
+    _dio = Dio(BaseOptions(
+      baseUrl: ApiConfig.baseUrl,
+      connectTimeout: Duration(milliseconds: ApiConfig.timeout),
+      receiveTimeout: Duration(milliseconds: ApiConfig.timeout),
+      contentType: 'application/json',
+      validateStatus: (status) => status! < 500,
+    ));
+  }
 
   Future<Map<String, dynamic>> post(
     String endpoint,
-    Map<String, dynamic> body, {
+    Map<String, dynamic> data, {
     String? token,
   }) async {
     try {
-      final response = await _client.post(
-        Uri.parse('${ApiConfig.baseUrl}$endpoint'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          if (token != null) 'Authorization': 'Bearer $token',
-        },
-        body: jsonEncode(body),
+      final response = await _dio.post(
+        endpoint,
+        data: data,
+        options: Options(
+          headers: {
+            if (token != null) 'Authorization': token,
+          },
+        ),
       );
 
-      final data = jsonDecode(response.body);
-
-      if (response.statusCode >= 200 && response.statusCode < 300) {
-        return data;
+      if (response.statusCode! >= 200 && response.statusCode! < 300) {
+        return response.data;
       } else {
         throw ApiException(
-          message: data['message'] ?? 'Something went wrong',
+          message: response.data['message'] ?? 'Something went wrong',
           statusCode: response.statusCode,
         );
       }
-    } catch (e) {
-      throw ApiException(message: e.toString());
+    } on DioException catch (e) {
+      throw ApiException(
+        message: e.response?.data?['message'] ?? e.message ?? 'Network error',
+        statusCode: e.response?.statusCode,
+      );
     }
   }
 
@@ -44,30 +52,29 @@ class ApiService {
     Map<String, dynamic>? queryParams,
   }) async {
     try {
-      final uri = Uri.parse('${ApiConfig.baseUrl}$endpoint').replace(
+      final response = await _dio.get(
+        endpoint,
         queryParameters: queryParams,
+        options: Options(
+          headers: {
+            if (token != null) 'Authorization': token,
+          },
+        ),
       );
 
-      final response = await _client.get(
-        uri,
-        headers: {
-          'Accept': 'application/json',
-          if (token != null) 'Authorization': 'Bearer $token',
-        },
-      );
-
-      final data = jsonDecode(response.body);
-
-      if (response.statusCode >= 200 && response.statusCode < 300) {
-        return data;
+      if (response.statusCode! >= 200 && response.statusCode! < 300) {
+        return response.data;
       } else {
         throw ApiException(
-          message: data['message'] ?? 'Something went wrong',
+          message: response.data['message'] ?? 'Something went wrong',
           statusCode: response.statusCode,
         );
       }
-    } catch (e) {
-      throw ApiException(message: e.toString());
+    } on DioException catch (e) {
+      throw ApiException(
+        message: e.response?.data?['message'] ?? e.message ?? 'Network error',
+        statusCode: e.response?.statusCode,
+      );
     }
   }
 }

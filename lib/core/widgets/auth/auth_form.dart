@@ -7,12 +7,14 @@ class InputField {
   final String hint;
   final bool isPassword;
   final IconData? suffixIcon;
+  final TextEditingController controller;
 
   const InputField({
     required this.label,
     required this.hint,
     this.isPassword = false,
     this.suffixIcon,
+    required this.controller,
   });
 }
 
@@ -59,7 +61,8 @@ class AuthForm extends StatelessWidget {
         const SizedBox(height: 24),
         ...inputFields.map((field) => Column(
               children: [
-                TextField(
+                TextFormField(
+                  controller: field.controller,
                   obscureText: field.isPassword,
                   decoration: InputDecoration(
                     labelText: field.label,

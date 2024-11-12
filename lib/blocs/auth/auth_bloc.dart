@@ -9,7 +9,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this._authRepository) : super(AuthInitial()) {
     on<AuthCheckRequested>(_onAuthCheckRequested);
     on<LoginRequested>(_onLoginRequested);
-    on<RegisterRequested>(_onRegisterRequested);
+    // on<RegisterRequested>(_onRegisterRequested);
     on<LogoutRequested>(_onLogoutRequested);
   }
 
@@ -17,8 +17,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthCheckRequested event,
     Emitter<AuthState> emit,
   ) async {
+    final token = _authRepository.getCurrentToken();
     final user = _authRepository.getCurrentUser();
-    if (user != null) {
+    if (token != null && !token.isExpired && user != null) {
       emit(Authenticated(user));
     } else {
       emit(Unauthenticated());
@@ -41,22 +42,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _onRegisterRequested(
-    RegisterRequested event,
-    Emitter<AuthState> emit,
-  ) async {
-    emit(AuthLoading());
-    try {
-      final user = await _authRepository.register(
-        event.name,
-        event.email,
-        event.password,
-      );
-      emit(Authenticated(user));
-    } catch (e) {
-      emit(AuthError(e.toString()));
-    }
-  }
+  // Future<void> _onRegisterRequested(
+  //   RegisterRequested event,
+  //   Emitter<AuthState> emit,
+  // ) async {
+  //   emit(AuthLoading());
+  //   try {
+  //     final user = await _authRepository.register(
+  //       event.name,
+  //       event.email,
+  //       event.password,
+  //     );
+  //     emit(Authenticated(user));
+  //   } catch (e) {
+  //     emit(AuthError(e.toString()));
+  //   }
+  // }
 
   Future<void> _onLogoutRequested(
     LogoutRequested event,

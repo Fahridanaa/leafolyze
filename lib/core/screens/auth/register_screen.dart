@@ -4,22 +4,22 @@ import 'package:leafolyze/core/widgets/auth/auth_form.dart';
 import 'package:leafolyze/core/widgets/auth/driver_text_widget.dart';
 import 'package:leafolyze/core/widgets/auth/logo_section_widget.dart';
 
-final List<InputField> registerInputFields = [
-  const InputField(
-    label: 'Full Name',
-    hint: 'John Doe',
-  ),
-  const InputField(
-    label: 'Email Address',
-    hint: 'm@example.com',
-  ),
-  const InputField(
-    label: 'Password',
-    hint: 'Enter password',
-    isPassword: true,
-    suffixIcon: Icons.visibility,
-  ),
-];
+// final List<InputField> registerInputFields = [
+//   const InputField(
+//     label: 'Full Name',
+//     hint: 'John Doe',
+//   ),
+//   const InputField(
+//     label: 'Email Address',
+//     hint: 'm@example.com',
+//   ),
+//   const InputField(
+//     label: 'Password',
+//     hint: 'Enter password',
+//     isPassword: true,
+//     suffixIcon: Icons.visibility,
+//   ),
+// ];
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
@@ -41,15 +41,15 @@ class RegisterScreen extends StatelessWidget {
                 Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    AuthForm(
-                      title: 'Join Us',
-                      subtitle: 'Grow with us',
-                      buttonText: 'Register',
-                      inputFields: registerInputFields,
-                      onPressed: () {
-                        context.go('/home');
-                      },
-                    ),
+                    // AuthForm(
+                    //   title: 'Join Us',
+                    //   subtitle: 'Grow with us',
+                    //   buttonText: 'Register',
+                    //   inputFields: registerInputFields,
+                    //   onPressed: () {
+                    //     context.go('/home');
+                    //   },
+                    // ),
                     Positioned(
                       right: 0,
                       top: -181.5,
