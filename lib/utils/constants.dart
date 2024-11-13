@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 @immutable
 class AppColors {
   static const primaryColor = Color(0xFFB4DB46);
+  static const primaryColorLight = Color(0xFFF0F8DA);
+  static const primaryColorDark = Color(0xFF242C0E);
   static const primaryForegroundColor = Color(0xFF272D20);
   static const textMutedColor = Color(0xFF64748B);
   static const textColor = Color(0xFF020617);
+  static const actionTextColor = Color(0xFF5A6D23);
   static const backgroundColor = Colors.white;
   static const errorColor = Color.fromARGB(255, 210, 75, 75);
 }
@@ -25,8 +28,20 @@ class AppTextStyles {
   );
   static const heading3 = TextStyle(
     fontSize: 14,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w600,
     color: AppColors.textColor,
+  );
+
+  static const headingCard = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.primaryColorDark,
+  );
+
+  static const headingCard2 = TextStyle(
+    color: Colors.white,
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
   );
 
   //subheading
@@ -36,16 +51,35 @@ class AppTextStyles {
     color: AppColors.textMutedColor,
   );
 
+  static const contentCard = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.primaryForegroundColor,
+  );
+
+  static TextStyle contentCard2 = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: Colors.white.withOpacity(0.8),
+  );
+
   //text
   static const promptTextStyle = TextStyle(
     fontSize: 14,
     color: AppColors.textMutedColor,
   );
+
   static const actionTextStyle = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w500,
     color: AppColors.textColor,
   );
+  static const actionTextStyle2 = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.actionTextColor,
+  );
+
   static const buttonTextStyle = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w600,
@@ -56,14 +90,7 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.errorColor,
   );
-  static const inputLabelTextStyle = TextStyle(
-    fontSize: 14,
-    color: AppColors.textColor,
-  );
-  static const inputHintTextStyle = TextStyle(
-    fontSize: 14,
-    color: AppColors.textMutedColor,
-  );
+
   static const inputErrorTextStyle = TextStyle(
     fontSize: 14,
     color: AppColors.errorColor,
@@ -75,6 +102,7 @@ class AppSpacing {
   static const double spacingXXS = 4;
   static const double spacingXS = 6;
   static const double spacingS = 8;
+  static const double spacingMS = 12;
   static const double spacingM = 16;
   static const double spacingL = 24;
   static const double spacingXL = 32;
