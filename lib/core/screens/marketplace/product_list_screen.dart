@@ -134,10 +134,19 @@ class _ProductListScreenState extends State<ProductListScreen> {
                         onPressed: () {
                           _showSortOptions(context);
                         },
-                        icon:
-                            const Icon(Icons.sort, color: AppColors.textColor),
-                        label: const Text('Sort By',
-                            style: TextStyle(color: AppColors.textColor)),
+                        icon: const Icon(
+                          Icons.sort,
+                          color: AppColors.textColor,
+                          size: AppIconSize.iconS,
+                        ),
+                        label: Text(
+                          'Sort By',
+                          style: TextStyle(
+                            color: AppColors.textColor,
+                            fontSize: AppFontSize.fontSizeMS,
+                            fontWeight: AppFontWeight.semiBold,
+                          ),
+                        ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor:
                               const Color.fromARGB(255, 255, 255, 255),
@@ -150,10 +159,19 @@ class _ProductListScreenState extends State<ProductListScreen> {
                         onPressed: () {
                           // Implementasi "Filter"
                         },
-                        icon: const Icon(Icons.filter_list,
-                            color: AppColors.textColor),
-                        label: const Text('Filter',
-                            style: TextStyle(color: AppColors.textColor)),
+                        icon: const Icon(
+                          Icons.filter_list,
+                          color: AppColors.textColor,
+                          size: AppIconSize.iconS,
+                        ),
+                        label: const Text(
+                          'Filter',
+                          style: TextStyle(
+                            color: AppColors.textColor,
+                            fontSize: AppFontSize.fontSizeMS,
+                            fontWeight: AppFontWeight.semiBold,
+                          ),
+                        ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor:
                               const Color.fromARGB(255, 255, 255, 255),

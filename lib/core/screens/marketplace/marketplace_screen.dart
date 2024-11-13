@@ -70,10 +70,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
             expandedHeight: 80,
           ),
           SliverPadding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.spacingM,
-                vertical: AppSpacing.spacingS,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: AppSpacing.spacingM),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
@@ -100,7 +97,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                                 style: TextStyle(
                                   color: AppColors.textColor,
                                   fontSize: AppFontSize.fontSizeS,
-                                  fontWeight: AppFontWeight.medium,
+                                  fontWeight: AppFontWeight.semiBold,
                                 ),
                               ),
                               selected: isSelected,

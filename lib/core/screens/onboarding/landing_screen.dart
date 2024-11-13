@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:leafolyze/core/widgets/common/rounded_button.dart';
 import 'package:leafolyze/utils/constants.dart';
 // Untuk efek blur
 
@@ -17,8 +18,8 @@ class _LandingScreenState extends State<LandingScreen> {
       backgroundColor: AppColors.primaryColor,
       body: Stack(
         children: [
-          // Gambar animasi di tengah
           Positioned.fill(
+            top: -100,
             child: Align(
               alignment: Alignment.center,
               child: Column(
@@ -27,9 +28,7 @@ class _LandingScreenState extends State<LandingScreen> {
                   Image.asset(
                     'assets/images/petanitomat.png',
                     fit: BoxFit.contain,
-                    height: 550, // Sesuaikan ukuran gambar
                   ),
-                  const SizedBox(height: 100),
                 ],
               ),
             ),
@@ -38,12 +37,14 @@ class _LandingScreenState extends State<LandingScreen> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+              padding: EdgeInsets.symmetric(
+                  horizontal: AppSpacing.spacingM,
+                  vertical: AppSpacing.spacingXL),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(75),
-                  topRight: Radius.circular(75),
+                  topLeft: Radius.circular(AppBorderRadius.radiusXL),
+                  topRight: Radius.circular(AppBorderRadius.radiusXL),
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -60,50 +61,37 @@ class _LandingScreenState extends State<LandingScreen> {
                   const Text(
                     'Jaga Tanamanmu!',
                     style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      fontSize: AppFontSize.fontSizeXXL,
+                      fontWeight: AppFontWeight.bold,
+                      color: AppColors.textColor,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSpacing.spacingM),
                   Text(
                     'Scan tanamanmu untuk melihat informasi kesehatan tanaman',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[600],
+                      fontSize: AppFontSize.fontSizeM,
+                      color: AppColors.textMutedColor,
                     ),
                   ),
-                  const SizedBox(height: 24),
-                  ElevatedButton(
+                  const SizedBox(height: AppSpacing.spacingM),
+                  RoundedButton(
+                    text: 'Get Started',
                     onPressed: () {
                       context.go('/register');
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      minimumSize: const Size(double.infinity, 48),
-                    ),
-                    child: const Text(
-                      'Get Started',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                      ),
-                    ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppSpacing.spacingM),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'Already have an account? ',
                         style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[600],
+                          fontSize: AppFontSize.fontSizeMS,
+                          color: AppColors.textMutedColor,
+                          fontWeight: AppFontWeight.regular,
                         ),
                       ),
                       GestureDetector(
@@ -113,9 +101,9 @@ class _LandingScreenState extends State<LandingScreen> {
                         child: const Text(
                           'Sign in',
                           style: TextStyle(
-                            fontSize: 14,
-                            color: AppColors.primaryColor,
-                            fontWeight: FontWeight.bold,
+                            fontSize: AppFontSize.fontSizeMS,
+                            color: AppColors.textColor,
+                            fontWeight: AppFontWeight.semiBold,
                           ),
                         ),
                       ),

@@ -156,7 +156,7 @@ Widget _buildArticleSection({required Function() onPressed}) {
               'See all',
               style: TextStyle(
                 fontSize: AppFontSize.fontSizeMS,
-                fontWeight: AppFontWeight.medium,
+                fontWeight: AppFontWeight.semiBold,
                 color: AppColors.actionTextColor,
               ),
             ),
@@ -213,7 +213,7 @@ Widget _buildArticleSection({required Function() onPressed}) {
                           fontWeight: AppFontWeight.semiBold,
                         ),
                       ),
-                      SizedBox(height: AppSpacing.spacingS),
+                      SizedBox(height: AppSpacing.spacingXXS),
                       SizedBox(
                         width: 160,
                         child: Text(
@@ -224,7 +224,7 @@ Widget _buildArticleSection({required Function() onPressed}) {
                             fontWeight: AppFontWeight.regular,
                           ),
                           overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
+                          maxLines: 3,
                         ),
                       ),
                     ],
@@ -302,7 +302,7 @@ Widget _buildRecentDiagnosis() {
                     'See all',
                     style: TextStyle(
                       fontSize: AppFontSize.fontSizeMS,
-                      fontWeight: AppFontWeight.medium,
+                      fontWeight: AppFontWeight.semiBold,
                       color: AppColors.actionTextColor,
                     ),
                   ),

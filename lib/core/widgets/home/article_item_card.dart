@@ -63,7 +63,7 @@ class ArticleItemCard extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.4,
+                        width: MediaQuery.of(context).size.width * 0.5,
                         child: Text(
                           description,
                           style: const TextStyle(
