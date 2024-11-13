@@ -30,15 +30,6 @@ class _LandingScreenState extends State<LandingScreen> {
                     height: 550, // Sesuaikan ukuran gambar
                   ),
                   const SizedBox(height: 100),
-                  // Efek elips blur di bawah gambar
-                  // Container(
-                  //   width: 100,
-                  //   height: 10,
-                  //   decoration: BoxDecoration(
-                  //     color: const Color.fromARGB(255, 192, 245, 106).withOpacity(0.9), // Warna blur elips
-                  //     borderRadius: BorderRadius.circular(10000000),
-                  //   )
-                  // )
                 ],
               ),
             ),
@@ -86,7 +77,7 @@ class _LandingScreenState extends State<LandingScreen> {
                   const SizedBox(height: 24),
                   ElevatedButton(
                     onPressed: () {
-                      context.go('/login');
+                      context.go('/register');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primaryColor,
@@ -117,7 +108,7 @@ class _LandingScreenState extends State<LandingScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          // Tambahkan aksi untuk "Sign in"
+                          context.go('/login');
                         },
                         child: const Text(
                           'Sign in',

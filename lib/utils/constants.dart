@@ -35,6 +35,16 @@ class AppFontWeight {
 }
 
 @immutable
+class AppLineHeight {
+  static const double lineHeightXS = 1.25;
+  static const double lineHeightS = 1.5;
+  static const double lineHeightM = 2;
+  static const double lineHeightL = 2.5;
+  static const double lineHeightXL = 3;
+  static const double lineHeightXXL = 3.5;
+}
+
+@immutable
 class AppSpacing {
   static const double spacingXXS = 4;
   static const double spacingXS = 6;
@@ -46,10 +56,21 @@ class AppSpacing {
   static const double spacingXXL = 48;
 }
 
+@immutable
 class AppBorderRadius {
   static const double radiusXXS = 4;
   static const double radiusXS = 8;
   static const double radiusS = 12;
   static const double radiusM = 16;
   static const double radiusL = 24;
+}
+
+@immutable
+class AppIconSize {
+  static const double iconXXS = 16;
+  static const double iconXS = 20;
+  static const double iconS = 24;
+  static const double iconM = 28;
+  static const double iconL = 32;
+  static const double iconXL = 36;
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:leafolyze/core/widgets/home/article_item_card.dart';
 import 'package:leafolyze/core/widgets/common/custom_search_bar.dart';
 import 'package:leafolyze/utils/constants.dart';
@@ -10,9 +11,14 @@ class ArticleListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
+        shrinkWrap: true,
+        scrollBehavior: const ScrollBehavior().copyWith(
+          overscroll: false,
+        ),
         slivers: [
           SliverAppBar(
             centerTitle: true,
+            backgroundColor: AppColors.backgroundColor,
             title: const Text(
               'Articles',
               style: TextStyle(
@@ -26,7 +32,7 @@ class ArticleListScreen extends StatelessWidget {
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
-                Navigator.of(context).pop();
+                context.pop();
               },
             ),
           ),

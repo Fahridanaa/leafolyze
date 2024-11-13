@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: AppSpacing.spacingM),
                 _buildArticleSection(
                   onPressed: () {
-                    context.go('/home/article');
+                    context.push('/home/article');
                   },
                 ),
                 SizedBox(height: AppSpacing.spacingL),
