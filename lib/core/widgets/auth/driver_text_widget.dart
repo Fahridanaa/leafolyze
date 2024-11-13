@@ -55,6 +55,7 @@ class AuthPromptText extends StatelessWidget {
             style: TextStyle(
               color: Colors.black,
               fontSize: AppFontSize.fontSizeMS,
+              fontWeight: AppFontWeight.semiBold,
             ),
           ),
         ),

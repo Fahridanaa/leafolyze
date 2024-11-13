@@ -20,7 +20,7 @@ class RoundedButton extends StatelessWidget {
             horizontal: AppSpacing.spacingL,
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppBorderRadius.radiusM),
+            borderRadius: BorderRadius.circular(AppBorderRadius.radiusXL),
           ),
         ),
         child: Text(
