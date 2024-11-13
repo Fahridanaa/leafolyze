@@ -25,10 +25,10 @@ class DetailedProductCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.backgroundColor,
         borderRadius: BorderRadius.circular(AppBorderRadius.radiusXS),
-        border: Border.all(color: AppColors.borderColor),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            offset: const Offset(0, 0),
+            color: Colors.black.withOpacity(0.25),
             blurRadius: 4,
           ),
         ],
@@ -42,16 +42,29 @@ class DetailedProductCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AspectRatio(
-                    aspectRatio: 1,
-                    child: ClipRRect(
+                  Container(
+                    decoration: BoxDecoration(
                       borderRadius:
                           BorderRadius.circular(AppBorderRadius.radiusXS),
-                      child: Image.network(
-                        imageUrl,
-                        height: MediaQuery.of(context).size.width * 0.35,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
+                      boxShadow: [
+                        BoxShadow(
+                          offset: const Offset(0, 0),
+                          color: Colors.black.withOpacity(0.25),
+                          blurRadius: 3,
+                        ),
+                      ],
+                    ),
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: ClipRRect(
+                        borderRadius:
+                            BorderRadius.circular(AppBorderRadius.radiusXS),
+                        child: Image.network(
+                          imageUrl,
+                          height: MediaQuery.of(context).size.width * 0.35,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
