@@ -46,7 +46,7 @@ class Home extends StatelessWidget {
       floatingActionButton:
           !GoRouterState.of(context).uri.path.startsWith('/diagnose')
               ? FloatingActionButton(
-                  backgroundColor: AppColors.GreenLogodanButton,
+                  backgroundColor: AppColors.primaryColor,
                   shape: const CircleBorder(),
                   child: const Icon(
                     Icons.camera_alt,

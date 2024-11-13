@@ -27,7 +27,7 @@ class ProfileScreen extends StatelessWidget {
           }
         },
         child: Scaffold(
-          backgroundColor: AppColors.GreenLogodanButton,
+          backgroundColor: AppColors.primaryColor,
           body: Column(
             children: [
               SizedBox(height: 50),
@@ -175,7 +175,7 @@ class ProfileScreen extends StatelessWidget {
               style: TextButton.styleFrom(
                 backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                  side: BorderSide(color: AppColors.logoRed),
+                  side: BorderSide(color: AppColors.errorColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -204,7 +204,7 @@ class ProfileScreen extends StatelessWidget {
                                 },
                                 child: const Text(
                                   'Keluar',
-                                  style: TextStyle(color: AppColors.logoRed),
+                                  style: TextStyle(color: AppColors.errorColor),
                                 ),
                               ),
                             ],
@@ -219,12 +219,12 @@ class ProfileScreen extends StatelessWidget {
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
                         valueColor:
-                            AlwaysStoppedAnimation<Color>(AppColors.logoRed),
+                            AlwaysStoppedAnimation<Color>(AppColors.errorColor),
                       ),
                     )
                   : const Text(
                       "Keluar",
-                      style: TextStyle(color: AppColors.logoRed, fontSize: 16),
+                      style: AppTextStyles.buttonTextStyle2,
                     ),
             ),
           ),

@@ -7,6 +7,7 @@ import 'package:leafolyze/core/widgets/auth/logo_section_widget.dart';
 import 'package:leafolyze/blocs/auth/auth_bloc.dart';
 import 'package:leafolyze/blocs/auth/auth_event.dart';
 import 'package:leafolyze/blocs/auth/auth_state.dart';
+import 'package:leafolyze/utils/constants.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -34,7 +35,8 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Scaffold(
           body: SafeArea(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: AppSpacing.spacingM),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -42,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     const SizedBox(height: 60),
                     LogoSection(),
-                    const SizedBox(height: 22),
+                    const SizedBox(height: AppSpacing.spacingL),
                     Stack(
                       clipBehavior: Clip.none,
                       children: [
@@ -51,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 18),
+                    const SizedBox(height: AppSpacing.spacingM),
                     AuthForm(
                       title: 'Welcome Back',
                       subtitle: 'Sign in to continue',
@@ -79,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
                       },
                     ),
-                    const SizedBox(height: 48),
+                    const SizedBox(height: AppSpacing.spacingXXL),
                     AuthPromptText(
                       promptText: "Don't have an account?",
                       actionText: "Sign up",
