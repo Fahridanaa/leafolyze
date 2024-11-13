@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:leafolyze/core/widgets/common/diagnosis_item.dart';
 import 'package:leafolyze/core/widgets/common/custom_search_bar.dart';
+import 'package:leafolyze/utils/constants.dart';
 
 final List<Map<String, String>> diagnosisData = [
   {
@@ -17,34 +18,44 @@ class HistoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
+        shrinkWrap: true,
+        scrollBehavior: const ScrollBehavior().copyWith(
+          overscroll: false,
+        ),
         slivers: [
           SliverAppBar(
             centerTitle: true,
-            title: Text(
+            title: const Text(
               'History',
               style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+                fontSize: AppFontSize.fontSizeXXL,
+                fontWeight: AppFontWeight.semiBold,
               ),
             ),
+            floating: true,
+            snap: true,
+            pinned: true,
+            expandedHeight: 80,
           ),
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: AppSpacing.spacingM),
               child: Column(
                 children: [
-                  const SizedBox(height: 28),
                   CustomSearchBar(
                     onChanged: (value) {},
                     onSubmitted: (value) {},
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppSpacing.spacingM),
                   ...diagnosisData.asMap().entries.map((entry) {
                     final index = entry.key;
                     final data = entry.value;
                     return Padding(
                       padding: EdgeInsets.only(
-                        bottom: index != diagnosisData.length - 1 ? 16.0 : 0,
+                        bottom: index != diagnosisData.length - 1
+                            ? AppSpacing.spacingM
+                            : 0,
                       ),
                       child: DiagnosisItem(
                         imagePath: data['imagePath']!,

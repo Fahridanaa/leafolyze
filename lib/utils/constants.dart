@@ -12,7 +12,9 @@ class AppColors {
   static const textColor = Color(0xFF020617);
   static const actionTextColor = Color(0xFF5A6D23);
 
-  static const borderColor = Color(0xFFE2E8F0);
+  static const borderColor = Color(0xFFBFC2C8);
+  static const borderColorLight = Color(0xFFF1F5F9);
+  static const borderColorDark = Color(0xFF1E293B);
 
   static const backgroundColor = Colors.white;
 

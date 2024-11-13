@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leafolyze/utils/constants.dart';
 
 class DiagnosisItem extends StatelessWidget {
   final String imagePath;
@@ -19,18 +20,18 @@ class DiagnosisItem extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: Color(0xFFBFC2C8),
+          color: AppColors.borderColor,
           width: 0.5,
         ),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(AppBorderRadius.radiusXS),
       ),
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(AppSpacing.spacingM),
       child: GestureDetector(
         onTap: onTap,
         child: Row(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(AppBorderRadius.radiusXS),
               child: Image.asset(
                 imagePath,
                 width: 60,
@@ -38,7 +39,7 @@ class DiagnosisItem extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            SizedBox(width: 16),
+            SizedBox(width: AppSpacing.spacingM),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,16 +47,16 @@ class DiagnosisItem extends StatelessWidget {
                   Text(
                     plantName,
                     style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                      fontSize: AppFontSize.fontSizeM,
+                      fontWeight: AppFontWeight.semiBold,
                     ),
                   ),
-                  SizedBox(height: 4),
+                  SizedBox(height: AppSpacing.spacingXS),
                   Text(
                     diseaseName,
                     style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey[600],
+                      fontSize: AppFontSize.fontSizeS,
+                      color: AppColors.textMutedColor,
                     ),
                   ),
                 ],
@@ -63,7 +64,7 @@ class DiagnosisItem extends StatelessWidget {
             ),
             Icon(
               Icons.chevron_right,
-              color: Colors.grey[400],
+              color: AppColors.textMutedColor,
               size: 24,
             ),
           ],
