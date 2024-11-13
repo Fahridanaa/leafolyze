@@ -44,7 +44,10 @@ class AuthForm extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Text(
             title,
-            style: AppTextStyles.heading1,
+            style: const TextStyle(
+              fontSize: AppFontSize.fontSizeXXL,
+              fontWeight: AppFontWeight.semiBold,
+            ),
           ),
         ),
         const SizedBox(height: AppSpacing.spacingXS),
@@ -52,7 +55,10 @@ class AuthForm extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Text(
             subtitle,
-            style: AppTextStyles.subHeading1,
+            style: const TextStyle(
+              fontSize: AppFontSize.fontSizeMS,
+              fontWeight: AppFontWeight.regular,
+            ),
           ),
         ),
         const SizedBox(height: AppSpacing.spacingL),
@@ -90,7 +96,10 @@ class AuthForm extends StatelessWidget {
               },
               child: const Text(
                 'Forgot Password?',
-                style: AppTextStyles.actionTextStyle,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: AppFontSize.fontSizeS,
+                ),
               ),
             ),
           ),

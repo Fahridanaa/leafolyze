@@ -15,14 +15,21 @@ class RoundedButton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primaryColor,
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+          padding: EdgeInsets.symmetric(
+            vertical: AppSpacing.spacingMS,
+            horizontal: AppSpacing.spacingL,
+          ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
+            borderRadius: BorderRadius.circular(AppBorderRadius.radiusM),
           ),
         ),
         child: Text(
           text,
-          style: AppTextStyles.buttonTextStyle,
+          style: TextStyle(
+            fontSize: AppFontSize.fontSizeM,
+            color: AppColors.primaryForegroundColor,
+            fontWeight: AppFontWeight.semiBold,
+          ),
         ),
       ),
     );

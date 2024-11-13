@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: AppSpacing.spacingM),
                     AuthForm(
                       title: 'Welcome Back',
-                      subtitle: 'Sign in to continue',
+                      subtitle: 'Log in and keep growing.',
                       buttonText: 'Log In',
                       inputFields: [
                         InputField(

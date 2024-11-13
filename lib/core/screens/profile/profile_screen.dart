@@ -224,7 +224,11 @@ class ProfileScreen extends StatelessWidget {
                     )
                   : const Text(
                       "Keluar",
-                      style: AppTextStyles.buttonTextStyle2,
+                      style: TextStyle(
+                        fontSize: AppFontSize.fontSizeM,
+                        color: AppColors.errorColor,
+                        fontWeight: AppFontWeight.semiBold,
+                      ),
                     ),
             ),
           ),

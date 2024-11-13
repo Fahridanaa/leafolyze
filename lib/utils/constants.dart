@@ -14,87 +14,24 @@ class AppColors {
 }
 
 @immutable
-class AppTextStyles {
-  //heading
-  static const heading1 = TextStyle(
-    fontSize: 24,
-    fontWeight: FontWeight.w600,
-    color: AppColors.textColor,
-  );
-  static const heading2 = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w600,
-    color: AppColors.textColor,
-  );
-  static const heading3 = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w600,
-    color: AppColors.textColor,
-  );
+class AppFontSize {
+  static const double fontSizeXXL = 24;
+  static const double fontSizeXL = 20;
+  static const double fontSizeL = 18;
+  static const double fontSizeM = 16;
+  static const double fontSizeMS = 14;
+  static const double fontSizeS = 12;
+  static const double fontSizeXS = 10;
+  static const double fontSizeXXS = 8;
+}
 
-  static const headingCard = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w600,
-    color: AppColors.primaryColorDark,
-  );
-
-  static const headingCard2 = TextStyle(
-    color: Colors.white,
-    fontSize: 12,
-    fontWeight: FontWeight.w600,
-  );
-
-  //subheading
-  static const subHeading1 = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    color: AppColors.textMutedColor,
-  );
-
-  static const contentCard = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w500,
-    color: AppColors.primaryForegroundColor,
-  );
-
-  static TextStyle contentCard2 = TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w500,
-    color: Colors.white.withOpacity(0.8),
-  );
-
-  //text
-  static const promptTextStyle = TextStyle(
-    fontSize: 14,
-    color: AppColors.textMutedColor,
-  );
-
-  static const actionTextStyle = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w500,
-    color: AppColors.textColor,
-  );
-  static const actionTextStyle2 = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w500,
-    color: AppColors.actionTextColor,
-  );
-
-  static const buttonTextStyle = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w600,
-    color: AppColors.primaryForegroundColor,
-  );
-  static const buttonTextStyle2 = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w600,
-    color: AppColors.errorColor,
-  );
-
-  static const inputErrorTextStyle = TextStyle(
-    fontSize: 14,
-    color: AppColors.errorColor,
-  );
+@immutable
+class AppFontWeight {
+  static const FontWeight bold = FontWeight.w700;
+  static const FontWeight semiBold = FontWeight.w600;
+  static const FontWeight medium = FontWeight.w500;
+  static const FontWeight regular = FontWeight.w400;
+  static const FontWeight light = FontWeight.w300;
 }
 
 @immutable

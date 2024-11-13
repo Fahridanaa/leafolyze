@@ -50,11 +50,17 @@ Widget _buildGreetingSection() {
         children: [
           Text(
             'Hi, John',
-            style: AppTextStyles.heading3,
+            style: TextStyle(
+              fontSize: AppFontSize.fontSizeMS,
+              fontWeight: AppFontWeight.semiBold,
+            ),
           ),
           Text(
             'Good Morning!',
-            style: AppTextStyles.heading2,
+            style: TextStyle(
+              fontSize: AppFontSize.fontSizeM,
+              fontWeight: AppFontWeight.bold,
+            ),
           ),
         ],
       ),
@@ -93,12 +99,20 @@ Widget _buildWateringReminder() {
                 children: [
                   Text(
                     'Watering Reminder!',
-                    style: AppTextStyles.headingCard,
+                    style: TextStyle(
+                      fontSize: AppFontSize.fontSizeM,
+                      fontWeight: AppFontWeight.bold,
+                      color: AppColors.primaryColorDark,
+                    ),
                   ),
                   SizedBox(height: AppSpacing.spacingXXS),
                   Text(
                     'Give enough water to maximize plant growth',
-                    style: AppTextStyles.contentCard,
+                    style: TextStyle(
+                      fontSize: AppFontSize.fontSizeS,
+                      fontWeight: AppFontWeight.medium,
+                      color: AppColors.actionTextColor,
+                    ),
                   ),
                 ],
               ),
@@ -126,13 +140,20 @@ Widget _buildArticleSection({required Function() onPressed}) {
         children: [
           Text(
             'Explore Article',
-            style: AppTextStyles.heading3,
+            style: TextStyle(
+              fontSize: AppFontSize.fontSizeMS,
+              fontWeight: AppFontWeight.semiBold,
+            ),
           ),
           TextButton(
             onPressed: onPressed,
             child: Text(
               'See all',
-              style: AppTextStyles.actionTextStyle2,
+              style: TextStyle(
+                fontSize: AppFontSize.fontSizeMS,
+                fontWeight: AppFontWeight.medium,
+                color: AppColors.actionTextColor,
+              ),
             ),
           ),
         ],
@@ -181,14 +202,22 @@ Widget _buildArticleSection({required Function() onPressed}) {
                     children: [
                       Text(
                         'Bacterial Spot',
-                        style: AppTextStyles.headingCard2,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: AppFontSize.fontSizeS,
+                          fontWeight: AppFontWeight.semiBold,
+                        ),
                       ),
                       SizedBox(height: AppSpacing.spacingS),
                       SizedBox(
                         width: 160,
                         child: Text(
                           'Lorem ipsum odor amet, consectetuer adipiscing elit. Sodales proin luctus vestibulum',
-                          style: AppTextStyles.contentCard2,
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.8),
+                            fontSize: AppFontSize.fontSizeXXS,
+                            fontWeight: AppFontWeight.regular,
+                          ),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                         ),
@@ -255,13 +284,23 @@ Widget _buildRecentDiagnosis() {
               Center(
                 child: Text(
                   'Recent Diagnosis',
-                  style: AppTextStyles.heading3,
+                  style: TextStyle(
+                    fontSize: AppFontSize.fontSizeMS,
+                    fontWeight: AppFontWeight.semiBold,
+                  ),
                 ),
               ),
               TextButton(
                 onPressed: () {},
                 child: Center(
-                  child: Text('See all', style: AppTextStyles.actionTextStyle2),
+                  child: Text(
+                    'See all',
+                    style: TextStyle(
+                      fontSize: AppFontSize.fontSizeMS,
+                      fontWeight: AppFontWeight.medium,
+                      color: AppColors.actionTextColor,
+                    ),
+                  ),
                 ),
               ),
             ],

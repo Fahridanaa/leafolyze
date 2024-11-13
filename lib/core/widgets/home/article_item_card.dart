@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leafolyze/utils/constants.dart';
 
 class ArticleItemCard extends StatelessWidget {
   final String imageUrl;
@@ -15,9 +16,12 @@ class ArticleItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSpacing.spacingM,
+        vertical: AppSpacing.spacingS,
+      ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppBorderRadius.radiusM),
         child: Stack(
           children: [
             Image.network(
@@ -31,7 +35,7 @@ class ArticleItemCard extends StatelessWidget {
               left: 0,
               right: 0,
               child: Container(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(AppSpacing.spacingM),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -49,16 +53,17 @@ class ArticleItemCard extends StatelessWidget {
                       title,
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                        fontSize: AppFontSize.fontSizeL,
+                        fontWeight: AppFontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       description,
                       style: const TextStyle(
-                        color: Colors.white70,
-                        fontSize: 14,
+                        color: Colors.white,
+                        fontSize: AppFontSize.fontSizeMS,
+                        fontWeight: AppFontWeight.regular,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,

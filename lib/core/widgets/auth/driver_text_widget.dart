@@ -42,14 +42,20 @@ class AuthPromptText extends StatelessWidget {
       children: [
         Text(
           promptText,
-          style: AppTextStyles.promptTextStyle,
+          style: TextStyle(
+            color: AppColors.textMutedColor,
+            fontSize: AppFontSize.fontSizeMS,
+          ),
         ),
         const SizedBox(width: AppSpacing.spacingXXS),
         GestureDetector(
           onTap: onTap,
           child: Text(
             actionText,
-            style: AppTextStyles.actionTextStyle,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: AppFontSize.fontSizeMS,
+            ),
           ),
         ),
       ],
