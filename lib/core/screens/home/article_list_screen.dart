@@ -22,8 +22,8 @@ class ArticleListScreen extends StatelessWidget {
             title: const Text(
               'Articles',
               style: TextStyle(
-                fontSize: AppFontSize.fontSizeL,
-                fontWeight: AppFontWeight.bold,
+                fontSize: AppFontSize.fontSizeXXL,
+                fontWeight: AppFontWeight.semiBold,
               ),
             ),
             floating: true,

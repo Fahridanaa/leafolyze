@@ -5,11 +5,17 @@ class AppColors {
   static const primaryColor = Color(0xFFB4DB46);
   static const primaryColorLight = Color(0xFFF0F8DA);
   static const primaryColorDark = Color(0xFF242C0E);
+
   static const primaryForegroundColor = Color(0xFF272D20);
+
   static const textMutedColor = Color(0xFF64748B);
   static const textColor = Color(0xFF020617);
   static const actionTextColor = Color(0xFF5A6D23);
+
+  static const borderColor = Color(0xFFE2E8F0);
+
   static const backgroundColor = Colors.white;
+
   static const errorColor = Color.fromARGB(255, 210, 75, 75);
 }
 
@@ -46,6 +52,7 @@ class AppLineHeight {
 
 @immutable
 class AppSpacing {
+  static const double spacingXXXS = 2;
   static const double spacingXXS = 4;
   static const double spacingXS = 6;
   static const double spacingS = 8;
@@ -63,10 +70,12 @@ class AppBorderRadius {
   static const double radiusS = 12;
   static const double radiusM = 16;
   static const double radiusL = 24;
+  static const double radiusXL = 32;
 }
 
 @immutable
 class AppIconSize {
+  static const double iconXXXS = 14;
   static const double iconXXS = 16;
   static const double iconXS = 20;
   static const double iconS = 24;
