@@ -15,26 +15,31 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: AppSpacing.spacingM),
-            child: Column(
-              children: [
-                _buildGreetingSection(),
-                SizedBox(height: AppSpacing.spacingL),
-                _buildWateringReminder(),
-                SizedBox(height: AppSpacing.spacingM),
-                _buildArticleSection(
-                  onPressed: () {
-                    context.push('/home/article');
-                  },
-                ),
-                SizedBox(height: AppSpacing.spacingL),
-                _buildRecentDiagnosis(),
-              ],
-            ),
+        child: CustomScrollView(
+          shrinkWrap: true,
+          scrollBehavior: const ScrollBehavior().copyWith(
+            overscroll: false,
           ),
+          slivers: [
+            SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: AppSpacing.spacingM),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  _buildGreetingSection(),
+                  SizedBox(height: AppSpacing.spacingL),
+                  _buildWateringReminder(),
+                  SizedBox(height: AppSpacing.spacingM),
+                  _buildArticleSection(
+                    onPressed: () {
+                      context.push('/home/article');
+                    },
+                  ),
+                  SizedBox(height: AppSpacing.spacingL),
+                  _buildRecentDiagnosis(),
+                ]),
+              ),
+            ),
+          ],
         ),
       ),
     );
