@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leafolyze/utils/constants.dart';
 
 class DiagnosisItem extends StatelessWidget {
   final String imagePath;
@@ -16,48 +17,58 @@ class DiagnosisItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Image.asset(
-              imagePath,
-              width: 60,
-              height: 60,
-              fit: BoxFit.cover,
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: AppColors.borderColor,
+          width: 0.5,
+        ),
+        borderRadius: BorderRadius.circular(AppBorderRadius.radiusXS),
+      ),
+      padding: EdgeInsets.all(AppSpacing.spacingM),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(AppBorderRadius.radiusXS),
+              child: Image.asset(
+                imagePath,
+                width: 60,
+                height: 60,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  plantName,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+            SizedBox(width: AppSpacing.spacingM),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    plantName,
+                    style: TextStyle(
+                      fontSize: AppFontSize.fontSizeM,
+                      fontWeight: AppFontWeight.semiBold,
+                    ),
                   ),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  diseaseName,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
+                  SizedBox(height: AppSpacing.spacingXS),
+                  Text(
+                    diseaseName,
+                    style: TextStyle(
+                      fontSize: AppFontSize.fontSizeS,
+                      color: AppColors.textMutedColor,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Icon(
-            Icons.chevron_right,
-            color: Colors.grey[400],
-            size: 24,
-          ),
-        ],
+            Icon(
+              Icons.chevron_right,
+              color: AppColors.textMutedColor,
+              size: 24,
+            ),
+          ],
+        ),
       ),
     );
   }

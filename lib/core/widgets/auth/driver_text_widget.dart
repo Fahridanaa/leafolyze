@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leafolyze/utils/constants.dart';
 
 class DividerWithText extends StatelessWidget {
   final String text;
@@ -10,7 +11,7 @@ class DividerWithText extends StatelessWidget {
       children: [
         Expanded(child: Divider()),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.spacingS),
           child: Text(
             text,
             style: TextStyle(color: Colors.grey),
@@ -41,16 +42,20 @@ class AuthPromptText extends StatelessWidget {
       children: [
         Text(
           promptText,
-          style: const TextStyle(color: Color(0xFF4F4F4F)),
+          style: TextStyle(
+            color: AppColors.textMutedColor,
+            fontSize: AppFontSize.fontSizeMS,
+          ),
         ),
-        const SizedBox(width: 4),
+        const SizedBox(width: AppSpacing.spacingXXS),
         GestureDetector(
           onTap: onTap,
           child: Text(
             actionText,
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.black,
-              fontWeight: FontWeight.bold,
+              fontSize: AppFontSize.fontSizeMS,
+              fontWeight: AppFontWeight.semiBold,
             ),
           ),
         ),

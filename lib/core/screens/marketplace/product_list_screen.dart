@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:leafolyze/core/widgets/common/custom_search_bar.dart';
 import 'package:leafolyze/core/widgets/marketplace/detailed_product_card.dart';
+import 'package:leafolyze/utils/constants.dart';
 
 class ProductListScreen extends StatefulWidget {
   const ProductListScreen({super.key});
@@ -17,16 +17,21 @@ class _ProductListScreenState extends State<ProductListScreen> {
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+        borderRadius: BorderRadius.vertical(
+            top: Radius.circular(AppBorderRadius.radiusS)),
       ),
       builder: (BuildContext context) {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              title: const Text('Sort By',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.black)),
+              title: const Text(
+                'Sort By',
+                style: TextStyle(
+                  fontWeight: AppFontWeight.semiBold,
+                  color: AppColors.textMutedColor,
+                ),
+              ),
             ),
             RadioListTile<String>(
               title: const Text('Recently Added'),
@@ -39,7 +44,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 Navigator.pop(context);
               },
               controlAffinity: ListTileControlAffinity.trailing,
-              activeColor: Colors.black,
+              activeColor: AppColors.textColor,
             ),
             RadioListTile<String>(
               title: const Text('Price: Low to High'),
@@ -52,7 +57,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 Navigator.pop(context);
               },
               controlAffinity: ListTileControlAffinity.trailing,
-              activeColor: Colors.black,
+              activeColor: AppColors.textColor,
             ),
             RadioListTile<String>(
               title: const Text('Price: High to Low'),
@@ -65,7 +70,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 Navigator.pop(context);
               },
               controlAffinity: ListTileControlAffinity.trailing,
-              activeColor: Colors.black,
+              activeColor: AppColors.textColor,
             ),
             RadioListTile<String>(
               title: const Text('Top Rated'),
@@ -78,7 +83,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 Navigator.pop(context);
               },
               controlAffinity: ListTileControlAffinity.trailing,
-              activeColor: Colors.black,
+              activeColor: AppColors.textColor,
             ),
           ],
         );
@@ -90,78 +95,105 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
+        shrinkWrap: true,
+        scrollBehavior: const ScrollBehavior().copyWith(
+          overscroll: false,
+        ),
         slivers: [
           SliverAppBar(
+            backgroundColor: AppColors.backgroundColor,
             centerTitle: true,
-            title: const Text('Actigard'),
+            title: Text(
+              'Actigard',
+              style: TextStyle(
+                fontSize: AppFontSize.fontSizeXXL,
+                fontWeight: AppFontWeight.semiBold,
+              ),
+            ),
             floating: true,
             snap: true,
             pinned: true,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                context.go('/marketplace');
-              },
-            ),
+            expandedHeight: 80,
           ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CustomSearchBar(
-                // TODO: Implement search functionality
-                onChanged: (value) {},
-                onSubmitted: (value) {},
-              ),
-            ),
-          ),
-          // Sort By and Filter
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        _showSortOptions(context);
-                      },
-                      icon: const Icon(Icons.sort, color: Colors.black),
-                      label: const Text('Sort By',
-                          style: TextStyle(color: Colors.black)),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            const Color.fromARGB(255, 255, 255, 255),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        // Implementasi "Filter"
-                      },
-                      icon: const Icon(Icons.filter_list, color: Colors.black),
-                      label: const Text('Filter',
-                          style: TextStyle(color: Colors.black)),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            const Color.fromARGB(255, 255, 255, 255),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          // Product Grid
           SliverPadding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.symmetric(
+              horizontal: AppSpacing.spacingM,
+            ),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
+                CustomSearchBar(
+                  // TODO: Implement search functionality
+                  onChanged: (value) {},
+                  onSubmitted: (value) {},
+                ),
+                SizedBox(height: AppSpacing.spacingM),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          _showSortOptions(context);
+                        },
+                        icon: const Icon(
+                          Icons.sort,
+                          color: AppColors.textColor,
+                          size: AppIconSize.iconS,
+                        ),
+                        label: Text(
+                          'Sort By',
+                          style: TextStyle(
+                            color: AppColors.textColor,
+                            fontSize: AppFontSize.fontSizeMS,
+                            fontWeight: AppFontWeight.semiBold,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 255, 255, 255),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: AppSpacing.spacingXS),
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          // Implementasi "Filter"
+                        },
+                        icon: const Icon(
+                          Icons.filter_list,
+                          color: AppColors.textColor,
+                          size: AppIconSize.iconS,
+                        ),
+                        label: const Text(
+                          'Filter',
+                          style: TextStyle(
+                            color: AppColors.textColor,
+                            fontSize: AppFontSize.fontSizeMS,
+                            fontWeight: AppFontWeight.semiBold,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 255, 255, 255),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ]),
+            ),
+          ),
+          SliverPadding(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppSpacing.spacingM,
+              vertical: AppSpacing.spacingM,
+            ),
             sliver: SliverGrid(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 0.6,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 8,
+                childAspectRatio: 0.63,
+                mainAxisSpacing: AppSpacing.spacingMS,
+                crossAxisSpacing: AppSpacing.spacingMS,
               ),
               delegate: SliverChildBuilderDelegate(
                 (context, index) {

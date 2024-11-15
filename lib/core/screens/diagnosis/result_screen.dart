@@ -31,9 +31,9 @@ class ResultScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.GreenLogodanButton,
+      backgroundColor: AppColors.primaryColor,
       appBar: AppBar(
-        backgroundColor: AppColors.GreenLogodanButton,
+        backgroundColor: AppColors.primaryColor,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
@@ -171,7 +171,7 @@ class ResultScreen extends StatelessWidget {
                   child: _buildActionButton(
                     "Re-generate",
                     Colors.white,
-                    AppColors.GreenLogodanButton,
+                    AppColors.primaryColor,
                     onPressed: () {
                       // Action for Re-generate button
                     },
@@ -181,7 +181,7 @@ class ResultScreen extends StatelessWidget {
                 Expanded(
                   child: _buildActionButton(
                     "Save",
-                    AppColors.GreenLogodanButton,
+                    AppColors.primaryColor,
                     Colors.white,
                     onPressed: () {
                       // Memanggil SaveDialog ketika tombol Save ditekan
@@ -276,7 +276,7 @@ class ResultScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 14),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
-          side: BorderSide(color: AppColors.GreenLogodanButton),
+          side: BorderSide(color: AppColors.primaryColor),
         ),
       ),
       onPressed: onPressed,

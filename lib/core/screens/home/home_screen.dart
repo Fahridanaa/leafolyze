@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:leafolyze/core/widgets/common/diagnosis_item.dart';
+import 'package:leafolyze/utils/constants.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,24 +14,32 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 58),
-          child: Column(
-            children: [
-              _buildGreetingSection(),
-              SizedBox(height: 24),
-              _buildWateringReminder(),
-              SizedBox(height: 24),
-              _buildArticleSection(
-                onPressed: () {
-                  context.go('/home/article');
-                },
-              ),
-              SizedBox(height: 24),
-              _buildRecentDiagnosis(),
-            ],
+      body: SafeArea(
+        child: CustomScrollView(
+          shrinkWrap: true,
+          scrollBehavior: const ScrollBehavior().copyWith(
+            overscroll: false,
           ),
+          slivers: [
+            SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: AppSpacing.spacingM),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  _buildGreetingSection(),
+                  SizedBox(height: AppSpacing.spacingL),
+                  _buildWateringReminder(),
+                  SizedBox(height: AppSpacing.spacingM),
+                  _buildArticleSection(
+                    onPressed: () {
+                      context.push('/home/article');
+                    },
+                  ),
+                  SizedBox(height: AppSpacing.spacingL),
+                  _buildRecentDiagnosis(),
+                ]),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -46,11 +55,17 @@ Widget _buildGreetingSection() {
         children: [
           Text(
             'Hi, John',
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              fontSize: AppFontSize.fontSizeMS,
+              fontWeight: AppFontWeight.semiBold,
+            ),
           ),
           Text(
             'Good Morning!',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+            style: TextStyle(
+              fontSize: AppFontSize.fontSizeM,
+              fontWeight: AppFontWeight.bold,
+            ),
           ),
         ],
       ),
@@ -68,10 +83,10 @@ Widget _buildWateringReminder() {
     clipBehavior: Clip.none,
     children: [
       Container(
-        padding: EdgeInsets.symmetric(vertical: 28.5, horizontal: 24),
+        padding: EdgeInsets.all(AppSpacing.spacingL),
         decoration: BoxDecoration(
-          color: Color(0xFFF0F8DA),
-          borderRadius: BorderRadius.circular(12),
+          color: AppColors.primaryColorLight,
+          borderRadius: BorderRadius.circular(AppBorderRadius.radiusS),
           boxShadow: [
             BoxShadow(
               offset: Offset(0, 9),
@@ -90,17 +105,19 @@ Widget _buildWateringReminder() {
                   Text(
                     'Watering Reminder!',
                     style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF242C0E)),
+                      fontSize: AppFontSize.fontSizeM,
+                      fontWeight: AppFontWeight.bold,
+                      color: AppColors.primaryColorDark,
+                    ),
                   ),
-                  SizedBox(height: 2),
+                  SizedBox(height: AppSpacing.spacingXXS),
                   Text(
                     'Give enough water to maximize plant growth',
                     style: TextStyle(
-                        fontSize: 12,
-                        color: Color(0xFF5A6D23),
-                        fontWeight: FontWeight.w500),
+                      fontSize: AppFontSize.fontSizeS,
+                      fontWeight: AppFontWeight.medium,
+                      color: AppColors.actionTextColor,
+                    ),
                   ),
                 ],
               ),
@@ -129,8 +146,8 @@ Widget _buildArticleSection({required Function() onPressed}) {
           Text(
             'Explore Article',
             style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
+              fontSize: AppFontSize.fontSizeMS,
+              fontWeight: AppFontWeight.semiBold,
             ),
           ),
           TextButton(
@@ -138,9 +155,9 @@ Widget _buildArticleSection({required Function() onPressed}) {
             child: Text(
               'See all',
               style: TextStyle(
-                fontSize: 14,
-                color: Color(0xFF5A6D23),
-                fontWeight: FontWeight.w500,
+                fontSize: AppFontSize.fontSizeMS,
+                fontWeight: AppFontWeight.semiBold,
+                color: AppColors.actionTextColor,
               ),
             ),
           ),
@@ -156,9 +173,10 @@ Widget _buildArticleSection({required Function() onPressed}) {
               children: [
                 Container(
                   width: 240,
-                  margin: EdgeInsets.only(right: 8),
+                  margin: EdgeInsets.only(right: AppSpacing.spacingS),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius:
+                        BorderRadius.circular(AppBorderRadius.radiusS),
                     image: DecorationImage(
                       image: AssetImage(
                           'assets/images/ren-ran-bBiuSdck8tU-unsplash.jpg'),
@@ -168,9 +186,10 @@ Widget _buildArticleSection({required Function() onPressed}) {
                 ),
                 Container(
                   width: 240,
-                  margin: EdgeInsets.only(right: 8),
+                  margin: EdgeInsets.only(right: AppSpacing.spacingS),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius:
+                        BorderRadius.circular(AppBorderRadius.radiusS),
                     gradient: LinearGradient(
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter,
@@ -181,7 +200,7 @@ Widget _buildArticleSection({required Function() onPressed}) {
                       stops: [0.0, 0.7],
                     ),
                   ),
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(AppSpacing.spacingS),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -190,19 +209,19 @@ Widget _buildArticleSection({required Function() onPressed}) {
                         'Bacterial Spot',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
+                          fontSize: AppFontSize.fontSizeS,
+                          fontWeight: AppFontWeight.semiBold,
                         ),
                       ),
-                      SizedBox(height: 8),
+                      SizedBox(height: AppSpacing.spacingXXS),
                       SizedBox(
                         width: 160,
                         child: Text(
                           'Lorem ipsum odor amet, consectetuer adipiscing elit. Sodales proin luctus vestibulum',
                           style: TextStyle(
                             color: Colors.white.withOpacity(0.8),
-                            fontSize: 8,
-                            fontWeight: FontWeight.w400,
+                            fontSize: AppFontSize.fontSizeXXS,
+                            fontWeight: AppFontWeight.regular,
                           ),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 3,
@@ -243,10 +262,15 @@ Widget _buildRecentDiagnosis() {
   // final displayedItems = diagnosisItems.take(3).toList();
 
   return Container(
-    padding: EdgeInsets.fromLTRB(8, 0, 8, 12),
+    padding: EdgeInsets.fromLTRB(
+      AppSpacing.spacingS,
+      0,
+      AppSpacing.spacingS,
+      AppSpacing.spacingMS,
+    ),
     decoration: BoxDecoration(
       color: Colors.white,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(AppBorderRadius.radiusM),
       boxShadow: [
         BoxShadow(
           offset: Offset(0, 0),
@@ -258,7 +282,7 @@ Widget _buildRecentDiagnosis() {
     child: Column(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 6),
+          padding: EdgeInsets.symmetric(horizontal: AppSpacing.spacingXS),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -266,8 +290,8 @@ Widget _buildRecentDiagnosis() {
                 child: Text(
                   'Recent Diagnosis',
                   style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
+                    fontSize: AppFontSize.fontSizeMS,
+                    fontWeight: AppFontWeight.semiBold,
                   ),
                 ),
               ),
@@ -277,9 +301,9 @@ Widget _buildRecentDiagnosis() {
                   child: Text(
                     'See all',
                     style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF5A6D23),
-                      fontWeight: FontWeight.w500,
+                      fontSize: AppFontSize.fontSizeMS,
+                      fontWeight: AppFontWeight.semiBold,
+                      color: AppColors.actionTextColor,
                     ),
                   ),
                 ),
@@ -292,26 +316,17 @@ Widget _buildRecentDiagnosis() {
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           itemCount: diagnosisItems.length,
-          separatorBuilder: (context, index) => SizedBox(height: 8),
+          separatorBuilder: (context, index) =>
+              SizedBox(height: AppSpacing.spacingS),
           itemBuilder: (context, index) {
             final item = diagnosisItems[index];
-            return Container(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-              decoration: BoxDecoration(
-                color: Color(0xFFF8FAFC),
-                border: Border.all(
-                  color: Color(0xFFBFC2C8).withOpacity(0.4),
-                ),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: DiagnosisItem(
-                imagePath: item['imagePath']!,
-                plantName: item['plantName']!,
-                diseaseName: item['diseaseName']!,
-                onTap: () {
-                  // Handle tap for specific item
-                },
-              ),
+            return DiagnosisItem(
+              imagePath: item['imagePath']!,
+              plantName: item['plantName']!,
+              diseaseName: item['diseaseName']!,
+              onTap: () {
+                // Handle tap for specific item
+              },
             );
           },
         ),

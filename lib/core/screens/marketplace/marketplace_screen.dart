@@ -50,107 +50,115 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
+        shrinkWrap: true,
+        scrollBehavior: const ScrollBehavior().copyWith(
+          overscroll: false,
+        ),
         slivers: [
           SliverAppBar(
             centerTitle: true,
-            title: const Text('Marketplace'),
+            title: const Text(
+              'Marketplace',
+              style: TextStyle(
+                fontSize: AppFontSize.fontSizeXXL,
+                fontWeight: AppFontWeight.semiBold,
+              ),
+            ),
             floating: true,
             snap: true,
             pinned: true,
+            expandedHeight: 80,
           ),
-          SliverToBoxAdapter(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: CustomSearchBar(
-                    // TODO: Implement search functionality
-                    onChanged: (value) {},
-                    onSubmitted: (value) {},
-                  ),
-                ),
-                SizedBox(height: 8),
-                SizedBox(
-                  height: 40,
-                  child: ListView.builder(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: filters.length,
-                    itemBuilder: (context, index) {
-                      final isSelected = selectedFilterIndex == index;
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 8),
-                        child: ChoiceChip(
-                          showCheckmark: false,
-                          label: Text(
-                            filters[index],
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
+          SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: AppSpacing.spacingM),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    CustomSearchBar(
+                      // TODO: Implement search functionality
+                      onChanged: (value) {},
+                      onSubmitted: (value) {},
+                    ),
+                    SizedBox(height: AppSpacing.spacingM),
+                    SizedBox(
+                      height: 40,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: filters.length,
+                        itemBuilder: (context, index) {
+                          final isSelected = selectedFilterIndex == index;
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                                right: AppSpacing.spacingS),
+                            child: ChoiceChip(
+                              showCheckmark: false,
+                              label: Text(
+                                filters[index],
+                                style: TextStyle(
+                                  color: AppColors.textColor,
+                                  fontSize: AppFontSize.fontSizeS,
+                                  fontWeight: AppFontWeight.semiBold,
+                                ),
+                              ),
+                              selected: isSelected,
+                              onSelected: (bool selected) {
+                                setState(() {
+                                  selectedFilterIndex = index;
+                                });
+                              },
+                              backgroundColor: AppColors.backgroundColor,
+                              selectedColor: AppColors.primaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    AppBorderRadius.radiusXL),
+                                side: BorderSide(
+                                  color: isSelected
+                                      ? Colors.transparent
+                                      : AppColors.borderColor,
+                                ),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: AppSpacing.spacingM),
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
                             ),
-                          ),
-                          selected: isSelected,
-                          onSelected: (bool selected) {
-                            setState(() {
-                              selectedFilterIndex = index;
-                            });
-                          },
-                          backgroundColor: Colors.white,
-                          selectedColor: AppColors.primaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            side: BorderSide(
-                              color: isSelected
-                                  ? Colors.transparent
-                                  : Colors.black,
-                            ),
-                          ),
-                          padding: EdgeInsets.symmetric(horizontal: 12),
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: 24),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Align(
-                    alignment: Alignment.centerLeft, // Add this
-                    child: Text(
-                      'Obat Tanaman',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600,
+                          );
+                        },
                       ),
                     ),
-                  ),
+                    SizedBox(height: AppSpacing.spacingM),
+                    Text(
+                      'Obat Tanaman',
+                      style: TextStyle(
+                        fontSize: AppFontSize.fontSizeL,
+                        fontWeight: AppFontWeight.semiBold,
+                      ),
+                    ),
+                    SizedBox(height: AppSpacing.spacingM),
+                  ],
                 ),
-                SizedBox(height: 16),
-                GridView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.8,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                  ),
-                  itemCount: products.length,
-                  itemBuilder: (context, index) {
-                    final product = products[index];
-                    return ProductCard(
-                      id: product['id'],
-                      // imageUrl: product['image'],
-                      name: product['name'],
-                      price: product['price'],
-                    );
-                  },
-                ),
-              ],
+              )),
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: AppSpacing.spacingM),
+            sliver: SliverGrid(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.8,
+                crossAxisSpacing: AppSpacing.spacingM,
+                mainAxisSpacing: AppSpacing.spacingS,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  final product = products[index];
+                  return ProductCard(
+                    id: product['id'],
+                    // imageUrl: product['image'],
+                    name: product['name'],
+                    price: product['price'],
+                  );
+                },
+                childCount: products.length,
+              ),
             ),
           ),
         ],

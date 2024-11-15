@@ -7,12 +7,14 @@ class InputField {
   final String hint;
   final bool isPassword;
   final IconData? suffixIcon;
+  final TextEditingController controller;
 
   const InputField({
     required this.label,
     required this.hint,
     this.isPassword = false,
     this.suffixIcon,
+    required this.controller,
   });
 }
 
@@ -42,55 +44,69 @@ class AuthForm extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Text(
             title,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
-            textAlign: TextAlign.left,
+            style: const TextStyle(
+              fontSize: AppFontSize.fontSizeXXL,
+              fontWeight: AppFontWeight.semiBold,
+            ),
           ),
         ),
-        const SizedBox(height: 6),
+        const SizedBox(height: AppSpacing.spacingXS),
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
             subtitle,
             style: const TextStyle(
-                fontSize: 14, color: AppColors.mutedForegroundColor),
-            textAlign: TextAlign.left,
+              fontSize: AppFontSize.fontSizeMS,
+              fontWeight: AppFontWeight.regular,
+            ),
           ),
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: AppSpacing.spacingL),
         ...inputFields.map((field) => Column(
               children: [
-                TextField(
+                TextFormField(
+                  controller: field.controller,
                   obscureText: field.isPassword,
                   decoration: InputDecoration(
                     labelText: field.label,
                     hintText: field.hint,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius:
+                          BorderRadius.circular(AppBorderRadius.radiusXS),
                     ),
                     suffixIcon: field.suffixIcon != null
                         ? Icon(field.suffixIcon)
                         : null,
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: AppSpacing.spacingM),
               ],
             )),
         if (showForgotPassword) ...[
           Align(
             alignment: Alignment.centerRight,
             child: TextButton(
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.zero,
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
               onPressed: () {
                 // Handle forgot password action
               },
               child: const Text(
                 'Forgot Password?',
-                style: TextStyle(color: Colors.black, fontSize: 12),
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: AppFontSize.fontSizeS,
+                  fontWeight: AppFontWeight.semiBold,
+                ),
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.spacingM),
         ] else
-          const SizedBox(height: 32),
+          const SizedBox(height: AppSpacing.spacingL),
         RoundedButton(text: buttonText, onPressed: onPressed),
       ],
     );

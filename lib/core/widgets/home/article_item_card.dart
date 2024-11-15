@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:leafolyze/utils/constants.dart';
 
 class ArticleItemCard extends StatelessWidget {
   final String imageUrl;
@@ -14,60 +16,72 @@ class ArticleItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: Stack(
-          children: [
-            Image.network(
-              imageUrl,
-              height: 200,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.black.withOpacity(0.6),
-                      Colors.transparent,
+    return InkWell(
+      onTap: () {
+        context.push('/home/article/detail');
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSpacing.spacingM,
+          vertical: AppSpacing.spacingS,
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(AppBorderRadius.radiusM),
+          child: Stack(
+            children: [
+              Image.network(
+                imageUrl,
+                height: MediaQuery.of(context).size.height * 0.2,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  padding: EdgeInsets.all(AppSpacing.spacingM),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.black.withOpacity(0.9),
+                        Colors.transparent,
+                      ],
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: AppFontSize.fontSizeL,
+                          fontWeight: AppFontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: Text(
+                          description,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: AppFontSize.fontSizeXXS,
+                            fontWeight: AppFontWeight.regular,
+                          ),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                        ),
+                      ),
                     ],
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
                   ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      description,
-                      style: const TextStyle(
-                        color: Colors.white70,
-                        fontSize: 14,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
