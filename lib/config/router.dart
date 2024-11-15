@@ -5,6 +5,7 @@ import 'package:leafolyze/core/screens/history/history_screen.dart';
 import 'package:leafolyze/core/screens/home/article_detail_screen.dart';
 import 'package:leafolyze/core/screens/home/article_list_screen.dart';
 import 'package:leafolyze/core/screens/home/home_screen.dart';
+import 'package:leafolyze/core/screens/marketplace/marketplace_detail_screen.dart';
 import 'package:leafolyze/core/screens/marketplace/marketplace_screen.dart';
 import 'package:leafolyze/core/screens/marketplace/product_list_screen.dart';
 import 'package:leafolyze/core/screens/onboarding/landing_screen.dart';
@@ -73,7 +74,14 @@ final goRouter = GoRouter(
             GoRoute(
               path: 'product',
               parentNavigatorKey: _rootNavigatorKey,
-              builder: (context, state) => ProductListScreen(),
+              builder: (context, state) => const ProductListScreen(),
+              routes: [
+                GoRoute(
+                  path: 'detail',
+                  parentNavigatorKey: _rootNavigatorKey,
+                  builder: (context, state) => const MarketplaceDetailScreen(),
+                ),
+              ],
             ),
           ],
         ),
