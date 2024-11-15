@@ -71,30 +71,53 @@ class _MarketplaceDetailScreenState extends State<MarketplaceDetailScreen> {
                         children: const [
                           Text(
                             'Lokasi',
-                            style:
-                                TextStyle(fontWeight: AppFontWeight.semiBold),
+                            style: TextStyle(
+                              color: AppColors.textMutedColor,
+                              fontWeight: AppFontWeight.semiBold,
+                            ),
                           ),
-                          Text('Kota Malang'),
-                          SizedBox(height: AppSpacing.spacingS),
+                          Text(
+                            'Kota Malang',
+                            style: TextStyle(
+                              fontWeight: AppFontWeight.semiBold,
+                            ),
+                          ),
+                          SizedBox(
+                            height: AppSpacing.spacingS,
+                          ),
                           Text(
                             'Jam Operasional',
-                            style:
-                                TextStyle(fontWeight: AppFontWeight.semiBold),
+                            style: TextStyle(
+                              color: AppColors.textMutedColor,
+                              fontWeight: AppFontWeight.semiBold,
+                            ),
                           ),
-                          Text('08.00 - 17.00 WIB'),
+                          Text(
+                            '08.00 - 17.00 WIB',
+                            style: TextStyle(
+                              fontWeight: AppFontWeight.semiBold,
+                            ),
+                          ),
                           SizedBox(height: AppSpacing.spacingS),
                           Text(
                             'Tanggal Bergabung',
-                            style:
-                                TextStyle(fontWeight: AppFontWeight.semiBold),
+                            style: TextStyle(
+                              color: AppColors.textMutedColor,
+                              fontWeight: AppFontWeight.semiBold,
+                            ),
                           ),
-                          Text('1 Januari 2024'),
+                          Text(
+                            '1 Januari 2024',
+                            style: TextStyle(
+                              fontWeight: AppFontWeight.semiBold,
+                            ),
+                          ),
                         ],
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: AppSpacing.spacingL),
+                const SizedBox(height: AppSpacing.spacingM),
                 // Store Description
                 const Text(
                   'Deskripsi Toko',
@@ -103,11 +126,11 @@ class _MarketplaceDetailScreenState extends State<MarketplaceDetailScreen> {
                     fontWeight: AppFontWeight.semiBold,
                   ),
                 ),
-                const SizedBox(height: AppSpacing.spacingS),
+                const SizedBox(height: AppSpacing.spacingXS),
                 const Text(
                   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 ),
-                const SizedBox(height: AppSpacing.spacingL),
+                const SizedBox(height: AppSpacing.spacingM),
                 const Text(
                   'Location',
                   style: TextStyle(
@@ -115,7 +138,7 @@ class _MarketplaceDetailScreenState extends State<MarketplaceDetailScreen> {
                     fontWeight: AppFontWeight.semiBold,
                   ),
                 ),
-                const SizedBox(height: AppSpacing.spacingS),
+                const SizedBox(height: AppSpacing.spacingXS),
                 // Google Maps
                 Container(
                   height: 200,
@@ -127,7 +150,7 @@ class _MarketplaceDetailScreenState extends State<MarketplaceDetailScreen> {
                     child: Text('Google Maps will be integrated here'),
                   ),
                 ),
-                const SizedBox(height: AppSpacing.spacingL),
+                const SizedBox(height: AppSpacing.spacingM),
                 // Store Products
                 const Text(
                   'Produk Toko',
@@ -136,7 +159,7 @@ class _MarketplaceDetailScreenState extends State<MarketplaceDetailScreen> {
                     fontWeight: AppFontWeight.semiBold,
                   ),
                 ),
-                const SizedBox(height: AppSpacing.spacingS),
+                const SizedBox(height: AppSpacing.spacingXS),
                 // Add your product grid or list here
                 GridView.builder(
                   padding: const EdgeInsets.only(bottom: AppSpacing.spacingXXL),
