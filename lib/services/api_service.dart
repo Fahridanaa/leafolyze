@@ -55,7 +55,16 @@ class ApiService {
     ErrorInterceptorHandler handler,
   ) async {
     if (error.response?.statusCode == 401) {
-      // Token might be expired, try to refresh
+      if (error.response?.data is Map &&
+          error.response?.data['error'] == 'Unauthenticated') {
+        await _storageService.removeToken();
+        return handler.reject(
+          DioException(
+            requestOptions: error.requestOptions,
+            error: UnauthorizedException(),
+          ),
+        );
+      }
       try {
         final token = await _storageService.getToken();
         if (token != null) {
@@ -67,8 +76,13 @@ class ApiService {
           return handler.resolve(response);
         }
       } catch (e) {
-        // If refresh fails, proceed with original error
-        print('Token refresh failed: $e');
+        await _storageService.removeToken();
+        return handler.reject(
+          DioException(
+            requestOptions: error.requestOptions,
+            error: UnauthorizedException(),
+          ),
+        );
       }
     }
     return handler.next(error);
@@ -116,12 +130,22 @@ class ApiService {
       if (response.statusCode! >= 200 && response.statusCode! < 300) {
         return response.data;
       } else {
+        if (response.data is Map &&
+            response.data['error'] == 'Unauthenticated') {
+          await _storageService.removeToken();
+          throw UnauthorizedException();
+        }
+
         throw ApiException(
           message: response.data['message'] ?? 'Something went wrong',
           statusCode: response.statusCode,
         );
       }
     } on DioException catch (e) {
+      if (e.error is UnauthorizedException) {
+        throw UnauthorizedException();
+      }
+
       throw ApiException(
         message: e.response?.data?['message'] ?? e.message ?? 'Network error',
         statusCode: e.response?.statusCode,
@@ -148,12 +172,22 @@ class ApiService {
       if (response.statusCode! >= 200 && response.statusCode! < 300) {
         return response.data;
       } else {
+        if (response.data is Map &&
+            response.data['error'] == 'Unauthenticated') {
+          await _storageService.removeToken();
+          throw UnauthorizedException();
+        }
+
         throw ApiException(
           message: response.data['message'] ?? 'Something went wrong',
           statusCode: response.statusCode,
         );
       }
     } on DioException catch (e) {
+      if (e.error is UnauthorizedException) {
+        throw UnauthorizedException();
+      }
+
       throw ApiException(
         message: e.response?.data?['message'] ?? e.message ?? 'Network error',
         statusCode: e.response?.statusCode,
@@ -170,4 +204,9 @@ class ApiException implements Exception {
 
   @override
   String toString() => message;
+}
+
+class UnauthorizedException implements Exception {
+  @override
+  String toString() => 'Unauthenticated';
 }
