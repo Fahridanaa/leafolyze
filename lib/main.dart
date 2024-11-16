@@ -3,8 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:leafolyze/blocs/auth/auth_bloc.dart';
 import 'package:leafolyze/blocs/auth/auth_event.dart';
+import 'package:leafolyze/blocs/marketplace/marketplace_bloc.dart';
+import 'package:leafolyze/blocs/marketplace/marketplace_event.dart';
 import 'package:leafolyze/config/router.dart';
 import 'package:leafolyze/repositories/auth_repository.dart';
+import 'package:leafolyze/repositories/marketplace_repository.dart';
 import 'package:leafolyze/services/api_service.dart';
 import 'package:leafolyze/services/storage_service.dart';
 
@@ -15,16 +18,22 @@ void main() async {
   final apiService = ApiService(storageService);
   final authRepository = AuthRepository(apiService, storageService);
 
-  runApp(
-      MainApp(authRepository: authRepository, storageService: storageService));
+  runApp(MainApp(
+      authRepository: authRepository,
+      storageService: storageService,
+      apiService: apiService));
 }
 
 class MainApp extends StatelessWidget {
   final AuthRepository authRepository;
   final StorageService storageService;
+  final ApiService apiService;
 
   const MainApp(
-      {super.key, required this.authRepository, required this.storageService});
+      {super.key,
+      required this.authRepository,
+      required this.storageService,
+      required this.apiService});
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +42,11 @@ class MainApp extends StatelessWidget {
         BlocProvider(
           create: (context) => AuthBloc(authRepository, storageService)
             ..add(AuthCheckRequested()),
+        ),
+        BlocProvider(
+          create: (context) => MarketplaceBloc(
+            MarketplaceRepository(apiService),
+          )..add(LoadProducts()),
         ),
       ],
       child: MaterialApp.router(

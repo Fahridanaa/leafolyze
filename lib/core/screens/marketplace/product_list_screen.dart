@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:leafolyze/blocs/marketplace/marketplace_bloc.dart';
+import 'package:leafolyze/blocs/marketplace/marketplace_state.dart';
 import 'package:leafolyze/core/widgets/common/custom_search_bar.dart';
 import 'package:leafolyze/core/widgets/marketplace/detailed_product_card.dart';
 import 'package:leafolyze/utils/constants.dart';
@@ -94,124 +97,134 @@ class _ProductListScreenState extends State<ProductListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        shrinkWrap: true,
-        scrollBehavior: const ScrollBehavior().copyWith(
-          overscroll: false,
-        ),
-        slivers: [
-          SliverAppBar(
-            backgroundColor: AppColors.backgroundColor,
-            centerTitle: true,
-            title: Text(
-              'Actigard',
-              style: TextStyle(
-                fontSize: AppFontSize.fontSizeXXL,
-                fontWeight: AppFontWeight.semiBold,
-              ),
+      body: BlocBuilder<MarketplaceBloc, MarketplaceState>(
+        builder: (context, state) {
+          return CustomScrollView(
+            shrinkWrap: true,
+            scrollBehavior: const ScrollBehavior().copyWith(
+              overscroll: false,
             ),
-            floating: true,
-            snap: true,
-            pinned: true,
-            expandedHeight: 80,
-          ),
-          SliverPadding(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSpacing.spacingM,
-            ),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate([
-                CustomSearchBar(
-                  // TODO: Implement search functionality
-                  onChanged: (value) {},
-                  onSubmitted: (value) {},
+            slivers: [
+              SliverAppBar(
+                backgroundColor: AppColors.backgroundColor,
+                centerTitle: true,
+                title: Text(
+                  'Actigard',
+                  style: TextStyle(
+                    fontSize: AppFontSize.fontSizeXXL,
+                    fontWeight: AppFontWeight.semiBold,
+                  ),
                 ),
-                SizedBox(height: AppSpacing.spacingM),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          _showSortOptions(context);
-                        },
-                        icon: const Icon(
-                          Icons.sort,
-                          color: AppColors.textColor,
-                          size: AppIconSize.iconS,
-                        ),
-                        label: Text(
-                          'Sort By',
-                          style: TextStyle(
-                            color: AppColors.textColor,
-                            fontSize: AppFontSize.fontSizeMS,
-                            fontWeight: AppFontWeight.semiBold,
+                floating: true,
+                snap: true,
+                pinned: true,
+                expandedHeight: 80,
+              ),
+              SliverPadding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSpacing.spacingM,
+                ),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate([
+                    CustomSearchBar(
+                      // TODO: Implement search functionality
+                      onChanged: (value) {},
+                      onSubmitted: (value) {},
+                    ),
+                    SizedBox(height: AppSpacing.spacingM),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              _showSortOptions(context);
+                            },
+                            icon: const Icon(
+                              Icons.sort,
+                              color: AppColors.textColor,
+                              size: AppIconSize.iconS,
+                            ),
+                            label: Text(
+                              'Sort By',
+                              style: TextStyle(
+                                color: AppColors.textColor,
+                                fontSize: AppFontSize.fontSizeMS,
+                                fontWeight: AppFontWeight.semiBold,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color.fromARGB(255, 255, 255, 255),
+                            ),
                           ),
                         ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromARGB(255, 255, 255, 255),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: AppSpacing.spacingXS),
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          // Implementasi "Filter"
-                        },
-                        icon: const Icon(
-                          Icons.filter_list,
-                          color: AppColors.textColor,
-                          size: AppIconSize.iconS,
-                        ),
-                        label: const Text(
-                          'Filter',
-                          style: TextStyle(
-                            color: AppColors.textColor,
-                            fontSize: AppFontSize.fontSizeMS,
-                            fontWeight: AppFontWeight.semiBold,
+                        const SizedBox(width: AppSpacing.spacingXS),
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              // Implementasi "Filter"
+                            },
+                            icon: const Icon(
+                              Icons.filter_list,
+                              color: AppColors.textColor,
+                              size: AppIconSize.iconS,
+                            ),
+                            label: const Text(
+                              'Filter',
+                              style: TextStyle(
+                                color: AppColors.textColor,
+                                fontSize: AppFontSize.fontSizeMS,
+                                fontWeight: AppFontWeight.semiBold,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color.fromARGB(255, 255, 255, 255),
+                            ),
                           ),
                         ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromARGB(255, 255, 255, 255),
-                        ),
-                      ),
+                      ],
                     ),
-                  ],
+                  ]),
                 ),
-              ]),
-            ),
-          ),
-          SliverPadding(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSpacing.spacingM,
-              vertical: AppSpacing.spacingM,
-            ),
-            sliver: SliverGrid(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.63,
-                mainAxisSpacing: AppSpacing.spacingMS,
-                crossAxisSpacing: AppSpacing.spacingMS,
               ),
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return DetailedProductCard(
-                    imageUrl:
-                        'https://www.agromonti.com/wp-content/uploads/2020/08/FUNGICIDE-ACTIGARD-1.jpg', // Ganti dengan URL gambar produk
-                    name: 'Actigard COYY',
-                    brand: 'Actigard',
-                    price: 20000,
-                    storeName: 'Toko Tanaman Sehat',
-                    location: 'Kota Malang',
-                  );
-                },
-                childCount: 8, // Jumlah item contoh
+              SliverPadding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSpacing.spacingM,
+                  vertical: AppSpacing.spacingM,
+                ),
+                sliver: state is MarketplaceLoading
+                    ? const SliverFillRemaining(
+                        child: Center(child: CircularProgressIndicator()),
+                      )
+                    : state is MarketplaceLoaded
+                        ? SliverGrid(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 0.63,
+                              mainAxisSpacing: AppSpacing.spacingMS,
+                              crossAxisSpacing: AppSpacing.spacingMS,
+                            ),
+                            delegate: SliverChildBuilderDelegate(
+                              (context, index) {
+                                final product = state.products[index];
+                                return DetailedProductCard(product: product);
+                              },
+                              childCount: state.products.length,
+                            ),
+                          )
+                        : state is MarketplaceError
+                            ? SliverFillRemaining(
+                                child: Center(child: Text(state.message)),
+                              )
+                            : const SliverFillRemaining(
+                                child: Center(child: Text('No products found')),
+                              ),
               ),
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }

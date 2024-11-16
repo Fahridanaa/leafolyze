@@ -1,23 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:leafolyze/utils/constants.dart';
+import 'package:leafolyze/models/product.dart';
 
 class DetailedProductCard extends StatelessWidget {
-  final String imageUrl;
-  final String name;
-  final String brand;
-  final int price;
-  final String storeName;
-  final String location;
+  final Product product;
 
   const DetailedProductCard({
     super.key,
-    required this.imageUrl,
-    required this.name,
-    required this.brand,
-    required this.price,
-    required this.storeName,
-    required this.location,
+    required this.product,
   });
 
   @override
@@ -64,7 +55,7 @@ class DetailedProductCard extends StatelessWidget {
                           borderRadius:
                               BorderRadius.circular(AppBorderRadius.radiusXS),
                           child: Image.network(
-                            imageUrl,
+                            product.imageUrl,
                             height: MediaQuery.of(context).size.width * 0.35,
                             width: double.infinity,
                             fit: BoxFit.cover,
@@ -74,7 +65,7 @@ class DetailedProductCard extends StatelessWidget {
                     ),
                     const SizedBox(height: AppSpacing.spacingMS),
                     Text(
-                      name,
+                      product.name,
                       style: const TextStyle(
                         fontSize: AppFontSize.fontSizeMS,
                         fontWeight: AppFontWeight.semiBold,
@@ -84,14 +75,14 @@ class DetailedProductCard extends StatelessWidget {
                     ),
                     const SizedBox(height: AppSpacing.spacingXXXS),
                     Text(
-                      brand,
+                      product.type,
                       style: TextStyle(
                           color: AppColors.textMutedColor,
                           fontSize: AppFontSize.fontSizeXS),
                     ),
                     const SizedBox(height: AppSpacing.spacingXXS),
                     Text(
-                      'Rp. $price',
+                      'Rp. ${product.price}',
                       style: const TextStyle(
                         color: AppColors.primaryColor,
                         fontWeight: AppFontWeight.bold,
@@ -99,7 +90,7 @@ class DetailedProductCard extends StatelessWidget {
                     ),
                     const SizedBox(height: AppSpacing.spacingXXS),
                     Text(
-                      storeName,
+                      product.shop?.name ?? '',
                       style: TextStyle(
                           color: AppColors.textColor,
                           fontSize: AppFontSize.fontSizeXS),
@@ -113,7 +104,7 @@ class DetailedProductCard extends StatelessWidget {
                         const SizedBox(width: AppSpacing.spacingXXXS),
                         Flexible(
                           child: Text(
-                            location,
+                            product.shop?.address ?? '',
                             style: TextStyle(
                                 color: AppColors.textMutedColor,
                                 fontSize: AppFontSize.fontSizeXS),
