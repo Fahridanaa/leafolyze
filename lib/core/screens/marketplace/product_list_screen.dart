@@ -1,20 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:leafolyze/blocs/marketplace/marketplace_bloc.dart';
+import 'package:leafolyze/blocs/marketplace/marketplace_event.dart';
 import 'package:leafolyze/blocs/marketplace/marketplace_state.dart';
 import 'package:leafolyze/core/widgets/common/custom_search_bar.dart';
 import 'package:leafolyze/core/widgets/marketplace/detailed_product_card.dart';
 import 'package:leafolyze/utils/constants.dart';
+import 'package:leafolyze/utils/string_utils.dart';
 
 class ProductListScreen extends StatefulWidget {
-  const ProductListScreen({super.key});
+  final String productType;
+
+  const ProductListScreen({super.key, required this.productType});
 
   @override
   State<ProductListScreen> createState() => _ProductListScreenState();
 }
 
 class _ProductListScreenState extends State<ProductListScreen> {
+  late String deslugifiedType;
   String? selectedSortOption = 'Recently Added';
+
+  @override
+  void initState() {
+    super.initState();
+    deslugifiedType = deslugify(widget.productType);
+    context.read<MarketplaceBloc>().add(LoadProductsByType(widget.productType));
+  }
 
   void _showSortOptions(BuildContext context) {
     showModalBottomSheet(
@@ -109,7 +121,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 backgroundColor: AppColors.backgroundColor,
                 centerTitle: true,
                 title: Text(
-                  'Actigard',
+                  deslugifiedType,
                   style: TextStyle(
                     fontSize: AppFontSize.fontSizeXXL,
                     fontWeight: AppFontWeight.semiBold,
@@ -198,28 +210,86 @@ class _ProductListScreenState extends State<ProductListScreen> {
                         child: Center(child: CircularProgressIndicator()),
                       )
                     : state is MarketplaceLoaded
-                        ? SliverGrid(
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 0.63,
-                              mainAxisSpacing: AppSpacing.spacingMS,
-                              crossAxisSpacing: AppSpacing.spacingMS,
-                            ),
-                            delegate: SliverChildBuilderDelegate(
-                              (context, index) {
-                                final product = state.products[index];
-                                return DetailedProductCard(product: product);
-                              },
-                              childCount: state.products.length,
-                            ),
-                          )
+                        ? state.products.isEmpty
+                            ? SliverFillRemaining(
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.inventory_2_outlined,
+                                        size: 64,
+                                        color: AppColors.textMutedColor,
+                                      ),
+                                      SizedBox(height: AppSpacing.spacingS),
+                                      Text(
+                                        'No products available for ${deslugifiedType}',
+                                        style: TextStyle(
+                                          color: AppColors.textMutedColor,
+                                          fontSize: AppFontSize.fontSizeL,
+                                          fontWeight: AppFontWeight.medium,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : SliverGrid(
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 0.63,
+                                  mainAxisSpacing: AppSpacing.spacingMS,
+                                  crossAxisSpacing: AppSpacing.spacingMS,
+                                ),
+                                delegate: SliverChildBuilderDelegate(
+                                  (context, index) {
+                                    final product = state.products[index];
+                                    return DetailedProductCard(
+                                        product: product);
+                                  },
+                                  childCount: state.products.length,
+                                ),
+                              )
                         : state is MarketplaceError
                             ? SliverFillRemaining(
-                                child: Center(child: Text(state.message)),
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.error_outline,
+                                        size: 64,
+                                        color: AppColors.errorColor,
+                                      ),
+                                      SizedBox(height: AppSpacing.spacingS),
+                                      Text(
+                                        state.message,
+                                        style: TextStyle(
+                                          color: AppColors.textColor,
+                                          fontSize: AppFontSize.fontSizeL,
+                                          fontWeight: AppFontWeight.medium,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      SizedBox(height: AppSpacing.spacingM),
+                                      ElevatedButton.icon(
+                                        onPressed: () {
+                                          context.read<MarketplaceBloc>().add(
+                                              LoadProductsByType(
+                                                  deslugifiedType));
+                                        },
+                                        icon: const Icon(Icons.refresh),
+                                        label: const Text('Try Again'),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               )
                             : const SliverFillRemaining(
-                                child: Center(child: Text('No products found')),
+                                child: Center(
+                                  child: Text('Something went wrong'),
+                                ),
                               ),
               ),
             ],

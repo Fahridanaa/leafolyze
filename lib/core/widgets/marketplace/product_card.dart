@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:leafolyze/utils/constants.dart';
+import 'package:leafolyze/utils/string_utils.dart';
 
 class ProductCard extends StatelessWidget {
-  final String? imageUrl;
+  final String imageUrl;
   final String name;
   final int price;
-  final String id; // Add product ID
+  final String id;
 
   const ProductCard({
     super.key,
-    this.imageUrl,
+    required this.imageUrl,
     required this.name,
     required this.price,
     required this.id,
@@ -25,7 +26,7 @@ class ProductCard extends StatelessWidget {
         children: [
           InkWell(
             borderRadius: BorderRadius.circular(AppBorderRadius.radiusS),
-            onTap: () => context.go('/marketplace/product'),
+            onTap: () => context.go('/marketplace/${slugify(name)}'),
             child: Container(
               padding: EdgeInsets.all(AppSpacing.spacingMS),
               decoration: BoxDecoration(
@@ -47,8 +48,8 @@ class ProductCard extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius:
                           BorderRadius.circular(AppBorderRadius.radiusXS),
-                      child: Image.network(
-                        'https://www.agromonti.com/wp-content/uploads/2020/08/FUNGICIDE-ACTIGARD-1.jpg',
+                      child: Image.asset(
+                        imageUrl,
                         height: MediaQuery.of(context).size.width * 0.35,
                         width: double.infinity,
                         fit: BoxFit.cover,

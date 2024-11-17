@@ -51,3 +51,5 @@ class MarketplaceError extends MarketplaceState {
   @override
   List<Object?> get props => [message];
 }
+
+class MarketplaceUnauthorized extends MarketplaceState {}

@@ -3,6 +3,7 @@ import 'package:leafolyze/blocs/marketplace/marketplace_event.dart';
 import 'package:leafolyze/blocs/marketplace/marketplace_state.dart';
 import 'package:leafolyze/models/product.dart';
 import 'package:leafolyze/repositories/marketplace_repository.dart';
+import 'package:leafolyze/services/api_service.dart';
 
 class MarketplaceBloc extends Bloc<MarketplaceEvent, MarketplaceState> {
   final MarketplaceRepository _repository;
@@ -10,9 +11,30 @@ class MarketplaceBloc extends Bloc<MarketplaceEvent, MarketplaceState> {
 
   MarketplaceBloc(this._repository) : super(MarketplaceInitial()) {
     on<LoadProducts>(_onLoadProducts);
+    on<LoadProductsByType>(_onLoadProductsByType);
     on<SearchProducts>(_onSearchProducts);
     on<SortProducts>(_onSortProducts);
     on<FilterProducts>(_onFilterProducts);
+  }
+
+  Future<void> _onLoadProductsByType(
+    LoadProductsByType event,
+    Emitter<MarketplaceState> emit,
+  ) async {
+    emit(MarketplaceLoading());
+    try {
+      _allProducts = await _repository.getProductsByType(event.productType);
+      emit(MarketplaceLoaded(
+        products: _allProducts,
+        filterOption: event.productType,
+      ));
+    } catch (e) {
+      if (e is UnauthorizedException) {
+        emit(MarketplaceUnauthorized());
+      } else {
+        emit(MarketplaceError(e.toString()));
+      }
+    }
   }
 
   Future<void> _onLoadProducts(
@@ -54,10 +76,12 @@ class MarketplaceBloc extends Bloc<MarketplaceEvent, MarketplaceState> {
 
       switch (event.sortOption) {
         case 'Price: Low to High':
-          sortedProducts.sort((a, b) => int.parse(a.price).compareTo(int.parse(b.price)));
+          sortedProducts
+              .sort((a, b) => int.parse(a.price).compareTo(int.parse(b.price)));
           break;
         case 'Price: High to Low':
-          sortedProducts.sort((a, b) => int.parse(b.price).compareTo(int.parse(a.price)));
+          sortedProducts
+              .sort((a, b) => int.parse(b.price).compareTo(int.parse(a.price)));
           break;
         case 'Recently Added':
           sortedProducts.sort((a, b) => (b.createdAt ?? DateTime.now())

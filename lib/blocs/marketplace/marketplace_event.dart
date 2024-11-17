@@ -9,6 +9,15 @@ abstract class MarketplaceEvent extends Equatable {
 
 class LoadProducts extends MarketplaceEvent {}
 
+class LoadProductsByType extends MarketplaceEvent {
+  final String productType;
+
+  const LoadProductsByType(this.productType);
+
+  @override
+  List<Object?> get props => [productType];
+}
+
 class SearchProducts extends MarketplaceEvent {
   final String query;
 
