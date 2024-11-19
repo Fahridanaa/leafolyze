@@ -55,7 +55,7 @@ final goRouter = GoRouter(
               builder: (context, state) => const ArticleListScreen(),
               routes: [
                 GoRoute(
-                  path: 'article/:id',
+                  path: ':id',
                   parentNavigatorKey: _rootNavigatorKey,
                   builder: (context, state) => ArticleDetailScreen(
                     id: int.parse(state.pathParameters['id']!),

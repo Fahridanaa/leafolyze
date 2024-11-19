@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:leafolyze/blocs/article/article_bloc.dart';
-import 'package:leafolyze/blocs/article/article_event.dart';
 import 'package:leafolyze/blocs/auth/auth_bloc.dart';
 import 'package:leafolyze/blocs/auth/auth_event.dart';
 import 'package:leafolyze/blocs/history/history_bloc.dart';
@@ -10,7 +8,6 @@ import 'package:leafolyze/blocs/history/history_event.dart';
 import 'package:leafolyze/blocs/marketplace/marketplace_bloc.dart';
 import 'package:leafolyze/blocs/marketplace/marketplace_event.dart';
 import 'package:leafolyze/config/router.dart';
-import 'package:leafolyze/core/screens/history/history_screen.dart';
 import 'package:leafolyze/repositories/article_repository.dart';
 import 'package:leafolyze/repositories/auth_repository.dart';
 import 'package:leafolyze/repositories/history_repository.dart';
@@ -51,6 +48,9 @@ class MainApp extends StatelessWidget {
         ),
         RepositoryProvider<StorageService>(
           create: (context) => storageService,
+        ),
+        RepositoryProvider<ArticleRepository>(
+          create: (context) => ArticleRepository(apiService),
         ),
       ],
       child: MultiBlocProvider(

@@ -197,7 +197,7 @@ Widget _buildArticleSection({required Function() onPressed}) {
                   final article = articles[index];
                   return GestureDetector(
                     onTap: () {
-                      context.push('/home/article/detail', extra: article);
+                      context.push('/home/article/${article.id}');
                     },
                     child: Stack(
                       children: [
