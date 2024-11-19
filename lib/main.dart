@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:leafolyze/blocs/article/article_bloc.dart';
+import 'package:leafolyze/blocs/article/article_event.dart';
 import 'package:leafolyze/blocs/auth/auth_bloc.dart';
 import 'package:leafolyze/blocs/auth/auth_event.dart';
 import 'package:leafolyze/blocs/history/history_bloc.dart';
@@ -9,6 +11,7 @@ import 'package:leafolyze/blocs/marketplace/marketplace_bloc.dart';
 import 'package:leafolyze/blocs/marketplace/marketplace_event.dart';
 import 'package:leafolyze/config/router.dart';
 import 'package:leafolyze/core/screens/history/history_screen.dart';
+import 'package:leafolyze/repositories/article_repository.dart';
 import 'package:leafolyze/repositories/auth_repository.dart';
 import 'package:leafolyze/repositories/history_repository.dart';
 import 'package:leafolyze/repositories/marketplace_repository.dart';
@@ -43,30 +46,39 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => AuthBloc(authRepository, storageService)
-            ..add(AuthCheckRequested()),
+        RepositoryProvider<ApiService>(
+          create: (context) => apiService,
         ),
-        BlocProvider(
-          create: (context) => MarketplaceBloc(
-            MarketplaceRepository(apiService),
-          )..add(LoadProducts()),
-        ),
-        BlocProvider(
-          create: (context) => GambarMLBloc(
-            GambarMLRepository(apiService),
-          )..add(FetchAllGambarML()),
-          child: const HistoryScreen(),
+        RepositoryProvider<StorageService>(
+          create: (context) => storageService,
         ),
       ],
-      child: MaterialApp.router(
-        title: 'Leafolyze',
-        theme: ThemeData(
-          fontFamily: GoogleFonts.plusJakartaSans().fontFamily,
-          primarySwatch: Colors.green,
-          useMaterial3: true,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => AuthBloc(authRepository, storageService)
+              ..add(AuthCheckRequested()),
+          ),
+          BlocProvider(
+            create: (context) => MarketplaceBloc(
+              MarketplaceRepository(apiService),
+            )..add(LoadProducts()),
+          ),
+          BlocProvider(
+            create: (context) => GambarMLBloc(
+              GambarMLRepository(apiService),
+            )..add(FetchAllGambarML()),
+          ),
+        ],
+        child: MaterialApp.router(
+          title: 'Leafolyze',
+          theme: ThemeData(
+            fontFamily: GoogleFonts.plusJakartaSans().fontFamily,
+            primarySwatch: Colors.green,
+            useMaterial3: true,
+          ),
+          routerConfig: goRouter,
         ),
-        routerConfig: goRouter,
       ),
     );
   }
