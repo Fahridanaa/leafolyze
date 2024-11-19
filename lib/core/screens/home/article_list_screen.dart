@@ -17,7 +17,9 @@ class ArticleListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
         create: (context) => ArticleBloc(
-              ArticleRepository(context.read<ApiService>()),
+              ArticleRepository(
+                context.read<ApiService>(),
+              ),
             )..add(LoadArticles()),
         child: Scaffold(
           body: CustomScrollView(
@@ -87,6 +89,7 @@ class ArticleListScreen extends StatelessWidget {
                         (context, index) {
                           final article = state.articles[index];
                           return ArticleItemCard(
+                            id: article.id,
                             imageUrl: article.gambarUrl,
                             title: article.title,
                             description: article.content,

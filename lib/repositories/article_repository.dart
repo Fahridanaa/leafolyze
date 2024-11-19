@@ -8,11 +8,10 @@ class ArticleRepository {
 
   Future<List<Article>> getArticles() async {
     try {
-      final response = await _apiService.get('/article');
+      final response = await _apiService.get('/articles');
 
       if (response['success']) {
         final List<dynamic> articlesJson = response['data'];
-        print(articlesJson);
         return articlesJson.map((json) => Article.fromJson(json)).toList();
       }
       throw Exception(response['message']);
@@ -23,9 +22,24 @@ class ArticleRepository {
     }
   }
 
+  Future<Article> getArticleById(int id) async {
+    try {
+      final response = await _apiService.get('/articles/$id');
+
+      if (response['success']) {
+        return Article.fromJson(response['data']);
+      }
+      throw Exception(response['message']);
+    } on UnauthorizedException {
+      rethrow;
+    } catch (e) {
+      throw Exception('Failed to load article: $e');
+    }
+  }
+
   Future<List<Article>> searchArticles(String query) async {
     try {
-      final response = await _apiService.get('/article/search', queryParams: {
+      final response = await _apiService.get('/articles/search', queryParams: {
         'q': query,
       });
 

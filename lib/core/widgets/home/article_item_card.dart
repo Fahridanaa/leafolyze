@@ -3,12 +3,14 @@ import 'package:go_router/go_router.dart';
 import 'package:leafolyze/utils/constants.dart';
 
 class ArticleItemCard extends StatelessWidget {
+  final int id;
   final String imageUrl;
   final String title;
   final String description;
 
   const ArticleItemCard({
     super.key,
+    required this.id,
     required this.imageUrl,
     required this.title,
     required this.description,
@@ -18,7 +20,7 @@ class ArticleItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.push('/home/article/detail');
+        context.push('/home/article/$id');
       },
       child: Padding(
         padding: EdgeInsets.symmetric(

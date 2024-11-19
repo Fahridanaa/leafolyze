@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:leafolyze/blocs/article/article_bloc.dart';
+import 'package:leafolyze/blocs/article/article_event.dart';
+import 'package:leafolyze/blocs/article/article_state.dart';
 import 'package:leafolyze/core/widgets/common/diagnosis_item.dart';
+import 'package:leafolyze/repositories/article_repository.dart';
+import 'package:leafolyze/services/api_service.dart';
 import 'package:leafolyze/utils/constants.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,33 +19,38 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: CustomScrollView(
-          shrinkWrap: true,
-          scrollBehavior: const ScrollBehavior().copyWith(
-            overscroll: false,
-          ),
-          slivers: [
-            SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: AppSpacing.spacingM),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate([
-                  _buildGreetingSection(),
-                  SizedBox(height: AppSpacing.spacingL),
-                  _buildWateringReminder(),
-                  SizedBox(height: AppSpacing.spacingM),
-                  _buildArticleSection(
-                    onPressed: () {
-                      context.push('/home/article');
-                    },
-                  ),
-                  SizedBox(height: AppSpacing.spacingL),
-                  _buildRecentDiagnosis(),
-                ]),
-              ),
+    return BlocProvider(
+      create: (context) => ArticleBloc(
+        ArticleRepository(context.read<ApiService>()),
+      )..add(LoadArticles()),
+      child: Scaffold(
+        body: SafeArea(
+          child: CustomScrollView(
+            shrinkWrap: true,
+            scrollBehavior: const ScrollBehavior().copyWith(
+              overscroll: false,
             ),
-          ],
+            slivers: [
+              SliverPadding(
+                padding: EdgeInsets.symmetric(horizontal: AppSpacing.spacingM),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate([
+                    _buildGreetingSection(),
+                    SizedBox(height: AppSpacing.spacingL),
+                    _buildWateringReminder(),
+                    SizedBox(height: AppSpacing.spacingM),
+                    _buildArticleSection(
+                      onPressed: () {
+                        context.push('/home/article');
+                      },
+                    ),
+                    SizedBox(height: AppSpacing.spacingL),
+                    _buildRecentDiagnosis(),
+                  ]),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -165,73 +176,97 @@ Widget _buildArticleSection({required Function() onPressed}) {
       ),
       SizedBox(
         height: 120,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: 5,
-          itemBuilder: (context, index) {
-            return Stack(
-              children: [
-                Container(
-                  width: 240,
-                  margin: EdgeInsets.only(right: AppSpacing.spacingS),
-                  decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius.circular(AppBorderRadius.radiusS),
-                    image: DecorationImage(
-                      image: AssetImage(
-                          'assets/images/ren-ran-bBiuSdck8tU-unsplash.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 240,
-                  margin: EdgeInsets.only(right: AppSpacing.spacingS),
-                  decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius.circular(AppBorderRadius.radiusS),
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      colors: [
-                        Colors.black.withOpacity(0.8),
-                        Colors.transparent,
-                      ],
-                      stops: [0.0, 0.7],
-                    ),
-                  ),
-                  padding: EdgeInsets.all(AppSpacing.spacingS),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Bacterial Spot',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: AppFontSize.fontSizeS,
-                          fontWeight: AppFontWeight.semiBold,
-                        ),
-                      ),
-                      SizedBox(height: AppSpacing.spacingXXS),
-                      SizedBox(
-                        width: 160,
-                        child: Text(
-                          'Lorem ipsum odor amet, consectetuer adipiscing elit. Sodales proin luctus vestibulum',
-                          style: TextStyle(
-                            color: Colors.white.withOpacity(0.8),
-                            fontSize: AppFontSize.fontSizeXXS,
-                            fontWeight: AppFontWeight.regular,
+        child: BlocBuilder<ArticleBloc, ArticleState>(
+          builder: (context, state) {
+            if (state is ArticleLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (state is ArticleError) {
+              return Center(child: Text(state.message));
+            }
+
+            if (state is ArticleLoaded) {
+              final articles =
+                  state.articles.take(5).toList(); // Only take first 5 articles
+
+              return ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: articles.length,
+                itemBuilder: (context, index) {
+                  final article = articles[index];
+                  return GestureDetector(
+                    onTap: () {
+                      context.push('/home/article/detail', extra: article);
+                    },
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: 240,
+                          margin: EdgeInsets.only(right: AppSpacing.spacingS),
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.circular(AppBorderRadius.radiusS),
+                            image: DecorationImage(
+                              image: NetworkImage(article.gambarUrl),
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 3,
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            );
+                        Container(
+                          width: 240,
+                          margin: EdgeInsets.only(right: AppSpacing.spacingS),
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.circular(AppBorderRadius.radiusS),
+                            gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [
+                                Colors.black.withOpacity(0.8),
+                                Colors.transparent,
+                              ],
+                              stops: const [0.0, 0.7],
+                            ),
+                          ),
+                          padding: EdgeInsets.all(AppSpacing.spacingS),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                article.title,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: AppFontSize.fontSizeS,
+                                  fontWeight: AppFontWeight.semiBold,
+                                ),
+                              ),
+                              SizedBox(height: AppSpacing.spacingXXS),
+                              SizedBox(
+                                width: 160,
+                                child: Text(
+                                  article.content,
+                                  style: TextStyle(
+                                    color: Colors.white.withOpacity(0.8),
+                                    fontSize: AppFontSize.fontSizeXXS,
+                                    fontWeight: AppFontWeight.regular,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 3,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            }
+
+            return const Center(child: Text('No articles found'));
           },
         ),
       ),
