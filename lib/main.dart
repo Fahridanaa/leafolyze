@@ -7,12 +7,14 @@ import 'package:leafolyze/blocs/history/history_bloc.dart';
 import 'package:leafolyze/blocs/history/history_event.dart';
 import 'package:leafolyze/blocs/product/product_bloc.dart';
 import 'package:leafolyze/blocs/product/product_event.dart';
+import 'package:leafolyze/blocs/profile/profile_bloc.dart';
 import 'package:leafolyze/config/router.dart';
 import 'package:leafolyze/models/auth_token.dart';
 import 'package:leafolyze/repositories/article_repository.dart';
 import 'package:leafolyze/repositories/auth_repository.dart';
 import 'package:leafolyze/repositories/history_repository.dart';
 import 'package:leafolyze/repositories/product_repository.dart';
+import 'package:leafolyze/repositories/profile_repository.dart';
 import 'package:leafolyze/services/api_service.dart';
 import 'package:leafolyze/services/storage_service.dart';
 

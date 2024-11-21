@@ -9,7 +9,7 @@ class Disease extends Equatable {
   final List<TomatoLeafDetection>? detections;
   final List<Product>? products;
 
-  Disease({
+  const Disease({
     this.id,
     required this.name,
     required this.description,

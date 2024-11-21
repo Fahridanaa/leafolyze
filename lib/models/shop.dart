@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:leafolyze/models/image.dart';
 
 class Shop extends Equatable {
   final int id;
@@ -7,6 +8,7 @@ class Shop extends Equatable {
   final String address;
   final String description;
   final String operational;
+  final Image? image;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -17,6 +19,7 @@ class Shop extends Equatable {
     required this.address,
     required this.description,
     required this.operational,
+    this.image,
     this.createdAt,
     this.updatedAt,
   });
@@ -29,6 +32,7 @@ class Shop extends Equatable {
       address: json['address'],
       description: json['description'],
       operational: json['operational'],
+      image: json['image'] != null ? Image.fromJson(json['image']) : null,
       createdAt: json['created_at'] != null
           ? DateTime.parse(json['created_at'])
           : null,
@@ -46,6 +50,7 @@ class Shop extends Equatable {
       'address': address,
       'description': description,
       'operational': operational,
+      'image': image?.toJson(),
       'created_at': createdAt?.toIso8601String(),
       'updated_at': updatedAt?.toIso8601String(),
     };
@@ -58,6 +63,7 @@ class Shop extends Equatable {
     String? address,
     String? description,
     String? operational,
+    Image? image,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -68,6 +74,7 @@ class Shop extends Equatable {
       address: address ?? this.address,
       description: description ?? this.description,
       operational: operational ?? this.operational,
+      image: image ?? this.image,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -81,6 +88,7 @@ class Shop extends Equatable {
         address,
         description,
         operational,
+        image,
         createdAt,
         updatedAt,
       ];
