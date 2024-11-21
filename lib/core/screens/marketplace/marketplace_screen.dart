@@ -119,7 +119,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                 (context, index) {
                   final diseaseProduct = diseaseProducts[index];
                   return ProductCard(
-                    id: diseaseProduct['id'],
+                    id: diseaseProduct['diseaseId'],
                     imageUrl: diseaseProduct['image'],
                     name: diseaseProduct['name'],
                     price: diseaseProduct['price'],

@@ -73,13 +73,6 @@ class DetailedProductCard extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: AppSpacing.spacingXXXS),
-                    Text(
-                      product.type,
-                      style: TextStyle(
-                          color: AppColors.textMutedColor,
-                          fontSize: AppFontSize.fontSizeXS),
-                    ),
                     const SizedBox(height: AppSpacing.spacingXXS),
                     Text(
                       'Rp. ${product.price}',

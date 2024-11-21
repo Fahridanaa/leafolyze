@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:leafolyze/blocs/article/article_bloc.dart';
 import 'package:leafolyze/blocs/article/article_event.dart';
+import 'package:leafolyze/blocs/article_detail/article_detail_bloc.dart';
+import 'package:leafolyze/blocs/article_detail/article_detail_event.dart';
 import 'package:leafolyze/blocs/auth/auth_bloc.dart';
 import 'package:leafolyze/blocs/auth/auth_event.dart';
 import 'package:leafolyze/blocs/history/history_bloc.dart';
@@ -73,6 +75,11 @@ class MainApp extends StatelessWidget {
             create: (context) => ArticleBloc(
               ArticleRepository(apiService, storageService),
             )..add(LoadArticles()),
+          ),
+          BlocProvider(
+            create: (context) => ArticleDetailBloc(
+              ArticleRepository(apiService, storageService),
+            ),
           ),
           // BlocProvider(
           //   create: (context) => GambarMLBloc(

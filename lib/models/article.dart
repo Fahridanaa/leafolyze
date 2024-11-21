@@ -7,8 +7,8 @@ class Article extends Equatable {
   final String content;
   final int duration;
   final Image? image;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final String createdAt;
+  final String updatedAt;
 
   const Article({
     required this.id,
@@ -50,8 +50,8 @@ class Article extends Equatable {
     String? content,
     int? duration,
     Image? image,
-    DateTime? createdAt,
-    DateTime? updatedAt,
+    String? createdAt,
+    String? updatedAt,
   }) {
     return Article(
       id: id ?? this.id,

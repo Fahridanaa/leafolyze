@@ -112,14 +112,18 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
       switch (event.sortOption) {
         case 'Price: Low to High':
-          sortedProducts.sort((a, b) => (a.price).compareTo((b.price)));
+          sortedProducts.sort(
+              (a, b) => (int.parse(a.price)).compareTo(int.parse(b.price)));
           break;
         case 'Price: High to Low':
-          sortedProducts.sort((a, b) => (b.price).compareTo((a.price)));
+          sortedProducts.sort(
+              (a, b) => (int.parse(b.price)).compareTo(int.parse(a.price)));
           break;
         case 'Recently Added':
-          sortedProducts.sort((a, b) => (b.createdAt ?? DateTime.now())
-              .compareTo(a.createdAt ?? DateTime.now()));
+          sortedProducts.sort((a, b) => (DateTime.parse(
+                  b.createdAt ?? DateTime.now().toString()))
+              .compareTo(
+                  DateTime.parse(a.createdAt ?? DateTime.now().toString())));
           break;
       }
 

@@ -7,11 +7,11 @@ class Product extends Equatable {
   final String name;
   final int? shopId;
   final String description;
-  final double price;
-  final String type;
+  final String price;
+  final int? diseaseId;
   final Image? image;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+  final String? createdAt;
+  final String? updatedAt;
   final Shop? shop;
 
   const Product({
@@ -20,7 +20,7 @@ class Product extends Equatable {
     this.shopId,
     required this.description,
     required this.price,
-    required this.type,
+    this.diseaseId,
     this.image,
     this.createdAt,
     this.updatedAt,
@@ -34,14 +34,10 @@ class Product extends Equatable {
       shopId: json['shop_id'],
       description: json['description'],
       price: json['price'],
-      type: json['type'],
+      diseaseId: json['disease_id'],
       image: json['image'] != null ? Image.fromJson(json['image']) : null,
-      createdAt: json['created_at'] != null
-          ? DateTime.parse(json['created_at'])
-          : null,
-      updatedAt: json['updated_at'] != null
-          ? DateTime.parse(json['updated_at'])
-          : null,
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
       shop: json['shop'] != null ? Shop.fromJson(json['shop']) : null,
     );
   }
@@ -53,10 +49,10 @@ class Product extends Equatable {
       'shop_id': shopId,
       'description': description,
       'price': price,
-      'type': type,
+      'disease_id': diseaseId,
       'image': image?.toJson(),
-      'created_at': createdAt?.toIso8601String(),
-      'updated_at': updatedAt?.toIso8601String(),
+      'created_at': createdAt,
+      'updated_at': updatedAt,
       'shop': shop?.toJson(),
     };
   }
@@ -66,11 +62,11 @@ class Product extends Equatable {
     String? name,
     int? shopId,
     String? description,
-    double? price,
-    String? type,
+    String? price,
+    int? diseaseId,
     Image? image,
-    DateTime? createdAt,
-    DateTime? updatedAt,
+    String? createdAt,
+    String? updatedAt,
     Shop? shop,
   }) {
     return Product(
@@ -79,7 +75,7 @@ class Product extends Equatable {
       shopId: shopId ?? this.shopId,
       description: description ?? this.description,
       price: price ?? this.price,
-      type: type ?? this.type,
+      diseaseId: diseaseId ?? this.diseaseId,
       image: image ?? this.image,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -94,7 +90,7 @@ class Product extends Equatable {
         shopId,
         description,
         price,
-        type,
+        diseaseId,
         image,
         createdAt,
         updatedAt,
