@@ -4,19 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:leafolyze/blocs/auth/auth_bloc.dart';
 import 'package:leafolyze/blocs/auth/auth_event.dart';
 import 'package:leafolyze/blocs/auth/auth_state.dart';
+import 'package:leafolyze/models/user_detail.dart';
 import 'package:leafolyze/utils/constants.dart';
 
 class ProfileScreen extends StatelessWidget {
-  final String name;
-  final String email;
-  final String profileImageUrl;
-
-  const ProfileScreen({
-    super.key,
-    required this.name,
-    required this.email,
-    required this.profileImageUrl,
-  });
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,112 +21,152 @@ class ProfileScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppColors.primaryColor,
         body: SafeArea(
-          child: CustomScrollView(
-            shrinkWrap: true,
-            scrollBehavior: const ScrollBehavior().copyWith(
-              overscroll: false,
-            ),
-            slivers: [
-              SliverAppBar(
-                centerTitle: false,
-                backgroundColor: AppColors.primaryColor,
-                title: const Text(
-                  'Profile',
-                  style: TextStyle(
-                    color: AppColors.textColor,
-                    fontSize: AppFontSize.fontSizeXXL,
-                    fontWeight: AppFontWeight.bold,
-                  ),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: AppSpacing.spacingM,
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(height: AppSpacing.spacingS),
-                      _buildProfileHeader(),
-                      SizedBox(height: AppSpacing.spacingL),
-                    ],
-                  ),
-                ),
-              ),
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(AppBorderRadius.radiusL),
-                        topRight: Radius.circular(AppBorderRadius.radiusL),
-                      ),
+          child: BlocBuilder<AuthBloc, AuthState>(
+            builder: (context, state) {
+              if (state is Authenticated) {
+                final userDetail = state.user.userDetail;
+
+                if (userDetail == null) {
+                  return const Center(
+                    child: Text(
+                      "No user details available",
+                      style: TextStyle(color: Colors.white),
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: AppSpacing.spacingM,
-                      ),
-                      child: Column(
-                        children: [
-                          SizedBox(height: AppSpacing.spacingXL),
-                          _buildSectionTitle("Account Settings"),
-                          _buildListTile(
-                            icon: Icons.person_outline,
-                            title: "Personal Information",
-                          ),
-                          _buildListTile(
-                            icon: Icons.security,
-                            title: "Password & Security",
-                          ),
-                          SizedBox(height: AppSpacing.spacingXL),
-                          _buildSectionTitle("Other"),
-                          _buildListTile(
-                            icon: Icons.settings_outlined,
-                            title: "Settings",
-                          ),
-                          _buildListTile(
-                            icon: Icons.help_outline,
-                            title: "FAQ",
-                          ),
-                          _buildListTile(
-                            icon: Icons.headset_mic_outlined,
-                            title: "Help Center",
-                          ),
-                          _buildListTile(
-                            icon: Icons.info_outline,
-                            title: "About",
-                          ),
-                          SizedBox(height: AppSpacing.spacingXL),
-                          _buildLogoutButton(
-                            onPressed: () {
-                              context.go('/landing');
-                            },
-                          ),
-                        ],
-                      ),
-                    )),
-              ),
-            ],
+                  );
+                }
+
+                return _buildProfileContent(
+                  context,
+                  userDetail,
+                  state.user.email,
+                );
+              } else if (state is AuthLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return const Center(
+                child: Text(
+                  "Not authenticated",
+                  style: TextStyle(color: Colors.white),
+                ),
+              );
+            },
           ),
         ),
       ),
     );
   }
 
-  Widget _buildProfileHeader() {
+  Widget _buildProfileContent(
+      BuildContext context, UserDetail userDetail, String email) {
+    return CustomScrollView(
+      shrinkWrap: true,
+      scrollBehavior: const ScrollBehavior().copyWith(
+        overscroll: false,
+      ),
+      slivers: [
+        SliverAppBar(
+          centerTitle: false,
+          backgroundColor: AppColors.primaryColor,
+          title: const Text(
+            'Profile',
+            style: TextStyle(
+              color: AppColors.textColor,
+              fontSize: AppFontSize.fontSizeXXL,
+              fontWeight: AppFontWeight.bold,
+            ),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppSpacing.spacingM,
+            ),
+            child: Column(
+              children: [
+                SizedBox(height: AppSpacing.spacingS),
+                _buildProfileHeader(userDetail, email),
+                SizedBox(height: AppSpacing.spacingL),
+              ],
+            ),
+          ),
+        ),
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(AppBorderRadius.radiusL),
+                topRight: Radius.circular(AppBorderRadius.radiusL),
+              ),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSpacing.spacingM,
+              ),
+              child: Column(
+                children: [
+                  SizedBox(height: AppSpacing.spacingXL),
+                  _buildSectionTitle("Account Settings"),
+                  _buildListTile(
+                    icon: Icons.person_outline,
+                    title: "Personal Information",
+                  ),
+                  _buildListTile(
+                    icon: Icons.security,
+                    title: "Password & Security",
+                  ),
+                  SizedBox(height: AppSpacing.spacingXL),
+                  _buildSectionTitle("Other"),
+                  _buildListTile(
+                    icon: Icons.settings_outlined,
+                    title: "Settings",
+                  ),
+                  _buildListTile(
+                    icon: Icons.help_outline,
+                    title: "FAQ",
+                  ),
+                  _buildListTile(
+                    icon: Icons.headset_mic_outlined,
+                    title: "Help Center",
+                  ),
+                  _buildListTile(
+                    icon: Icons.info_outline,
+                    title: "About",
+                  ),
+                  SizedBox(height: AppSpacing.spacingXL),
+                  _buildLogoutButton(
+                    onPressed: () {
+                      context.read<AuthBloc>().add(LogoutRequested());
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildProfileHeader(UserDetail userDetail, String email) {
     return Row(
       children: [
         CircleAvatar(
           radius: 35,
-          backgroundImage: NetworkImage(profileImageUrl),
+          backgroundImage: userDetail.gambarUrl != null
+              ? NetworkImage(userDetail.gambarUrl!)
+              : const AssetImage('assets/images/default_profile.png')
+                  as ImageProvider,
         ),
         SizedBox(width: AppSpacing.spacingL),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              name,
+              userDetail.name,
               style: TextStyle(
                 color: AppColors.textColor,
                 fontSize: AppFontSize.fontSizeXL,
@@ -206,35 +238,9 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
             onPressed: state is AuthLoading
-                ? null // Disable button while loading
+                ? null
                 : () {
-                    // Show confirmation dialog
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Konfirmasi'),
-                          content:
-                              const Text('Apakah Anda yakin ingin keluar?'),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text('Batal'),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context); // Close dialog
-                                context.read<AuthBloc>().add(LogoutRequested());
-                              },
-                              child: const Text(
-                                'Keluar',
-                                style: TextStyle(color: AppColors.errorColor),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    );
+                    onPressed();
                   },
             child: state is AuthLoading
                 ? const SizedBox(

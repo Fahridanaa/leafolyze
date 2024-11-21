@@ -24,7 +24,7 @@ class GambarMLBloc extends Bloc<GambarMLEvent, GambarMLState> {
     }
   }
 
-  // Handle FetchGambarByUserId event
+
   Future<void> _onFetchGambarByUserId(
       FetchGambarByUserId event, Emitter<GambarMLState> emit) async {
     emit(GambarMLLoading());

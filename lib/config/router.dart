@@ -95,12 +95,7 @@ final goRouter = GoRouter(
         ),
         GoRoute(
           path: '/profile',
-          builder: (context, state) => const ProfileScreen(
-            name: 'Muhammad Ridlo Febrio',
-            email: '2241720098@gmail.com',
-            profileImageUrl:
-                'https://awsimages.detik.net.id/community/media/visual/2018/03/03/39f24229-6f26-4a17-aa92-44c3bd3dae9e_43.jpeg?w=600&q=90',
-          ),
+          builder: (context, state) => const ProfileScreen(),
         ),
       ],
     ),

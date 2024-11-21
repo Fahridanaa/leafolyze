@@ -73,8 +73,13 @@ class MainApp extends StatelessWidget {
               GambarMLRepository(apiService),
             )..add(FetchAllGambarML()),
           ),
+          BlocProvider(
+            create: (context) =>
+                ProfileBloc(repository: ProfileRepository(apiService)),
+          ),
         ],
         child: MaterialApp.router(
+          debugShowCheckedModeBanner: false,
           title: 'Leafolyze',
           theme: ThemeData(
             fontFamily: GoogleFonts.plusJakartaSans().fontFamily,
