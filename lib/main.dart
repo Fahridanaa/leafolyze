@@ -51,23 +51,25 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        RepositoryProvider<ApiService>(
-          create: (context) => apiService,
-        ),
-        RepositoryProvider<StorageService>(
-          create: (context) => storageService,
-        ),
+        RepositoryProvider<ApiService>(create: (context) => apiService),
+        RepositoryProvider<StorageService>(create: (context) => storageService),
         RepositoryProvider<ArticleRepository>(
-          create: (context) => ArticleRepository(apiService, storageService),
+          create: (context) => ArticleRepository(
+            context.read<ApiService>(),
+            context.read<StorageService>(),
+          ),
         ),
         RepositoryProvider<ProfileRepository>(
-          create: (context) => ProfileRepository(apiService, storageService),
+          create: (context) => ProfileRepository(
+            context.read<ApiService>(),
+            context.read<StorageService>(),
+          ),
         ),
-        BlocProvider(
-          create: (context) => ArticleBloc(
-            context
-                .read<ArticleRepository>(), // Update to use repository provider
-          )..add(LoadArticles()),
+        RepositoryProvider<DetectionRepository>(
+          create: (context) => DetectionRepository(
+            context.read<ApiService>(),
+            context.read<StorageService>(),
+          ),
         ),
       ],
       child: MultiBlocProvider(
@@ -77,22 +79,18 @@ class MainApp extends StatelessWidget {
               ..add(AuthCheckRequested()),
           ),
           BlocProvider(
-            create: (context) => ProductBloc(
-              ProductRepository(apiService, storageService),
-            )..add(LoadProducts()),
-          ),
-          BlocProvider(
-            create: (context) => HistoryBloc(
-              DetectionRepository(
-                context.read<ApiService>(),
-                context.read<StorageService>(),
-              ),
-            )..add(LoadDetections()),
+            create: (context) => ArticleBloc(context.read<ArticleRepository>())
+              ..add(LoadArticles()),
           ),
           BlocProvider(
             create: (context) => ProfileBloc(
               repository: context.read<ProfileRepository>(),
             ),
+          ),
+          BlocProvider(
+            create: (context) => HistoryBloc(
+              context.read<DetectionRepository>(),
+            )..add(LoadDetections()),
           ),
         ],
         child: MaterialApp.router(
