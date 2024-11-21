@@ -4,11 +4,25 @@ import 'package:go_router/go_router.dart';
 import 'package:leafolyze/blocs/auth/auth_bloc.dart';
 import 'package:leafolyze/blocs/auth/auth_event.dart';
 import 'package:leafolyze/blocs/auth/auth_state.dart';
+import 'package:leafolyze/blocs/profile/profile_bloc.dart';
+import 'package:leafolyze/blocs/profile/profile_event.dart';
+import 'package:leafolyze/blocs/profile/profile_state.dart';
 import 'package:leafolyze/models/user_detail.dart';
 import 'package:leafolyze/utils/constants.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProfileBloc>().add(LoadProfile());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +35,19 @@ class ProfileScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppColors.primaryColor,
         body: SafeArea(
-          child: BlocBuilder<AuthBloc, AuthState>(
+          child: BlocBuilder<ProfileBloc, ProfileState>(
             builder: (context, state) {
-              if (state is Authenticated) {
-                final userDetail = state.user.userDetail;
+              if (state is ProfileLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if (state is ProfileError) {
+                return Center(child: Text(state.message));
+              }
+
+              if (state is ProfileLoaded) {
+                final user = state.user;
+                final userDetail = user.userDetail;
 
                 if (userDetail == null) {
                   return const Center(
@@ -38,16 +61,13 @@ class ProfileScreen extends StatelessWidget {
                 return _buildProfileContent(
                   context,
                   userDetail,
-                  state.user.email,
-                );
-              } else if (state is AuthLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                  user.email,
                 );
               }
+
               return const Center(
                 child: Text(
-                  "Not authenticated",
+                  "Something went wrong",
                   style: TextStyle(color: Colors.white),
                 ),
               );
@@ -156,10 +176,9 @@ class ProfileScreen extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 35,
-          backgroundImage: userDetail.image != null
+          backgroundImage: userDetail.image?.path != null
               ? NetworkImage(userDetail.image!.path)
-              : const AssetImage('assets/images/default_profile.png')
-                  as ImageProvider,
+              : const AssetImage('assets/images/image-11.png') as ImageProvider,
         ),
         SizedBox(width: AppSpacing.spacingL),
         Column(
@@ -219,7 +238,15 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: Icon(Icons.chevron_right, color: AppColors.textMutedColor),
       onTap: () {
-        // navigation
+        switch (title) {
+          case "Personal Information":
+            context.push('/profile/edit');
+            break;
+          case "Password & Security":
+            context.push('/profile/password');
+            break;
+          // Add other cases as needed
+        }
       },
     );
   }

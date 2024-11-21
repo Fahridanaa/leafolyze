@@ -34,14 +34,14 @@ class DiagnosisItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(AppBorderRadius.radiusXS),
               child: Image.network(
                 imagePath,
-                width: 100, // Fixed width
-                height: 100, // Fixed height
+                width: 100,
+                height: 100,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) => Icon(
                   Icons.broken_image,
                   size: 100,
                   color: Colors.grey.shade400,
-                ), // Fallback if image fails to load
+                ),
               ),
             ),
             SizedBox(width: AppSpacing.spacingM),

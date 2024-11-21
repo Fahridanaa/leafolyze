@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:leafolyze/models/user_detail.dart';
-
+import 'package:leafolyze/models/user.dart';
 
 abstract class ProfileState extends Equatable {
   const ProfileState();
@@ -14,12 +13,12 @@ class ProfileInitial extends ProfileState {}
 class ProfileLoading extends ProfileState {}
 
 class ProfileLoaded extends ProfileState {
-  final List<UserDetail> profiles;
+  final User user;
 
-  const ProfileLoaded(this.profiles);
+  const ProfileLoaded(this.user);
 
   @override
-  List<Object?> get props => [profiles];
+  List<Object?> get props => [user];
 }
 
 class ProfileError extends ProfileState {
@@ -30,3 +29,7 @@ class ProfileError extends ProfileState {
   @override
   List<Object?> get props => [message];
 }
+
+class ProfileUpdateSuccess extends ProfileState {}
+
+class PasswordUpdateSuccess extends ProfileState {}

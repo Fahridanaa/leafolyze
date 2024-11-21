@@ -4,8 +4,12 @@ import 'package:go_router/go_router.dart';
 import 'package:leafolyze/blocs/article/article_bloc.dart';
 import 'package:leafolyze/blocs/article/article_event.dart';
 import 'package:leafolyze/blocs/article/article_state.dart';
+import 'package:leafolyze/blocs/history/history_bloc.dart';
+import 'package:leafolyze/blocs/history/history_event.dart';
+import 'package:leafolyze/blocs/history/history_state.dart';
 import 'package:leafolyze/core/widgets/common/diagnosis_item.dart';
 import 'package:leafolyze/repositories/article_repository.dart';
+import 'package:leafolyze/repositories/detection_repository.dart';
 import 'package:leafolyze/services/api_service.dart';
 import 'package:leafolyze/services/storage_service.dart';
 import 'package:leafolyze/utils/constants.dart';
@@ -20,13 +24,24 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ArticleBloc(
-        ArticleRepository(
-          context.read<ApiService>(),
-          context.read<StorageService>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ArticleBloc(
+            ArticleRepository(
+              context.read<ApiService>(),
+              context.read<StorageService>(),
+            ),
+          )..add(LoadArticles()),
         ),
-      )..add(LoadArticles()),
+        BlocProvider(
+            create: (context) => HistoryBloc(
+                  DetectionRepository(
+                    context.read<ApiService>(),
+                    context.read<StorageService>(),
+                  ),
+                )..add(LoadDetections())),
+      ],
       child: Scaffold(
         body: SafeArea(
           child: CustomScrollView(
@@ -212,7 +227,11 @@ Widget _buildArticleSection({required Function() onPressed}) {
                             borderRadius:
                                 BorderRadius.circular(AppBorderRadius.radiusS),
                             image: DecorationImage(
-                              image: NetworkImage(article.image?.path ?? ''),
+                              image: article.image?.path != null
+                                  ? NetworkImage(article.image!.path)
+                                  : const AssetImage(
+                                          'assets/images/articledetail.jpg')
+                                      as ImageProvider,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -279,97 +298,116 @@ Widget _buildArticleSection({required Function() onPressed}) {
 }
 
 Widget _buildRecentDiagnosis() {
-  // Sample data
-  final List<Map<String, String>> diagnosisItems = [
-    {
-      'imagePath': 'assets/images/ren-ran-bBiuSdck8tU-unsplash.jpg',
-      'plantName': 'Tomato',
-      'diseaseName': 'Bacterial Spot',
-    },
-    {
-      'imagePath': 'assets/images/ren-ran-bBiuSdck8tU-unsplash.jpg',
-      'plantName': 'Potato',
-      'diseaseName': 'Early Blight',
-    },
-    {
-      'imagePath': 'assets/images/ren-ran-bBiuSdck8tU-unsplash.jpg',
-      'plantName': 'Corn',
-      'diseaseName': 'Gray Leaf Spot',
-    },
-  ];
-
-  // final displayedItems = diagnosisItems.take(3).toList();
-
-  return Container(
-    padding: EdgeInsets.fromLTRB(
-      AppSpacing.spacingS,
-      0,
-      AppSpacing.spacingS,
-      AppSpacing.spacingMS,
-    ),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(AppBorderRadius.radiusM),
-      boxShadow: [
-        BoxShadow(
-          offset: Offset(0, 0),
-          blurRadius: 15,
-          color: Colors.black.withOpacity(0.08),
+  return BlocBuilder<HistoryBloc, HistoryState>(
+    builder: (context, state) {
+      return Container(
+        constraints: const BoxConstraints(
+          minHeight: 350,
         ),
-      ],
-    ),
-    child: Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: AppSpacing.spacingXS),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Center(
-                child: Text(
-                  'Recent Diagnosis',
-                  style: TextStyle(
-                    fontSize: AppFontSize.fontSizeMS,
-                    fontWeight: AppFontWeight.semiBold,
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: Center(
-                  child: Text(
-                    'See all',
-                    style: TextStyle(
-                      fontSize: AppFontSize.fontSizeMS,
-                      fontWeight: AppFontWeight.semiBold,
-                      color: AppColors.actionTextColor,
+        padding: EdgeInsets.fromLTRB(
+          AppSpacing.spacingS,
+          0,
+          AppSpacing.spacingS,
+          AppSpacing.spacingMS,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(AppBorderRadius.radiusM),
+          boxShadow: [
+            BoxShadow(
+              offset: Offset(0, 0),
+              blurRadius: 15,
+              color: Colors.black.withOpacity(0.08),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min, // Add this
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: AppSpacing.spacingXS),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Center(
+                    child: Text(
+                      'Recent Diagnosis',
+                      style: TextStyle(
+                        fontSize: AppFontSize.fontSizeMS,
+                        fontWeight: AppFontWeight.semiBold,
+                      ),
                     ),
                   ),
-                ),
+                  TextButton(
+                    onPressed: () {
+                      context.push('/history');
+                    },
+                    child: Center(
+                      child: Text(
+                        'See all',
+                        style: TextStyle(
+                          fontSize: AppFontSize.fontSizeMS,
+                          fontWeight: AppFontWeight.semiBold,
+                          color: AppColors.actionTextColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+            _buildContent(state),
+          ],
         ),
-        ListView.separated(
-          padding: EdgeInsets.zero,
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: diagnosisItems.length,
-          separatorBuilder: (context, index) =>
-              SizedBox(height: AppSpacing.spacingS),
-          itemBuilder: (context, index) {
-            final item = diagnosisItems[index];
-            return DiagnosisItem(
-              imagePath: item['imagePath']!,
-              plantName: item['plantName']!,
-              diseaseName: item['diseaseName']!,
-              onTap: () {
-                // Handle tap for specific item
-              },
-            );
+      );
+    },
+  );
+}
+
+Widget _buildContent(HistoryState state) {
+  if (state is HistoryLoading) {
+    return const SizedBox(
+      height: 200, // Match container's minHeight
+      child: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  } else if (state is HistoryLoaded) {
+    if (state.detections.isEmpty) {
+      return const Padding(
+        padding: EdgeInsets.all(AppSpacing.spacingM),
+        child: Text('No recent diagnoses'),
+      );
+    }
+    return ListView.separated(
+      padding: EdgeInsets.zero,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: state.detections.take(3).length,
+      separatorBuilder: (context, index) =>
+          const SizedBox(height: AppSpacing.spacingS),
+      itemBuilder: (context, index) {
+        final detection = state.detections[index];
+        return DiagnosisItem(
+          imagePath: detection.image?.path ?? '',
+          plantName: detection.title,
+          diseaseName: detection.diseases?[0].name ?? '',
+          onTap: () {
+            context.push('/history/detection/${detection.id}');
           },
-        ),
-      ],
-    ),
+        );
+      },
+    );
+  } else if (state is HistoryError) {
+    return Center(
+      child: Text(
+        'Error: ${state.error}',
+        style: const TextStyle(color: Colors.red),
+      ),
+    );
+  }
+  return const Center(
+    child: Text('Start scanning leaves to see your diagnoses'),
   );
 }

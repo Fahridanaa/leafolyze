@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:leafolyze/blocs/article/article_bloc.dart';
 import 'package:leafolyze/blocs/article/article_event.dart';
-import 'package:leafolyze/blocs/article_detail/article_detail_bloc.dart';
-import 'package:leafolyze/blocs/article_detail/article_detail_event.dart';
 import 'package:leafolyze/blocs/auth/auth_bloc.dart';
 import 'package:leafolyze/blocs/auth/auth_event.dart';
 import 'package:leafolyze/blocs/history/history_bloc.dart';
@@ -16,7 +14,7 @@ import 'package:leafolyze/config/router.dart';
 import 'package:leafolyze/models/auth_token.dart';
 import 'package:leafolyze/repositories/article_repository.dart';
 import 'package:leafolyze/repositories/auth_repository.dart';
-import 'package:leafolyze/repositories/history_repository.dart';
+import 'package:leafolyze/repositories/detection_repository.dart';
 import 'package:leafolyze/repositories/product_repository.dart';
 import 'package:leafolyze/repositories/profile_repository.dart';
 import 'package:leafolyze/services/api_service.dart';
@@ -59,6 +57,18 @@ class MainApp extends StatelessWidget {
         RepositoryProvider<StorageService>(
           create: (context) => storageService,
         ),
+        RepositoryProvider<ArticleRepository>(
+          create: (context) => ArticleRepository(apiService, storageService),
+        ),
+        RepositoryProvider<ProfileRepository>(
+          create: (context) => ProfileRepository(apiService, storageService),
+        ),
+        BlocProvider(
+          create: (context) => ArticleBloc(
+            context
+                .read<ArticleRepository>(), // Update to use repository provider
+          )..add(LoadArticles()),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -72,23 +82,17 @@ class MainApp extends StatelessWidget {
             )..add(LoadProducts()),
           ),
           BlocProvider(
-            create: (context) => ArticleBloc(
-              ArticleRepository(apiService, storageService),
-            )..add(LoadArticles()),
+            create: (context) => HistoryBloc(
+              DetectionRepository(
+                context.read<ApiService>(),
+                context.read<StorageService>(),
+              ),
+            )..add(LoadDetections()),
           ),
           BlocProvider(
-            create: (context) => ArticleDetailBloc(
-              ArticleRepository(apiService, storageService),
+            create: (context) => ProfileBloc(
+              repository: context.read<ProfileRepository>(),
             ),
-          ),
-          // BlocProvider(
-          //   create: (context) => GambarMLBloc(
-          //     GambarMLRepository(apiService),
-          //   )..add(FetchAllGambarML()),
-          // ),
-          BlocProvider(
-            create: (context) =>
-                ProfileBloc(repository: ProfileRepository(apiService)),
           ),
         ],
         child: MaterialApp.router(

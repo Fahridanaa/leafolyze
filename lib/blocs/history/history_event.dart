@@ -1,19 +1,10 @@
 import 'package:equatable/equatable.dart';
 
-abstract class GambarMLEvent extends Equatable {
-  const GambarMLEvent();
+abstract class HistoryEvent extends Equatable {
+  const HistoryEvent();
 
   @override
   List<Object?> get props => [];
 }
 
-class FetchAllGambarML extends GambarMLEvent {}
-
-class FetchGambarByUserId extends GambarMLEvent {
-  final int userId;
-
-  const FetchGambarByUserId(this.userId);
-
-  @override
-  List<Object?> get props => [userId];
-}
+class LoadDetections extends HistoryEvent {}

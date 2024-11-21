@@ -1,34 +1,30 @@
 import 'package:equatable/equatable.dart';
-// import 'package:leafolyze/models/gambarML.dart';
+import 'package:leafolyze/models/tomato_leaf_detection.dart';
 
-abstract class GambarMLState extends Equatable {
-  const GambarMLState();
+abstract class HistoryState extends Equatable {
+  const HistoryState();
 
   @override
   List<Object?> get props => [];
 }
 
-// Initial state
-class GambarMLInitial extends GambarMLState {}
+class HistoryInitial extends HistoryState {}
 
-// Loading state
-class GambarMLLoading extends GambarMLState {}
+class HistoryLoading extends HistoryState {}
 
-// Loaded state for all GambarML
-// class GambarMLLoaded extends GambarMLState {
-//   final List<GambarML> gambarMLList;
+class HistoryLoaded extends HistoryState {
+  final List<TomatoLeafDetection> detections;
 
-//   const GambarMLLoaded(this.gambarMLList);
+  const HistoryLoaded(this.detections);
 
-//   @override
-//   List<Object?> get props => [gambarMLList];
-// }
+  @override
+  List<Object?> get props => [detections];
+}
 
-// Error state
-class GambarMLError extends GambarMLState {
+class HistoryError extends HistoryState {
   final String error;
 
-  const GambarMLError(this.error);
+  const HistoryError(this.error);
 
   @override
   List<Object?> get props => [error];

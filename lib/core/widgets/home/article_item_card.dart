@@ -32,7 +32,15 @@ class ArticleItemCard extends StatelessWidget {
           child: Stack(
             children: [
               Image.network(
-                imageUrl,
+                imageUrl.isEmpty ? 'assets/images/articledetail.jpg' : imageUrl,
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.asset(
+                    'assets/images/articledetail.jpg',
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  );
+                },
                 height: MediaQuery.of(context).size.height * 0.2,
                 width: double.infinity,
                 fit: BoxFit.cover,

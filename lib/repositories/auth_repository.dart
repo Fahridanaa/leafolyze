@@ -39,14 +39,10 @@ class AuthRepository {
         },
       );
 
-      print('response: $response');
-
       final apiResponse = ApiResponse<Map<String, dynamic>>.fromJson(
         response,
         (json) => json as Map<String, dynamic>,
       );
-
-      print('apiResponse: $apiResponse');
 
       if (!apiResponse.isSuccess) {
         throw Exception(apiResponse.message);
@@ -67,14 +63,10 @@ class AuthRepository {
         token: token.bearerToken,
       );
 
-      print('userResponse: $userResponse');
-
       final userApiResponse = ApiResponse<User>.fromJson(
         userResponse,
         (json) => User.fromJson(json),
       );
-
-      print('userApiResponse: $userApiResponse');
 
       if (!userApiResponse.isSuccess) {
         throw Exception(userApiResponse.message);

@@ -78,9 +78,18 @@ class ArticleDetailScreen extends StatelessWidget {
                           borderRadius:
                               BorderRadius.circular(AppBorderRadius.radiusM),
                           child: Image.network(
-                            article.image?.path ?? '',
-                            fit: BoxFit.cover,
+                            article.image?.path ??
+                                'assets/images/articledetail.jpg',
+                            errorBuilder: (context, error, stackTrace) {
+                              return Image.asset(
+                                'assets/images/articledetail.jpg',
+                                height:
+                                    MediaQuery.of(context).size.height * 0.3,
+                                fit: BoxFit.cover,
+                              );
+                            },
                             height: MediaQuery.of(context).size.height * 0.3,
+                            fit: BoxFit.cover,
                           ),
                         ),
                         const SizedBox(height: AppSpacing.spacingM),

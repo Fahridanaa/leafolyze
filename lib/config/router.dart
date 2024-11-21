@@ -89,10 +89,10 @@ final goRouter = GoRouter(
             ),
           ],
         ),
-        // GoRoute(
-        //   path: '/history',
-        //   builder: (context, state) => const HistoryScreen(),
-        // ),
+        GoRoute(
+          path: '/history',
+          builder: (context, state) => const HistoryScreen(),
+        ),
         GoRoute(
           path: '/profile',
           builder: (context, state) => const ProfileScreen(),

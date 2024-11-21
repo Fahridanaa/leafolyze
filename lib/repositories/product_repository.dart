@@ -18,8 +18,6 @@ class ProductRepository {
         token: token?.bearerToken,
       );
 
-      print('response: $response');
-
       final apiResponse = ApiResponse<List<Product>>.fromJson(
         response,
         (json) => (json as List).map((item) => Product.fromJson(item)).toList(),
