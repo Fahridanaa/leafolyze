@@ -7,6 +7,7 @@ import 'package:leafolyze/blocs/article/article_state.dart';
 import 'package:leafolyze/core/widgets/common/diagnosis_item.dart';
 import 'package:leafolyze/repositories/article_repository.dart';
 import 'package:leafolyze/services/api_service.dart';
+import 'package:leafolyze/services/storage_service.dart';
 import 'package:leafolyze/utils/constants.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,7 +22,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ArticleBloc(
-        ArticleRepository(context.read<ApiService>()),
+        ArticleRepository(
+          context.read<ApiService>(),
+          context.read<StorageService>(),
+        ),
       )..add(LoadArticles()),
       child: Scaffold(
         body: SafeArea(

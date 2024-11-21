@@ -13,6 +13,7 @@ class ApiResponse<T> {
     Map<String, dynamic> json,
     T Function(dynamic json) fromJsonT,
   ) {
+    print(json);
     return ApiResponse(
       status: json['status'],
       message: json['message'],

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:leafolyze/blocs/article/article_bloc.dart';
+import 'package:leafolyze/blocs/article/article_event.dart';
 import 'package:leafolyze/blocs/auth/auth_bloc.dart';
 import 'package:leafolyze/blocs/auth/auth_event.dart';
 import 'package:leafolyze/blocs/history/history_bloc.dart';
@@ -55,9 +57,6 @@ class MainApp extends StatelessWidget {
         RepositoryProvider<StorageService>(
           create: (context) => storageService,
         ),
-        RepositoryProvider<ArticleRepository>(
-          create: (context) => ArticleRepository(apiService),
-        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -71,10 +70,15 @@ class MainApp extends StatelessWidget {
             )..add(LoadProducts()),
           ),
           BlocProvider(
-            create: (context) => GambarMLBloc(
-              GambarMLRepository(apiService),
-            )..add(FetchAllGambarML()),
+            create: (context) => ArticleBloc(
+              ArticleRepository(apiService, storageService),
+            )..add(LoadArticles()),
           ),
+          // BlocProvider(
+          //   create: (context) => GambarMLBloc(
+          //     GambarMLRepository(apiService),
+          //   )..add(FetchAllGambarML()),
+          // ),
           BlocProvider(
             create: (context) =>
                 ProfileBloc(repository: ProfileRepository(apiService)),

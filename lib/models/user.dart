@@ -41,7 +41,7 @@ class User extends Equatable {
       'id': id,
       'email': email,
       'email_verified_at': emailVerifiedAt,
-      'Acces': access,
+      'access': access,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
       'user_detail': userDetail?.toJson(),

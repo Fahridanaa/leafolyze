@@ -1,15 +1,22 @@
+import 'package:leafolyze/config/api_routes.dart';
 import 'package:leafolyze/models/api_response.dart';
 import 'package:leafolyze/models/article.dart';
 import 'package:leafolyze/services/api_service.dart';
+import 'package:leafolyze/services/storage_service.dart';
 
 class ArticleRepository {
   final ApiService _apiService;
+  final StorageService _storageService;
 
-  ArticleRepository(this._apiService);
+  ArticleRepository(this._apiService, this._storageService);
 
   Future<List<Article>> getArticles() async {
     try {
-      final response = await _apiService.get('/articles');
+      final token = await _storageService.getToken();
+      final response = await _apiService.get(
+        ApiRoutes.articles.list,
+        token: token?.bearerToken,
+      );
 
       final apiResponse = ApiResponse<List<Article>>.fromJson(
         response,

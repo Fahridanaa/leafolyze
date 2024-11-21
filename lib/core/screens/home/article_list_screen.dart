@@ -8,6 +8,7 @@ import 'package:leafolyze/core/widgets/home/article_item_card.dart';
 import 'package:leafolyze/core/widgets/common/custom_search_bar.dart';
 import 'package:leafolyze/repositories/article_repository.dart';
 import 'package:leafolyze/services/api_service.dart';
+import 'package:leafolyze/services/storage_service.dart';
 import 'package:leafolyze/utils/constants.dart';
 
 class ArticleListScreen extends StatelessWidget {
@@ -19,6 +20,7 @@ class ArticleListScreen extends StatelessWidget {
         create: (context) => ArticleBloc(
               ArticleRepository(
                 context.read<ApiService>(),
+                context.read<StorageService>(),
               ),
             )..add(LoadArticles()),
         child: Scaffold(
