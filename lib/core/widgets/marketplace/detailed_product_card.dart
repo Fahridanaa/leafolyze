@@ -55,7 +55,7 @@ class DetailedProductCard extends StatelessWidget {
                           borderRadius:
                               BorderRadius.circular(AppBorderRadius.radiusXS),
                           child: Image.network(
-                            product.imageUrl,
+                            product.image?.path ?? '',
                             height: MediaQuery.of(context).size.width * 0.35,
                             width: double.infinity,
                             fit: BoxFit.cover,

@@ -208,7 +208,7 @@ Widget _buildArticleSection({required Function() onPressed}) {
                             borderRadius:
                                 BorderRadius.circular(AppBorderRadius.radiusS),
                             image: DecorationImage(
-                              image: NetworkImage(article.gambarUrl),
+                              image: NetworkImage(article.image?.path ?? ''),
                               fit: BoxFit.cover,
                             ),
                           ),

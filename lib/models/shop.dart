@@ -7,7 +7,6 @@ class Shop extends Equatable {
   final String address;
   final String description;
   final String operational;
-  final String gambarUrl;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -18,7 +17,6 @@ class Shop extends Equatable {
     required this.address,
     required this.description,
     required this.operational,
-    required this.gambarUrl,
     this.createdAt,
     this.updatedAt,
   });
@@ -31,7 +29,6 @@ class Shop extends Equatable {
       address: json['address'],
       description: json['description'],
       operational: json['operational'],
-      gambarUrl: json['gambarUrl'],
       createdAt: json['created_at'] != null
           ? DateTime.parse(json['created_at'])
           : null,
@@ -49,10 +46,31 @@ class Shop extends Equatable {
       'address': address,
       'description': description,
       'operational': operational,
-      'gambarUrl': gambarUrl,
       'created_at': createdAt?.toIso8601String(),
       'updated_at': updatedAt?.toIso8601String(),
     };
+  }
+
+  Shop copyWith({
+    int? id,
+    int? userId,
+    String? name,
+    String? address,
+    String? description,
+    String? operational,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) {
+    return Shop(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      name: name ?? this.name,
+      address: address ?? this.address,
+      description: description ?? this.description,
+      operational: operational ?? this.operational,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
   }
 
   @override
@@ -63,7 +81,6 @@ class Shop extends Equatable {
         address,
         description,
         operational,
-        gambarUrl,
         createdAt,
         updatedAt,
       ];

@@ -78,7 +78,7 @@ class ArticleDetailScreen extends StatelessWidget {
                           borderRadius:
                               BorderRadius.circular(AppBorderRadius.radiusM),
                           child: Image.network(
-                            article.gambarUrl,
+                            article.image?.path ?? '',
                             fit: BoxFit.cover,
                             height: MediaQuery.of(context).size.height * 0.3,
                           ),

@@ -1,3 +1,4 @@
+import 'package:leafolyze/models/api_response.dart';
 import 'package:leafolyze/models/article.dart';
 import 'package:leafolyze/services/api_service.dart';
 
@@ -10,15 +11,18 @@ class ArticleRepository {
     try {
       final response = await _apiService.get('/articles');
 
-      if (response['success']) {
-        final List<dynamic> articlesJson = response['data'];
-        return articlesJson.map((json) => Article.fromJson(json)).toList();
+      final apiResponse = ApiResponse<List<Article>>.fromJson(
+        response,
+        (json) => (json as List).map((item) => Article.fromJson(item)).toList(),
+      );
+
+      if (apiResponse.isSuccess) {
+        return apiResponse.data ?? [];
+      } else {
+        throw Exception(apiResponse.message);
       }
-      throw Exception(response['message']);
-    } on UnauthorizedException {
-      rethrow;
     } catch (e) {
-      throw Exception('Failed to load articles: $e');
+      throw Exception('Failed to fetch articles: $e');
     }
   }
 
@@ -26,32 +30,18 @@ class ArticleRepository {
     try {
       final response = await _apiService.get('/articles/$id');
 
-      if (response['success']) {
-        return Article.fromJson(response['data']);
-      }
-      throw Exception(response['message']);
-    } on UnauthorizedException {
-      rethrow;
-    } catch (e) {
-      throw Exception('Failed to load article: $e');
-    }
-  }
+      final apiResponse = ApiResponse<Article>.fromJson(
+        response,
+        (json) => Article.fromJson(json),
+      );
 
-  Future<List<Article>> searchArticles(String query) async {
-    try {
-      final response = await _apiService.get('/articles/search', queryParams: {
-        'q': query,
-      });
-
-      if (response['success']) {
-        final List<dynamic> articlesJson = response['data'];
-        return articlesJson.map((json) => Article.fromJson(json)).toList();
+      if (apiResponse.isSuccess) {
+        return apiResponse.data!;
+      } else {
+        throw Exception(apiResponse.message);
       }
-      throw Exception(response['message']);
-    } on UnauthorizedException {
-      rethrow;
     } catch (e) {
-      throw Exception('Failed to search articles: $e');
+      throw Exception('Failed to fetch article: $e');
     }
   }
 }

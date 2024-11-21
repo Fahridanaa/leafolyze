@@ -74,10 +74,10 @@ final goRouter = GoRouter(
           builder: (context, state) => const MarketplaceScreen(),
           routes: [
             GoRoute(
-              path: ':productType',
+              path: ':diseaseId',
               parentNavigatorKey: _rootNavigatorKey,
               builder: (context, state) => ProductListScreen(
-                productType: state.pathParameters['productType']!,
+                diseaseId: int.parse(state.pathParameters['diseaseId']!),
               ),
               routes: [
                 GoRoute(

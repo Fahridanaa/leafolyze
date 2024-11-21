@@ -8,7 +8,6 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
 
   ArticleBloc(this._repository) : super(ArticleInitial()) {
     on<LoadArticles>(_onLoadArticles);
-    on<SearchArticles>(_onSearchArticles);
   }
 
   Future<void> _onLoadArticles(
@@ -18,19 +17,6 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
     emit(ArticleLoading());
     try {
       final articles = await _repository.getArticles();
-      emit(ArticleLoaded(articles));
-    } catch (e) {
-      emit(ArticleError(e.toString()));
-    }
-  }
-
-  Future<void> _onSearchArticles(
-    SearchArticles event,
-    Emitter<ArticleState> emit,
-  ) async {
-    emit(ArticleLoading());
-    try {
-      final articles = await _repository.searchArticles(event.query);
       emit(ArticleLoaded(articles));
     } catch (e) {
       emit(ArticleError(e.toString()));

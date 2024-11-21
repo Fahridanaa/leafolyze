@@ -26,7 +26,7 @@ class ProductCard extends StatelessWidget {
         children: [
           InkWell(
             borderRadius: BorderRadius.circular(AppBorderRadius.radiusS),
-            onTap: () => context.go('/marketplace/${slugify(name)}'),
+            onTap: () => context.go('/marketplace/$id'),
             child: Container(
               padding: EdgeInsets.all(AppSpacing.spacingMS),
               decoration: BoxDecoration(

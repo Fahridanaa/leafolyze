@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:leafolyze/models/gambarML.dart';
-
+// import 'package:leafolyze/models/gambarML.dart';
 
 abstract class GambarMLState extends Equatable {
   const GambarMLState();
@@ -16,14 +15,14 @@ class GambarMLInitial extends GambarMLState {}
 class GambarMLLoading extends GambarMLState {}
 
 // Loaded state for all GambarML
-class GambarMLLoaded extends GambarMLState {
-  final List<GambarML> gambarMLList;
+// class GambarMLLoaded extends GambarMLState {
+//   final List<GambarML> gambarMLList;
 
-  const GambarMLLoaded(this.gambarMLList);
+//   const GambarMLLoaded(this.gambarMLList);
 
-  @override
-  List<Object?> get props => [gambarMLList];
-}
+//   @override
+//   List<Object?> get props => [gambarMLList];
+// }
 
 // Error state
 class GambarMLError extends GambarMLState {

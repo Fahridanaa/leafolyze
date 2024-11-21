@@ -48,6 +48,26 @@ class User extends Equatable {
     };
   }
 
+  User copyWith({
+    int? id,
+    String? email,
+    String? emailVerifiedAt,
+    String? access,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    UserDetail? userDetail,
+  }) {
+    return User(
+      id: id ?? this.id,
+      email: email ?? this.email,
+      emailVerifiedAt: emailVerifiedAt ?? this.emailVerifiedAt,
+      access: access ?? this.access,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      userDetail: userDetail ?? this.userDetail,
+    );
+  }
+
   @override
   List<Object?> get props =>
       [id, email, emailVerifiedAt, access, createdAt, updatedAt, userDetail];

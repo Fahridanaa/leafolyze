@@ -7,7 +7,6 @@ class UserDetail extends Equatable {
   final String? birth;
   final String? gender;
   final String? address;
-  final String? imageUrl;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -18,7 +17,6 @@ class UserDetail extends Equatable {
     this.birth,
     this.gender,
     this.address,
-    this.imageUrl,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -31,7 +29,6 @@ class UserDetail extends Equatable {
       birth: json['birth'],
       gender: json['gender'],
       address: json['address'],
-      imageUrl: json['gambarUrl'],
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
     );
@@ -45,10 +42,31 @@ class UserDetail extends Equatable {
       'birth': birth,
       'gender': gender,
       'address': address,
-      'imageUrl': imageUrl,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
     };
+  }
+
+  UserDetail copyWith({
+    int? id,
+    int? userId,
+    String? name,
+    String? birth,
+    String? gender,
+    String? address,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) {
+    return UserDetail(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      name: name ?? this.name,
+      birth: birth ?? this.birth,
+      gender: gender ?? this.gender,
+      address: address ?? this.address,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
   }
 
   @override
@@ -59,7 +77,6 @@ class UserDetail extends Equatable {
         birth,
         gender,
         address,
-        imageUrl,
         createdAt,
         updatedAt,
       ];

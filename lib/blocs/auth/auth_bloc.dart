@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:leafolyze/blocs/auth/auth_event.dart';
+import 'package:leafolyze/blocs/auth/auth_state.dart';
 import 'package:leafolyze/repositories/auth_repository.dart';
 import 'package:leafolyze/services/storage_service.dart';
-import 'auth_event.dart';
-import 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
@@ -14,7 +14,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this._authRepository, this._storageService) : super(AuthInitial()) {
     on<AuthCheckRequested>(_onAuthCheckRequested);
     on<LoginRequested>(_onLoginRequested);
-    // on<RegisterRequested>(_onRegisterRequested);
+    on<RegisterRequested>(_onRegisterRequested);
     on<LogoutRequested>(_onLogoutRequested);
   }
 
@@ -22,13 +22,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthCheckRequested event,
     Emitter<AuthState> emit,
   ) async {
-    final token = await _storageService.getToken();
-    final user = await _authRepository.getCurrentUser();
-    if (token != null && !token.isExpired && user != null) {
-      emit(Authenticated(user));
-      _startRefreshTimer();
-    } else {
-      emit(Unauthenticated());
+    try {
+      final isAuthenticated = await _authRepository.isAuthenticated();
+      if (isAuthenticated) {
+        final user = await _authRepository.getCurrentUser();
+        if (user != null) {
+          emit(Authenticated(user));
+          _startRefreshTimer();
+          await _authRepository.refreshTokenIfNeeded();
+        } else {
+          emit(Unauthenticated());
+        }
+      } else {
+        emit(Unauthenticated());
+      }
+    } catch (e) {
+      emit(AuthError(e.toString()));
     }
   }
 
@@ -39,31 +48,37 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
     try {
       final user = await _authRepository.login(
-        event.email,
-        event.password,
+        email: event.email,
+        password: event.password,
       );
       emit(Authenticated(user));
+      _startRefreshTimer();
     } catch (e) {
       emit(AuthError(e.toString()));
     }
   }
 
-  // Future<void> _onRegisterRequested(
-  //   RegisterRequested event,
-  //   Emitter<AuthState> emit,
-  // ) async {
-  //   emit(AuthLoading());
-  //   try {
-  //     final user = await _authRepository.register(
-  //       event.name,
-  //       event.email,
-  //       event.password,
-  //     );
-  //     emit(Authenticated(user));
-  //   } catch (e) {
-  //     emit(AuthError(e.toString()));
-  //   }
-  // }
+  Future<void> _onRegisterRequested(
+    RegisterRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(AuthLoading());
+    try {
+      final user = await _authRepository.register(
+        name: event.name,
+        email: event.email,
+        password: event.password,
+        birth: event.birth,
+        gender: event.gender,
+        address: event.address,
+        access: event.access,
+      );
+      emit(Authenticated(user));
+      _startRefreshTimer();
+    } catch (e) {
+      emit(AuthError(e.toString()));
+    }
+  }
 
   Future<void> _onLogoutRequested(
     LogoutRequested event,
@@ -80,9 +95,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _startRefreshTimer() {
-    _refreshTimer?.cancel();
-    _refreshTimer = Timer.periodic(Duration(minutes: 4), (timer) {
-      _authRepository.refreshTokenIfNeeded();
+    _stopRefreshTimer();
+    _refreshTimer = Timer.periodic(const Duration(minutes: 4), (timer) async {
+      try {
+        await _authRepository.refreshTokenIfNeeded();
+      } catch (e) {
+        print('Refresh timer error: $e');
+        // If refresh fails, stop the timer and logout
+        _stopRefreshTimer();
+        add(LogoutRequested());
+      }
     });
   }
 

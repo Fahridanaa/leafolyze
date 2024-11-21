@@ -1,34 +1,32 @@
 import 'package:equatable/equatable.dart';
+import 'package:leafolyze/models/image.dart';
 
 class Article extends Equatable {
   final int id;
-  final int userId;
   final String title;
   final String content;
-  final String gambarUrl;
   final int duration;
-  final String createdAt;
-  final String updatedAt;
+  final Image? image;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   const Article({
     required this.id,
-    required this.userId,
     required this.title,
     required this.content,
-    required this.gambarUrl,
     required this.duration,
     required this.createdAt,
     required this.updatedAt,
+    this.image,
   });
 
   factory Article.fromJson(Map<String, dynamic> json) {
     return Article(
       id: json['id'],
-      userId: json['user_id'],
       title: json['title'],
       content: json['content'],
-      gambarUrl: json['gambarUrl'],
       duration: json['duration'],
+      image: json['image'] != null ? Image.fromJson(json['image']) : null,
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
     );
@@ -37,47 +35,44 @@ class Article extends Equatable {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'user_id': userId,
       'title': title,
       'content': content,
-      'gambarUrl': gambarUrl,
       'duration': duration,
+      'image': image?.toJson(),
       'created_at': createdAt,
       'updated_at': updatedAt,
     };
   }
 
+  Article copyWith({
+    int? id,
+    String? title,
+    String? content,
+    int? duration,
+    Image? image,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) {
+    return Article(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      content: content ?? this.content,
+      duration: duration ?? this.duration,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      image: image ?? this.image,
+    );
+  }
+
   @override
   List<Object?> get props => [
         id,
-        userId,
         title,
         content,
-        gambarUrl,
         duration,
         createdAt,
         updatedAt,
       ];
+
+  String get readingTime => '$duration min read';
 }
-
-// // Helper class to parse the API response
-// class ArtikelResponse {
-//   final bool success;
-//   final String message;
-//   final List<Article> data;
-
-//   const ArticleResponse({
-//     required this.success,
-//     required this.message,
-//     required this.data,
-//   });
-
-//   factory ArticleResponse.fromJson(Map<String, dynamic> json) {
-//     return ArticleResponse(
-//       success: json['success'],
-//       message: json['message'],
-//       data:
-//           (json['data'] as List).map((item) => Article.fromJson(item)).toList(),
-//     );
-//   }
-// }

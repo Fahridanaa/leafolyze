@@ -90,7 +90,7 @@ class ArticleListScreen extends StatelessWidget {
                           final article = state.articles[index];
                           return ArticleItemCard(
                             id: article.id,
-                            imageUrl: article.gambarUrl,
+                            imageUrl: article.image?.path ?? '',
                             title: article.title,
                             description: article.content,
                           );

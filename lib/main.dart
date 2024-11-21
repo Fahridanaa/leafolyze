@@ -5,22 +5,26 @@ import 'package:leafolyze/blocs/auth/auth_bloc.dart';
 import 'package:leafolyze/blocs/auth/auth_event.dart';
 import 'package:leafolyze/blocs/history/history_bloc.dart';
 import 'package:leafolyze/blocs/history/history_event.dart';
-import 'package:leafolyze/blocs/marketplace/marketplace_bloc.dart';
-import 'package:leafolyze/blocs/marketplace/marketplace_event.dart';
+import 'package:leafolyze/blocs/product/product_bloc.dart';
+import 'package:leafolyze/blocs/product/product_event.dart';
 import 'package:leafolyze/config/router.dart';
+import 'package:leafolyze/models/auth_token.dart';
 import 'package:leafolyze/repositories/article_repository.dart';
 import 'package:leafolyze/repositories/auth_repository.dart';
 import 'package:leafolyze/repositories/history_repository.dart';
-import 'package:leafolyze/repositories/marketplace_repository.dart';
+import 'package:leafolyze/repositories/product_repository.dart';
 import 'package:leafolyze/services/api_service.dart';
 import 'package:leafolyze/services/storage_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  late final AuthRepository authRepository;
+
   final storageService = await StorageService.init();
-  final apiService = ApiService(storageService);
-  final authRepository = AuthRepository(apiService, storageService);
+  final apiService = ApiService(
+      storageService, (AuthToken token) => authRepository.refresh(token));
+  authRepository = AuthRepository(apiService, storageService);
 
   runApp(MainApp(
       authRepository: authRepository,
@@ -60,8 +64,8 @@ class MainApp extends StatelessWidget {
               ..add(AuthCheckRequested()),
           ),
           BlocProvider(
-            create: (context) => MarketplaceBloc(
-              MarketplaceRepository(apiService),
+            create: (context) => ProductBloc(
+              ProductRepository(apiService, storageService),
             )..add(LoadProducts()),
           ),
           BlocProvider(
