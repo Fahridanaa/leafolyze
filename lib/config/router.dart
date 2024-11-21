@@ -12,6 +12,9 @@ import 'package:leafolyze/core/screens/onboarding/splash_screen.dart';
 import 'package:leafolyze/core/screens/auth/login_screen.dart';
 import 'package:leafolyze/core/screens/auth/register_screen.dart';
 import 'package:leafolyze/core/home.dart';
+import 'package:leafolyze/core/screens/profile/about_screen.dart';
+import 'package:leafolyze/core/screens/profile/faq_screen.dart';
+import 'package:leafolyze/core/screens/profile/personal_information_screen.dart';
 import 'package:leafolyze/core/screens/profile/profile_screen.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -82,14 +85,30 @@ final goRouter = GoRouter(
           builder: (context, state) => const HistoryScreen(),
         ),
         GoRoute(
-          path: '/profile',
-          builder: (context, state) => const ProfileScreen(
-            name: 'Muhammad Ridlo Febrio',
-            email: '2241720098@gmail.com',
-            profileImageUrl:
-                'https://awsimages.detik.net.id/community/media/visual/2018/03/03/39f24229-6f26-4a17-aa92-44c3bd3dae9e_43.jpeg?w=600&q=90',
-          ),
-        ),
+            path: '/profile',
+            builder: (context, state) => const ProfileScreen(
+                  name: 'Muhammad Ridlo Febrio',
+                  email: '2241720098@gmail.com',
+                  profileImageUrl:
+                      'https://awsimages.detik.net.id/community/media/visual/2018/03/03/39f24229-6f26-4a17-aa92-44c3bd3dae9e_43.jpeg?w=600&q=90',
+                ),
+            routes: [
+              GoRoute(
+                path: 'faq',
+                parentNavigatorKey: _rootNavigatorKey,
+                builder: (context, state) => FaqScreen(),
+              ),
+              GoRoute(
+                path: 'about',
+                parentNavigatorKey: _rootNavigatorKey,
+                builder: (context, state) => AboutScreen(),
+              ),
+               GoRoute(
+                path: 'personal-information',
+                parentNavigatorKey: _rootNavigatorKey,
+                builder: (context, state) => PersonalInformationScreen(),
+              ),
+            ]),
       ],
     ),
   ],

@@ -82,28 +82,46 @@ class ProfileScreen extends StatelessWidget {
                           _buildListTile(
                             icon: Icons.person_outline,
                             title: "Personal Information",
+                            route: () {
+                              context.go('/profile/personal-information');
+                            },
                           ),
                           _buildListTile(
                             icon: Icons.security,
                             title: "Password & Security",
+                            route: () {
+                              context.go('/password-security');
+                            },
                           ),
                           SizedBox(height: AppSpacing.spacingXL),
                           _buildSectionTitle("Other"),
                           _buildListTile(
                             icon: Icons.settings_outlined,
                             title: "Settings",
+                            route: () {
+                              context.go('/profile/settings');
+                            },
                           ),
                           _buildListTile(
                             icon: Icons.help_outline,
                             title: "FAQ",
+                            route: () {
+                              context.go('/profile/faq');
+                            },
                           ),
                           _buildListTile(
                             icon: Icons.headset_mic_outlined,
                             title: "Help Center",
+                            route: () {
+                              context.go('/profile/help-center');
+                            },
                           ),
                           _buildListTile(
                             icon: Icons.info_outline,
                             title: "About",
+                            route: () {
+                              context.go('profile/about');
+                            },
                           ),
                           SizedBox(height: AppSpacing.spacingXL),
                           _buildLogoutButton(
@@ -170,7 +188,10 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildListTile({required IconData icon, required String title}) {
+  Widget _buildListTile(
+      {required IconData icon,
+      required String title,
+      required Function() route}) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       leading: Icon(
@@ -187,7 +208,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: Icon(Icons.chevron_right, color: AppColors.textMutedColor),
       onTap: () {
-        // navigation
+        route();
       },
     );
   }
