@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:leafolyze/utils/constants.dart';
 
 class DiagnosisItem extends StatelessWidget {
-  final String imagePath;
+  final String imagePath; // URL for the image
   final String plantName;
   final String diseaseName;
   final VoidCallback? onTap;
@@ -32,11 +32,16 @@ class DiagnosisItem extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(AppBorderRadius.radiusXS),
-              child: Image.asset(
+              child: Image.network(
                 imagePath,
-                width: 60,
-                height: 60,
+                width: 100,
+                height: 100,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Icon(
+                  Icons.broken_image,
+                  size: 100,
+                  color: Colors.grey.shade400,
+                ),
               ),
             ),
             SizedBox(width: AppSpacing.spacingM),

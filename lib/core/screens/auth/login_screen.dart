@@ -7,6 +7,7 @@ import 'package:leafolyze/core/widgets/auth/logo_section_widget.dart';
 import 'package:leafolyze/blocs/auth/auth_bloc.dart';
 import 'package:leafolyze/blocs/auth/auth_event.dart';
 import 'package:leafolyze/blocs/auth/auth_state.dart';
+import 'package:leafolyze/core/widgets/notification/custom_dialog.dart';
 import 'package:leafolyze/utils/constants.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -23,78 +24,92 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
-        listener: (context, state) {
-          if (state is Authenticated) {
-            context.go('/home');
-          } else if (state is AuthError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
-          }
-        },
-        child: Scaffold(
-          body: SafeArea(
-            child: SingleChildScrollView(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: AppSpacing.spacingM),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 60),
-                    LogoSection(),
-                    const SizedBox(height: AppSpacing.spacingL),
-                    Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Image.asset(
-                          'assets/images/group-243.png',
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: AppSpacing.spacingM),
-                    AuthForm(
-                      title: 'Welcome Back',
-                      subtitle: 'Log in and keep growing.',
-                      buttonText: 'Log In',
-                      inputFields: [
-                        InputField(
-                          controller: _emailController,
-                          label: 'Email Address',
-                          hint: 'm@example.com',
-                        ),
-                        InputField(
-                          controller: _passwordController,
-                          label: 'Password',
-                          hint: 'Enter password',
-                          isPassword: true,
-                        ),
-                      ],
-                      showForgotPassword: true,
-                      onPressed: () {
-                        context.read<AuthBloc>().add(
-                              LoginRequested(
-                                email: _emailController.text,
-                                password: _passwordController.text,
-                              ),
-                            );
-                      },
-                    ),
-                    const SizedBox(height: AppSpacing.spacingXXL),
-                    AuthPromptText(
-                      promptText: "Don't have an account?",
-                      actionText: "Sign up",
-                      onTap: () {
-                        context.go('/register');
-                      },
-                    )
-                  ],
-                ),
+      listener: (context, state) {
+        if (state is Authenticated) {
+          CustomDialog.showPopupDialog(
+            context: context,
+            title: 'Success',
+            message: 'Login successful!',
+            icon: Icons.check_circle,
+            iconColor: AppColors.primaryColor,
+            onClose: () {
+              context.go('/home');
+            },
+          );
+        } else if (state is AuthError) {
+          CustomDialog.showPopupDialog(
+            context: context,
+            title: 'Error',
+            message: state.message,
+            icon: Icons.error,
+            iconColor: AppColors.errorColor,
+          );
+        }
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding:
+                const EdgeInsets.symmetric(horizontal: AppSpacing.spacingM),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 60),
+                  LogoSection(),
+                  const SizedBox(height: AppSpacing.spacingL),
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Image.asset(
+                        'assets/images/group-243.png',
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: AppSpacing.spacingM),
+                  AuthForm(
+                    title: 'Welcome Back',
+                    subtitle: 'Log in and keep growing.',
+                    buttonText: 'Log In',
+                    inputFields: [
+                      InputField(
+                        controller: _emailController,
+                        label: 'Email Address',
+                        hint: 'm@example.com',
+                      ),
+                      InputField(
+                        controller: _passwordController,
+                        label: 'Password',
+                        hint: 'Enter password',
+                        isPassword: true,
+                      ),
+                    ],
+                    showForgotPassword: true,
+                    onPressed: () {
+                      context.read<AuthBloc>().add(
+                            LoginRequested(
+                              email: _emailController.text,
+                              password: _passwordController.text,
+                            ),
+                          );
+                    },
+                  ),
+                  const SizedBox(height: AppSpacing.spacingXXL),
+                  AuthPromptText(
+                    promptText: "Don't have an account?",
+                    actionText: "Sign up",
+                    onTap: () {
+                      context.go('/register');
+                    },
+                  )
+                ],
               ),
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   @override

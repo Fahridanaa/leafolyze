@@ -41,11 +41,31 @@ class User extends Equatable {
       'id': id,
       'email': email,
       'email_verified_at': emailVerifiedAt,
-      'Acces': access,
+      'access': access,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
       'user_detail': userDetail?.toJson(),
     };
+  }
+
+  User copyWith({
+    int? id,
+    String? email,
+    String? emailVerifiedAt,
+    String? access,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    UserDetail? userDetail,
+  }) {
+    return User(
+      id: id ?? this.id,
+      email: email ?? this.email,
+      emailVerifiedAt: emailVerifiedAt ?? this.emailVerifiedAt,
+      access: access ?? this.access,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      userDetail: userDetail ?? this.userDetail,
+    );
   }
 
   @override

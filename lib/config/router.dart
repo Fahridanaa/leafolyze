@@ -5,6 +5,7 @@ import 'package:leafolyze/core/screens/history/history_screen.dart';
 import 'package:leafolyze/core/screens/home/article_detail_screen.dart';
 import 'package:leafolyze/core/screens/home/article_list_screen.dart';
 import 'package:leafolyze/core/screens/home/home_screen.dart';
+import 'package:leafolyze/core/screens/marketplace/marketplace_detail_screen.dart';
 import 'package:leafolyze/core/screens/marketplace/marketplace_screen.dart';
 import 'package:leafolyze/core/screens/marketplace/product_list_screen.dart';
 import 'package:leafolyze/core/screens/onboarding/landing_screen.dart';
@@ -57,9 +58,11 @@ final goRouter = GoRouter(
               builder: (context, state) => const ArticleListScreen(),
               routes: [
                 GoRoute(
-                  path: 'detail',
+                  path: ':id',
                   parentNavigatorKey: _rootNavigatorKey,
-                  builder: (context, state) => const ArticleDetailScreen(),
+                  builder: (context, state) => ArticleDetailScreen(
+                    id: int.parse(state.pathParameters['id']!),
+                  ),
                 ),
               ],
             ),
@@ -74,9 +77,18 @@ final goRouter = GoRouter(
           builder: (context, state) => const MarketplaceScreen(),
           routes: [
             GoRoute(
-              path: 'product',
+              path: ':diseaseId',
               parentNavigatorKey: _rootNavigatorKey,
-              builder: (context, state) => ProductListScreen(),
+              builder: (context, state) => ProductListScreen(
+                diseaseId: int.parse(state.pathParameters['diseaseId']!),
+              ),
+              routes: [
+                GoRoute(
+                  path: 'detail',
+                  parentNavigatorKey: _rootNavigatorKey,
+                  builder: (context, state) => const MarketplaceDetailScreen(),
+                ),
+              ],
             ),
           ],
         ),
@@ -86,12 +98,7 @@ final goRouter = GoRouter(
         ),
         GoRoute(
             path: '/profile',
-            builder: (context, state) => const ProfileScreen(
-                  name: 'Muhammad Ridlo Febrio',
-                  email: '2241720098@gmail.com',
-                  profileImageUrl:
-                      'https://awsimages.detik.net.id/community/media/visual/2018/03/03/39f24229-6f26-4a17-aa92-44c3bd3dae9e_43.jpeg?w=600&q=90',
-                ),
+             builder: (context, state) => const ProfileScreen(),
             routes: [
               GoRoute(
                 path: 'faq',
