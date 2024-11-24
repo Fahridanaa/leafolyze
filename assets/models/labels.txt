@@ -1,0 +1,7 @@
+Bacterial Spot
+Early_Blight
+Healthy
+Late_blight
+Leaf Mold
+Target_Spot
+black spot
