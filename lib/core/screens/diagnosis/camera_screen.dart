@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:leafolyze/services/object_detector.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -12,6 +15,7 @@ class CameraScreen extends StatefulWidget {
 }
 
 class _CameraScreenState extends State<CameraScreen> {
+  final ObjectDetector _objectDetector = ObjectDetector();
   CameraController? _controller;
   List<CameraDescription>? cameras;
   bool _isCameraInitialized = false;
@@ -39,11 +43,30 @@ class _CameraScreenState extends State<CameraScreen> {
     cameras = await availableCameras();
     if (cameras != null && cameras!.isNotEmpty) {
       _controller = CameraController(
-          cameras![_selectedCameraIndex], ResolutionPreset.high);
-      await _controller!.initialize();
-      setState(() {
-        _isCameraInitialized = true;
-      });
+          cameras![_selectedCameraIndex], ResolutionPreset.high,
+          enableAudio: false,
+          imageFormatGroup: Platform.isAndroid
+              ? ImageFormatGroup.nv21
+              : ImageFormatGroup.bgra8888);
+      try {
+        await _controller!.initialize();
+        if (Platform.isAndroid) {
+          await _controller!.lockCaptureOrientation();
+          await _controller!.setExposureMode(ExposureMode.auto);
+          await _controller!.setFocusMode(FocusMode.auto);
+        }
+        setState(() {
+          _isCameraInitialized = true;
+        });
+      } catch (e) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Camera initialization error: ${e.toString()}'),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
     }
   }
 
@@ -63,33 +86,125 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   Future<void> _takePicture() async {
-    if (!_controller!.value.isInitialized) {
-      return;
-    }
-    if (_controller!.value.isTakingPicture) {
+    if (!_controller!.value.isInitialized ||
+        _controller!.value.isTakingPicture) {
       return;
     }
 
     try {
-      final XFile picture = await _controller!.takePicture();
+      XFile picture = await _controller!.takePicture();
       _processImage(picture);
     } catch (e) {
-      print(e);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error taking picture: ${e.toString()}'),
+          duration: const Duration(seconds: 3),
+        ),
+      );
     }
   }
 
-  void _processImage(XFile image) {
-    // Tambahkan logika untuk memproses gambar dengan model ML di sini
-    print('Processing image: ${image.path}');
+  Future<void> _processImage(XFile image) async {
+    try {
+      final detections = await _objectDetector.detectFromImage(image);
+
+      if (detections.isEmpty) {
+        if (!mounted) return;
+        await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('No Disease Detected'),
+            content: const Text(
+                'No plant diseases were detected in this image. Please try again with a clearer image.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+        return;
+      }
+
+      if (!mounted) return;
+
+      await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Disease Detected'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Detected diseases:'),
+              const SizedBox(height: 8),
+              ...detections.map((detection) {
+                final disease = detection['class'] as String;
+                final confidence = (detection['confidence'] as double) * 100;
+                return Text('• $disease (${confidence.toStringAsFixed(1)}%)');
+              }),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error processing image: ${e.toString()}'),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }
   }
 
   Future<void> _toggleFlash() async {
-    if (_controller != null) {
-      _isFlashOn = !_isFlashOn;
-      await _controller!
-          .setFlashMode(_isFlashOn ? FlashMode.torch : FlashMode.off);
-      setState(() {});
+    if (_controller == null || !_controller!.value.isInitialized) {
+      return;
     }
+
+    try {
+      if (_controller!.value.flashMode == FlashMode.off) {
+        await _controller!.setFlashMode(FlashMode.torch);
+        setState(() {
+          _isFlashOn = true;
+        });
+      } else {
+        await _controller!.setFlashMode(FlashMode.off);
+        setState(() {
+          _isFlashOn = false;
+        });
+      }
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Failed to toggle flash'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  int _mapDiseaseToId(String disease) {
+    final Map<String, int> diseaseIds = {
+      'Bacterial Spot': 1,
+      'Early_Blight': 2,
+      'Healthy': 3,
+      'Late_blight': 4,
+      'Leaf Mold': 5,
+      'Target_Spot': 6,
+      'black spot': 7,
+    };
+    return diseaseIds[disease] ?? 3; // Default to 3 if not found
   }
 
   @override
@@ -126,16 +241,6 @@ class _CameraScreenState extends State<CameraScreen> {
                     onPressed: _toggleFlash,
                   ),
                 ],
-              ),
-            ),
-          ),
-          Center(
-            child: Container(
-              width: 350,
-              height: 350,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.white, width: 2),
-                borderRadius: BorderRadius.circular(8),
               ),
             ),
           ),
