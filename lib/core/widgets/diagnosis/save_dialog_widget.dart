@@ -3,8 +3,9 @@ import 'package:leafolyze/utils/constants.dart';
 
 class SaveDialogWidget extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();
+  final Function(String) onSave;
 
-  SaveDialogWidget({super.key});
+  SaveDialogWidget({super.key, required this.onSave});
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +68,19 @@ class SaveDialogWidget extends StatelessWidget {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                final title = _controller.text.trim();
+
+                if (title.isEmpty) {
+                  // Show error if title is empty
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Please enter a name for your scan'),
+                    ),
+                  );
+                  return;
+                }
+                onSave(title); // Call the onSave callback
+                Navigator.of(context).pop(); // Close the dialog
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryColor,
