@@ -56,16 +56,18 @@ class DetailedProductCard extends StatelessWidget {
                               BorderRadius.circular(AppBorderRadius.radiusXS),
                           child: Image.network(
                             product.image?.path ?? '',
-                            height: MediaQuery.of(context).size.width * 0.35,
-                            width: double.infinity,
                             fit: BoxFit.cover,
+                            errorBuilder: (_, __, ___) => const Icon(
+                              Icons.broken_image,
+                              size: 100,
+                            ),
                           ),
                         ),
                       ),
                     ),
                     const SizedBox(height: AppSpacing.spacingMS),
                     Text(
-                      product.name,
+                      product.name ?? 'Unnamed Product',
                       style: const TextStyle(
                         fontSize: AppFontSize.fontSizeMS,
                         fontWeight: AppFontWeight.semiBold,
@@ -75,7 +77,7 @@ class DetailedProductCard extends StatelessWidget {
                     ),
                     const SizedBox(height: AppSpacing.spacingXXS),
                     Text(
-                      'Rp. ${product.price}',
+                      'Rp. ${product.price ?? 'N/A'}',
                       style: const TextStyle(
                         color: AppColors.primaryColor,
                         fontWeight: AppFontWeight.bold,
@@ -83,7 +85,7 @@ class DetailedProductCard extends StatelessWidget {
                     ),
                     const SizedBox(height: AppSpacing.spacingXXS),
                     Text(
-                      product.shop?.name ?? '',
+                      product.shop?.name ?? 'Unknown Shop',
                       style: TextStyle(
                           color: AppColors.textColor,
                           fontSize: AppFontSize.fontSizeXS),
@@ -97,7 +99,7 @@ class DetailedProductCard extends StatelessWidget {
                         const SizedBox(width: AppSpacing.spacingXXXS),
                         Flexible(
                           child: Text(
-                            product.shop?.address ?? '',
+                            product.shop?.address ?? 'No address available',
                             style: TextStyle(
                                 color: AppColors.textMutedColor,
                                 fontSize: AppFontSize.fontSizeXS),

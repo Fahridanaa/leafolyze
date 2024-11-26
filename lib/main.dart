@@ -10,6 +10,7 @@ import 'package:leafolyze/blocs/history/history_event.dart';
 import 'package:leafolyze/blocs/product/product_bloc.dart';
 import 'package:leafolyze/blocs/product/product_event.dart';
 import 'package:leafolyze/blocs/profile/profile_bloc.dart';
+import 'package:leafolyze/blocs/shop/shop_bloc.dart';
 import 'package:leafolyze/config/router.dart';
 import 'package:leafolyze/models/auth_token.dart';
 import 'package:leafolyze/repositories/article_repository.dart';
@@ -17,6 +18,7 @@ import 'package:leafolyze/repositories/auth_repository.dart';
 import 'package:leafolyze/repositories/detection_repository.dart';
 import 'package:leafolyze/repositories/product_repository.dart';
 import 'package:leafolyze/repositories/profile_repository.dart';
+import 'package:leafolyze/repositories/shop_repository.dart';
 import 'package:leafolyze/services/api_service.dart';
 import 'package:leafolyze/services/storage_service.dart';
 
@@ -92,10 +94,14 @@ class MainApp extends StatelessWidget {
               context.read<DetectionRepository>(),
             )..add(LoadDetections()),
           ),
-             BlocProvider(
+          BlocProvider(
             create: (context) => ProductBloc(
               ProductRepository(apiService, storageService),
             )..add(LoadProducts()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                ShopBloc(ShopRepository(apiService, storageService)),
           ),
         ],
         child: MaterialApp.router(
