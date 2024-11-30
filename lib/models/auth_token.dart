@@ -36,16 +36,13 @@ class AuthToken extends Equatable {
     };
   }
 
-  bool get isExpired {
-    final expirationDate = createdAt.add(Duration(seconds: expiresIn));
-    return DateTime.now()
-        .isAfter(expirationDate.subtract(Duration(seconds: 30)));
-  }
-
   bool get needsRefresh {
     final expirationDate = createdAt.add(Duration(seconds: expiresIn));
-    return DateTime.now()
-        .isAfter(expirationDate.subtract(Duration(minutes: 5)));
+    final refreshDeadline = createdAt.add(Duration(minutes: 20160));
+    final now = DateTime.now();
+
+    return now.isAfter(expirationDate.subtract(Duration(minutes: 2))) &&
+        now.isBefore(refreshDeadline);
   }
 
   AuthToken copyWith({

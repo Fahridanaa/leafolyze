@@ -29,7 +29,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (user != null) {
           emit(Authenticated(user));
           _startRefreshTimer();
-          await _authRepository.refreshTokenIfNeeded();
         } else {
           emit(Unauthenticated());
         }
@@ -94,16 +93,35 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  void _startRefreshTimer() {
+  void _startRefreshTimer() async {
     _stopRefreshTimer();
-    _refreshTimer = Timer.periodic(const Duration(minutes: 4), (timer) async {
+
+    final token = await _storageService.getToken();
+    if (token == null) {
+      add(LogoutRequested()); // Log out if no token exists
+      return;
+    }
+
+    final expirationDate =
+        token.createdAt.add(Duration(seconds: token.expiresIn));
+    final now = DateTime.now();
+    final timeUntilRefresh = expirationDate.difference(now) -
+        const Duration(minutes: 2); // Refresh 2 minutes before expiration
+
+    if (timeUntilRefresh.isNegative) {
+      add(LogoutRequested());
+      return;
+    }
+
+    // Schedule refresh close to expiration
+    _refreshTimer = Timer(timeUntilRefresh, () async {
       try {
         await _authRepository.refreshTokenIfNeeded();
+        _startRefreshTimer(); // Restart timer with new expiration
       } catch (e) {
         print('Refresh timer error: $e');
-        // If refresh fails, stop the timer and logout
         _stopRefreshTimer();
-        add(LogoutRequested());
+        add(LogoutRequested()); // Log out if refresh fails
       }
     });
   }
