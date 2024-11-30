@@ -8,6 +8,7 @@ import 'package:leafolyze/blocs/history/history_state.dart';
 import 'package:leafolyze/core/screens/diagnosis/result_screen.dart';
 import 'package:leafolyze/core/widgets/common/diagnosis_item.dart';
 
+
 class HistoryScreen extends StatelessWidget {
   const HistoryScreen({super.key});
 
@@ -59,7 +60,6 @@ class HistoryScreen extends StatelessWidget {
                     child: Text('Belum ada riwayat deteksi'),
                   );
                 }
-
                 return ListView.builder(
                   itemCount: state.detections.length,
                   itemBuilder: (context, index) {
@@ -103,7 +103,6 @@ class HistoryScreen extends StatelessWidget {
                   child: Text('Error: ${state.error}'),
                 );
               }
-
               return const SizedBox();
             },
           ),

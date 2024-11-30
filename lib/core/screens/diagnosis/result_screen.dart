@@ -179,6 +179,47 @@ class _ResultScreenState extends State<ResultScreen> {
             ),
           ),
           // Bottom Button section with white background
+          Container(
+            color: Colors.white,
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: _buildActionButton(
+                    "Re-generate",
+                    Colors.white,
+                    AppColors.primaryColor,
+                    onPressed: () {
+                      // Action for Re-generate button
+                    },
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: _buildActionButton(
+                    "Save",
+                    AppColors.primaryColor,
+                    Colors.white,
+                    onPressed: () {
+                      // Memanggil SaveDialog ketika tombol Save ditekan
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return SaveDialogWidget(
+                            imagePath: imageUrl,
+                            diseaseIds: [1],
+                            onSave: (String name) {},
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
