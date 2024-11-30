@@ -1,35 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:leafolyze/blocs/product/product_bloc.dart';
+import 'package:leafolyze/blocs/product/product_event.dart';
+import 'package:leafolyze/blocs/product/product_state.dart';
 import 'package:leafolyze/utils/constants.dart';
-import 'package:leafolyze/core/widgets/diagnosis/save_dialog_widget.dart';
+import 'package:leafolyze/core/screens/diagnosis/deskripsi.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:leafolyze/models/product.dart';
 
-class ResultScreen extends StatelessWidget {
+class ResultScreen extends StatefulWidget {
   final String title;
+  final int diseaseId;
   final String imageUrl;
   final String description;
   final String treatmentTitle;
   final List<String> treatments;
   final String pesticideTitle;
   final List<String> pesticides;
-  final String status1;
-  final String status2;
   final String timestamp;
 
   const ResultScreen({
     super.key,
     required this.title,
+    required this.diseaseId,
     required this.imageUrl,
     required this.description,
     required this.treatmentTitle,
     required this.treatments,
     required this.pesticideTitle,
     required this.pesticides,
-    required this.status1,
-    required this.status2,
     required this.timestamp,
   });
 
   @override
+  State<ResultScreen> createState() => _ResultScreenState();
+}
+
+class _ResultScreenState extends State<ResultScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProductBloc>().add(LoadProductsByDisease(widget.diseaseId));
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final diseaseData = DiseaseDataProvider.diseases[widget.diseaseId];
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
       appBar: AppBar(
@@ -79,7 +94,7 @@ class ResultScreen extends StatelessWidget {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(12),
                             child: Image.network(
-                              imageUrl,
+                              widget.imageUrl,
                               width: 100,
                               height: 100,
                               fit: BoxFit.cover,
@@ -91,23 +106,16 @@ class ResultScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  title,
+                                  widget.title,
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 const SizedBox(height: 8),
-                                Row(
-                                  children: [
-                                    _buildStatusChip(status1),
-                                    const SizedBox(width: 8),
-                                    _buildStatusChip(status2),
-                                  ],
-                                ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  timestamp,
+                                  widget.timestamp,
                                   style: TextStyle(
                                     color: Colors.grey[600],
                                     fontSize: 12,
@@ -121,7 +129,7 @@ class ResultScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      title,
+                      diseaseData?.name ?? '',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -129,30 +137,41 @@ class ResultScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      description,
+                      diseaseData?.description ?? '',
                       style: TextStyle(fontSize: 14),
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      treatmentTitle,
+                      widget.treatmentTitle,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 8),
-                    ...treatments
+                    ...(diseaseData?.treatments ?? [])
                         .map((treatment) => _buildBulletPoint(treatment)),
                     const SizedBox(height: 20),
                     Text(
-                      pesticideTitle,
+                      widget.pesticideTitle,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 8),
-                    _buildPesticideList(),
+                    BlocBuilder<ProductBloc, ProductState>(
+                      builder: (context, state) {
+                        if (state is ProductLoading) {
+                          return const Center(child: CircularProgressIndicator());
+                        }
+                        if (state is ProductLoaded) {
+                          return _buildPesticideList(state.products);
+                        }
+                        
+                        return const SizedBox();
+                      },
+                    ),
                     const SizedBox(height: 20),
                   ],
                 ),
@@ -206,17 +225,6 @@ class ResultScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatusChip(String label) {
-    return Chip(
-      label: Text(
-        label,
-        style: const TextStyle(color: Colors.white, fontSize: 10),
-      ),
-      backgroundColor: Colors.grey[700],
-      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
-    );
-  }
-
   Widget _buildBulletPoint(String text) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -235,17 +243,11 @@ class ResultScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPesticideList() {
-    List<String> pesticideImages = [
-      'https://www.agromonti.com/wp-content/uploads/2020/08/FUNGICIDE-ACTIGARD-1.jpg',
-      'https://www.agromonti.com/wp-content/uploads/2020/08/FUNGICIDE-ACTIGARD-1.jpg',
-      'https://www.agromonti.com/wp-content/uploads/2020/08/FUNGICIDE-ACTIGARD-1.jpg',
-    ];
-
+  Widget _buildPesticideList(List<Product> products) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: pesticideImages.map((image) {
+        children: products.map((product) {
           return Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: Column(
@@ -253,16 +255,34 @@ class ResultScreen extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: Image.network(
-                    image,
+                    product.image?.path ?? '',
                     width: 80,
                     height: 80,
                     fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => const Icon(
+                      Icons.broken_image,
+                      size: 80,
+                      color: Colors.grey,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Actigard',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  product.name,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  'Rp ${product.price}',
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: Colors.grey[600],
+                  ),
                 ),
               ],
             ),
@@ -272,22 +292,4 @@ class ResultScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButton(String text, Color bgColor, Color textColor,
-      {required VoidCallback onPressed}) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: bgColor,
-        padding: const EdgeInsets.symmetric(vertical: 14),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-          side: BorderSide(color: AppColors.primaryColor),
-        ),
-      ),
-      onPressed: onPressed,
-      child: Text(
-        text,
-        style: TextStyle(color: textColor, fontSize: 16),
-      ),
-    );
-  }
 }
