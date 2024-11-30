@@ -35,43 +35,129 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Scaffold(
         backgroundColor: AppColors.primaryColor,
         body: SafeArea(
-          child: BlocBuilder<ProfileBloc, ProfileState>(
-            builder: (context, state) {
-              if (state is ProfileLoading) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              if (state is ProfileError) {
-                return Center(child: Text(state.message));
-              }
-
-              if (state is ProfileLoaded) {
-                final user = state.user;
-                final userDetail = user.userDetail;
-
-                if (userDetail == null) {
-                  return const Center(
-                    child: Text(
-                      "No user details available",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  );
-                }
-
-                return _buildProfileContent(
-                  context,
-                  userDetail,
-                  user.email,
-                );
-              }
-
-              return const Center(
-                child: Text(
-                  "Something went wrong",
-                  style: TextStyle(color: Colors.white),
+          child: CustomScrollView(
+            shrinkWrap: true,
+            scrollBehavior: const ScrollBehavior().copyWith(
+              overscroll: false,
+            ),
+            slivers: [
+              SliverAppBar(
+                centerTitle: false,
+                backgroundColor: AppColors.primaryColor,
+                title: const Text(
+                  'Profile',
+                  style: TextStyle(
+                    color: AppColors.textColor,
+                    fontSize: AppFontSize.fontSizeXXL,
+                    fontWeight: AppFontWeight.bold,
+                  ),
                 ),
-              );
-            },
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppSpacing.spacingM,
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(height: AppSpacing.spacingS),
+                      // Only wrap profile section with BlocBuilder
+                      BlocBuilder<ProfileBloc, ProfileState>(
+                        builder: (context, state) {
+                          if (state is ProfileLoading) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          }
+                          if (state is ProfileLoaded) {
+                            final user = state.user;
+                            final userDetail = user.userDetail;
+                            if (userDetail != null) {
+                              return _buildProfileHeader(
+                                  userDetail, user.email);
+                            }
+                          }
+                          return const SizedBox.shrink();
+                        },
+                      ),
+                      SizedBox(height: AppSpacing.spacingL),
+                    ],
+                  ),
+                ),
+              ),
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(AppBorderRadius.radiusL),
+                      topRight: Radius.circular(AppBorderRadius.radiusL),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: AppSpacing.spacingM,
+                    ),
+                    child: Column(
+                      children: [
+                        SizedBox(height: AppSpacing.spacingXL),
+                        _buildSectionTitle("Account Settings"),
+                        _buildListTile(
+                          icon: Icons.person_outline,
+                          title: "Personal Information",
+                          route: () {
+                            context.go('/profile/personal-information');
+                          },
+                        ),
+                        _buildListTile(
+                          icon: Icons.security,
+                          title: "Password & Security",
+                          route: () {
+                            context.go('/profile/password-security');
+                          },
+                        ),
+                        SizedBox(height: AppSpacing.spacingXL),
+                        _buildSectionTitle("Other"),
+                        _buildListTile(
+                          icon: Icons.settings_outlined,
+                          title: "Settings",
+                          route: () {
+                            context.go('/profile/settings');
+                          },
+                        ),
+                        _buildListTile(
+                          icon: Icons.help_outline,
+                          title: "FAQ",
+                          route: () {
+                            context.go('/profile/faq');
+                          },
+                        ),
+                        _buildListTile(
+                          icon: Icons.headset_mic_outlined,
+                          title: "Help Center",
+                          route: () {
+                            context.go('/profile/help-center');
+                          },
+                        ),
+                        _buildListTile(
+                          icon: Icons.info_outline,
+                          title: "About",
+                          route: () {
+                            context.go('/profile/about');
+                          },
+                        ),
+                        SizedBox(height: AppSpacing.spacingXL),
+                        _buildLogoutButton(
+                          onPressed: () {
+                            context.read<AuthBloc>().add(LogoutRequested());
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -109,77 +195,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 _buildProfileHeader(userDetail, email),
                 SizedBox(height: AppSpacing.spacingL),
               ],
-            ),
-          ),
-        ),
-        SliverFillRemaining(
-          hasScrollBody: false,
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(AppBorderRadius.radiusL),
-                topRight: Radius.circular(AppBorderRadius.radiusL),
-              ),
-            ),
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSpacing.spacingM,
-              ),
-              child: Column(children: [
-                SizedBox(height: AppSpacing.spacingXL),
-                _buildSectionTitle("Account Settings"),
-                _buildListTile(
-                  icon: Icons.person_outline,
-                  title: "Personal Information",
-                  route: () {
-                    context.go('/profile/personal-information');
-                  },
-                ),
-                _buildListTile(
-                  icon: Icons.security,
-                  title: "Password & Security",
-                  route: () {
-                    context.go('/profile/password-security');
-                  },
-                ),
-                SizedBox(height: AppSpacing.spacingXL),
-                _buildSectionTitle("Other"),
-                _buildListTile(
-                  icon: Icons.settings_outlined,
-                  title: "Settings",
-                  route: () {
-                    context.go('/profile/settings');
-                  },
-                ),
-                _buildListTile(
-                  icon: Icons.help_outline,
-                  title: "FAQ",
-                  route: () {
-                    context.go('/profile/faq');
-                  },
-                ),
-                _buildListTile(
-                  icon: Icons.headset_mic_outlined,
-                  title: "Help Center",
-                  route: () {
-                    context.go('/profile/help-center');
-                  },
-                ),
-                _buildListTile(
-                  icon: Icons.info_outline,
-                  title: "About",
-                  route: () {
-                    context.go('/profile/about');
-                  },
-                ),
-                SizedBox(height: AppSpacing.spacingXL),
-                _buildLogoutButton(
-                  onPressed: () {
-                    context.read<AuthBloc>().add(LogoutRequested());
-                  },
-                ),
-              ]),
             ),
           ),
         ),

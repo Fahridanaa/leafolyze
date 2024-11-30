@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:leafolyze/config/api_config.dart';
-import 'package:leafolyze/config/api_routes.dart';
 import 'package:leafolyze/models/auth_token.dart';
 import 'package:leafolyze/services/storage_service.dart';
 
@@ -8,6 +9,8 @@ class ApiService {
   late final Dio _dio;
   final StorageService _storageService;
   final Future<AuthToken> Function(AuthToken) refreshToken;
+  bool _isRefreshing = false;
+  final List<void Function(String)> _tokenRefreshSubscribers = [];
 
   ApiService(this._storageService, this.refreshToken) {
     _dio = Dio(BaseOptions(
@@ -150,12 +153,6 @@ class ApiService {
       };
     }
 
-    // Handle authentication errors
-    if (response.data is Map && response.data['error'] == 'Unauthenticated') {
-      _storageService.removeToken();
-      throw UnauthorizedException();
-    }
-
     throw ApiException(
       message: response.data['message'] ?? 'Something went wrong',
       statusCode: response.statusCode,
@@ -166,24 +163,15 @@ class ApiService {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    // Skip token check for login and refresh endpoints
-    if (options.path != ApiRoutes.auth.login &&
-        options.path != ApiRoutes.auth.refresh) {
-      final token = await _storageService.getToken();
-      if (token != null) {
-        if (token.needsRefresh) {
-          try {
-            final newToken = await refreshToken(token);
-            options.headers['Authorization'] = newToken.bearerToken;
-          } catch (e) {
-            // If refresh fails, continue with old token
-            options.headers['Authorization'] = token.bearerToken;
-          }
-        } else {
-          options.headers['Authorization'] = token.bearerToken;
-        }
-      }
+    final token = await _storageService.getToken();
+
+    if (token != null && token.needsRefresh) {
+      final newToken = await refreshToken(token);
+      options.headers['Authorization'] = newToken.bearerToken;
+    } else if (token != null) {
+      options.headers['Authorization'] = token.bearerToken;
     }
+
     return handler.next(options);
   }
 
@@ -192,40 +180,60 @@ class ApiService {
     ErrorInterceptorHandler handler,
   ) async {
     if (error.response?.statusCode == 401) {
-      if (error.response?.data is Map &&
-          error.response?.data['error'] == 'Unauthenticated') {
-        await _storageService.removeToken();
-        return handler.reject(
-          DioException(
-            requestOptions: error.requestOptions,
-            error: UnauthorizedException(),
-          ),
-        );
+      final oldToken = await _storageService.getToken();
+
+      if (oldToken == null) {
+        return handler.next(error);
       }
 
-      // Try to refresh token
-      try {
-        final token = await _storageService.getToken();
-        if (token != null) {
-          final newToken = await refreshToken(token);
+      if (!_isRefreshing) {
+        _isRefreshing = true;
+
+        try {
+          final newToken = await refreshToken(oldToken);
+
+          for (var subscriber in _tokenRefreshSubscribers) {
+            subscriber(newToken.bearerToken);
+          }
+
+          _tokenRefreshSubscribers.clear(); // Clear the queue
+          _isRefreshing = false;
+
+          // Retry the original request
           final opts = error.requestOptions;
           opts.headers['Authorization'] = newToken.bearerToken;
-
-          // Retry the original request with new token
           final response = await _dio.fetch(opts);
           return handler.resolve(response);
+        } catch (refreshError) {
+          _isRefreshing = false;
+          await _storageService.removeToken(); // Clear invalid token
+          return handler.reject(
+            DioException(
+              requestOptions: error.requestOptions,
+              error: UnauthorizedException(),
+            ),
+          );
         }
-      } catch (e) {
-        await _storageService.removeToken();
-        return handler.reject(
-          DioException(
-            requestOptions: error.requestOptions,
-            error: UnauthorizedException(),
-          ),
-        );
+      } else {
+        // Queue the current request until the refresh completes
+        final completer = Completer<void>();
+        _tokenRefreshSubscribers.add((newToken) {
+          final opts = error.requestOptions;
+          opts.headers['Authorization'] = newToken;
+
+          _dio.fetch(opts).then(
+                (response) => handler.resolve(response),
+                onError: (err) => handler.reject(err),
+              );
+
+          completer.complete();
+        });
+        await completer.future;
       }
+    } else {
+      // Handle non-401 errors normally
+      handler.next(error);
     }
-    return handler.next(error);
   }
 
   String _handleDioError(DioException e) {

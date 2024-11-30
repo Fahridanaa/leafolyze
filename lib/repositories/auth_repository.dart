@@ -184,6 +184,7 @@ class AuthRepository {
       });
 
       await _storageService.saveToken(newToken);
+
       return newToken;
     } catch (e) {
       throw Exception('Token refresh failed: $e');
@@ -196,6 +197,6 @@ class AuthRepository {
 
   Future<bool> isAuthenticated() async {
     final token = await _storageService.getToken();
-    return token != null && !token.isExpired;
+    return token != null;
   }
 }

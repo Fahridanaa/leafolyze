@@ -1,12 +1,10 @@
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:leafolyze/models/auth_token.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:leafolyze/models/user.dart';
 
 class StorageService {
   static StorageService? _instance;
-  static late SharedPreferences _prefs;
   static late FlutterSecureStorage _secureStorage;
 
   static const String _userKey = 'user';
@@ -72,6 +70,6 @@ class StorageService {
 
   Future<bool> get isAuthenticated async {
     final token = await getToken();
-    return token != null && !token.isExpired;
+    return token != null && !token.needsRefresh && token.accessToken.isNotEmpty;
   }
 }
