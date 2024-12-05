@@ -10,6 +10,7 @@ import 'package:leafolyze/core/screens/home/skeleton.dart';
 import 'package:leafolyze/core/widgets/common/diagnosis_item.dart';
 import 'package:leafolyze/utils/constants.dart';
 
+
 class HistoryScreen extends StatelessWidget {
   const HistoryScreen({super.key});
 
@@ -52,7 +53,6 @@ class HistoryScreen extends StatelessWidget {
                     child: Text('Belum ada riwayat deteksi'),
                   );
                 }
-
                 return Container(
                   color: Colors.white,
                   padding: EdgeInsets.all(AppSpacing.spacingM),
